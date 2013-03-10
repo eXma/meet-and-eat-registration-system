@@ -2,8 +2,34 @@
 <html>
 <head>
     <title>meet&eat Register</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 </head>
 <body>
 <h1>This will show the register form</h1>
+<h3>New Team</h3>
+{% if form.errors %}
+    <ul class="errors">
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+<form class="form-horizontal" method="POST">
+    {{ form.hidden_tag() }}
+    {% for field in form %}
+        {% if field.type not in ("HiddenField", "CSRFTokenField") %}
+            <div class="control-group">
+                {{ field.label(class="control-label") }}
+            <div class="controls">
+                {{ field }}
+            </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <button type="submit">Los..</button>
+</form>
 </body>
 </html>
