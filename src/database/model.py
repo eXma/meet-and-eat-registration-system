@@ -13,6 +13,8 @@ class Team(Base):
     allergies = Column(String)
     vegetarians = Column(Integer, default=0)
     confirmed = Column(Boolean, default=False)
+    phone = Column(String)
+    email = Column(String)
 
 
 class Members(Base):

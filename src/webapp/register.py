@@ -27,6 +27,8 @@ def _do_register(form):
     team = Team(name=form.name,
                 allergies=form.allergies,
                 vegetarians=form.vegetarians,
+                phone=form.phone,
+                email=form.email,
                 token=token_hash.hexdigest())
     session.add(team)
 
