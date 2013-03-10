@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.pool import StaticPool
 
 
 session = None
@@ -7,7 +8,12 @@ session = None
 
 def init_session(connection_string=None, drop=False):
     if connection_string is None:
-        connection_string = 'sqlite://'
+        engine =  create_engine('sqlite://',
+                                echo=True,
+                                connect_args={'check_same_thread':False},
+                                poolclass=StaticPool)
+    else:
+        engine = create_engine(connection_string)
 
     from database.model import Base
 
@@ -20,7 +26,6 @@ def init_session(connection_string=None, drop=False):
         except:
             pass
 
-    engine = create_engine(connection_string, echo=True)
     db_session = scoped_session(sessionmaker(autocommit=False,
                                              autoflush=False,
                                              bind=engine))
