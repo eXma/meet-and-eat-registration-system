@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, abort
 from forms import TeamRegisterForm
 from database.model import Team, Location, Members
-from database import session
+import database as db
 import hashlib
 import datetime
 import json
@@ -21,28 +21,28 @@ def _do_register(form):
         return None
 
     token_hash = hashlib.sha1()
-    token_hash.update(form.name)
+    token_hash.update(form.name.data)
     token_hash.update(str(datetime.datetime.now()))
 
-    team = Team(name=form.name,
-                allergies=form.allergies,
-                vegetarians=form.vegetarians,
-                phone=form.phone,
-                email=form.email,
+    team = Team(name=form.name.data,
+                allergies=form.allergies.data,
+                vegetarians=form.vegetarians.data,
+                phone=form.phone.data,
+                email=form.email.data,
                 token=token_hash.hexdigest())
-    session.add(team)
+    db.session.add(team)
 
-    for member_name in (form.member1, form.member2, form.member3):
+    for member_name in (form.member1.data, form.member2.data, form.member3.data):
         member = Members(name=member_name, team=team)
-        session.add(member)
+        db.session.add(member)
 
-    location = Location(street=form.address,
-                        zip_no=form.zipno,
-                        extra=form.address_info,
-                        lat=form.lat,
-                        lon=form.lon)
-    session.add(location)
-    session.commit()
+    location = Location(street=form.address.data,
+                        zip_no=form.zipno.data,
+                        extra=form.address_info.data,
+                        lat=form.lat.data,
+                        lon=form.lon.data)
+    db.session.add(location)
+    db.session.commit()
     # TODO: send mail
 
     return team
@@ -72,11 +72,11 @@ def register_async():
 
 @bp.route("/confirm/<token>")
 def confirm(token):
-    team = session.query(Team).filter_by(token=token).first()
+    team = db.session.query(Team).filter_by(token=token).first()
     if team is None:
         abort(401)
 
     team.confirmed = True
-    session.commit()
+    db.session.commit()
 
     return render_template("register/confirmed.html", team=team)
