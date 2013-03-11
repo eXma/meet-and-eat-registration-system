@@ -53,7 +53,7 @@ def form():
     form = TeamRegisterForm()
     if form.validate_on_submit():
         team = _do_register(form)
-        return "Submitted: %s -> %s" % (form, team)
+        return "Submitted"
     return render_template('register/form.html', form=form)
 
 
@@ -64,7 +64,7 @@ def register_async():
 
     form = TeamRegisterForm()
     if not form.validate_on_submit():
-        return json.dumps({"state": "error", "cause": "go away"})
+        return json.dumps({"state": "error", "errors": form.errors})
 
     team = _do_register(form)
     return json.dumps({"state": "success", "token": team.token})
