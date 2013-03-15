@@ -9,6 +9,11 @@ PRODUCTIVE_CONFIG = "config"
 
 
 def configure_app(app):
+    """Apply the configuration data from the config module to the flask application.
+
+    :type app: flask.Flask
+    :param app: The Application to configure.
+    """
     filename = EXAMPLE_CONFIG
     if os.path.isfile(PRODUCTIVE_CONFIG):
         filename = PRODUCTIVE_CONFIG
@@ -17,9 +22,15 @@ def configure_app(app):
 
 
 def init_app(app):
+    """Initialize the given Flask application.
+
+    :type app: flask.Flask
+    :param app: The application to configure.
+    :rtype: flask.Flask
+    :return: The configured application.
+    """
     configure_app(app)
-    #app.secret_key = "gocu5eYoosh8oocoozeeG9queeghae7ushahp9ufaighoo5gex1vulaexohtepha"
-    database.init_session()
+    database.init_session(connection_string=app.config["DB_CONNECTION"])
     app.register_blueprint(register.bp, url_prefix='/register')
 
     @app.teardown_request
@@ -30,9 +41,10 @@ def init_app(app):
     def start():
         return render_template("start.html")
 
+    return app
+
 
 if __name__ == "__main__":
     app = Flask(__name__)
     init_app(app)
-    app.debug = True
     app.run()
