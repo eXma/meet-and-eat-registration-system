@@ -7,3 +7,13 @@ DB_CONNECTION = None
 
 # Turn this off in production!
 DEBUG = True
+
+# Mail configuration
+MAIL_SERVER = "localhost"
+MAIL_PORT = 25
+MAIL_USE_TLS = False
+MAIL_USE_SSL = False
+MAIL_DEBUG = DEBUG
+MAIL_USERNAME = None
+MAIL_PASSWORD = None
+DEFAULT_MAIL_SENDER = "meet-and-eat@exmatrikulationsamt.de"
