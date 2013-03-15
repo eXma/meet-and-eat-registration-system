@@ -45,6 +45,7 @@ def _do_register(form):
     db.session.add(location)
     db.session.commit()
 
+    # ToDo rewrite the message text!
     message = Message(current_app.config["CONFIRM_SUBJECT"],
                       recipients=[form.email.data],
                       bcc=[current_app.config["DEFAULT_MAIL_SENDER"]],
