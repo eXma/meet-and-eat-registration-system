@@ -2,6 +2,9 @@ from flask import Flask, render_template
 import database
 import register
 import os
+from flask.ext.mail import Mail
+
+#todo http://pythonhosted.org/Flask-ErrorMail/
 
 
 EXAMPLE_CONFIG = "config_example"
@@ -15,7 +18,7 @@ def configure_app(app):
     :param app: The Application to configure.
     """
     filename = EXAMPLE_CONFIG
-    if os.path.isfile(PRODUCTIVE_CONFIG):
+    if os.path.isfile(os.path.join("cfg", "%s.py" % PRODUCTIVE_CONFIG)):
         filename = PRODUCTIVE_CONFIG
 
     app.config.from_object("webapp.cfg.%s" % filename)
@@ -32,6 +35,8 @@ def init_app(app):
     configure_app(app)
     database.init_session(connection_string=app.config["DB_CONNECTION"])
     app.register_blueprint(register.bp, url_prefix='/register')
+
+    app.mail = Mail(app)
 
     @app.teardown_request
     def session_cleanup(_):

@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, abort
+from flask import Blueprint, render_template, request, abort, current_app
+from flask.ext.mail import Message
 from forms import TeamRegisterForm
 from database.model import Team, Location, Members
 import database as db
@@ -43,8 +44,14 @@ def _do_register(form):
                         lon=form.lon.data)
     db.session.add(location)
     db.session.commit()
-    # TODO: send mail
 
+    message = Message(current_app.config["CONFIRM_SUBJECT"],
+                      recipients=[form.email.data],
+                      bcc=[current_app.config["DEFAULT_MAIL_SENDER"]],
+                      body=render_template("register/confirm_email.txt",
+                                           teamname=team.name,
+                                           token=team.token))
+    current_app.mail.send(message)
     return team
 
 

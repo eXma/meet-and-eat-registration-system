@@ -8,6 +8,10 @@ DB_CONNECTION = None
 # Turn this off in production!
 DEBUG = True
 
+SERVER_NAME = 'localhost:5000'
+APPLICATION_ROOT = "/"
+
+
 # Mail configuration
 MAIL_SERVER = "localhost"
 MAIL_PORT = 25
@@ -17,3 +21,5 @@ MAIL_DEBUG = DEBUG
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
 DEFAULT_MAIL_SENDER = "meet-and-eat@exmatrikulationsamt.de"
+
+CONFIRM_SUBJECT = "Meet & Eat Aktivierung"

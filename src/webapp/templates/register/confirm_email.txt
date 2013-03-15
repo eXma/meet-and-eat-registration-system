@@ -1,0 +1,9 @@
+Hallo {{ teamname }},
+
+wir haben eure Anmeldung beim meet&eat erhalten.
+
+Um diese abzuschließen klickt bitte auf folgenden Aktivierungslink:
+{{ url_for(".confirm", token=token, _external=True) }}
+
+Viele Grüße und bis bald,
+euer meet&eat Team von eXmatrikulationsamt.de
