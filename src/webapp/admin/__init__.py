@@ -48,6 +48,8 @@ _color_map = ["blue", "yellow", "green", "red"]
 @bp.route("/map_teams")
 @valid_admin
 def map_teams():
+    # ToDo: filter by confirmed, order by distance
+
     teams = db.session.query(Team).order_by(Team.id).all()
     data = []
 
