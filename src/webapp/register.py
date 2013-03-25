@@ -41,7 +41,8 @@ def _do_register(form):
                         zip_no=form.zipno.data,
                         extra=form.address_info.data,
                         lat=form.lat.data,
-                        lon=form.lon.data)
+                        lon=form.lon.data,
+                        team=team)
     db.session.add(location)
     db.session.commit()
 

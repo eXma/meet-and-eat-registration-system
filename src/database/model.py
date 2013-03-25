@@ -22,7 +22,7 @@ class Members(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
 
-    team_id = Column(ForeignKey("teams.id", ondelete="CASCADE"))
+    team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=False)
     team = relationship(Team,
                         backref=backref("members", cascade="all, delete-orphan", lazy="joined"),
                         cascade="all",
@@ -39,7 +39,7 @@ class Location(Base):
     lon = Column(Float)
     center_distance = Column(Float)
 
-    team_id = Column(ForeignKey("teams.id", ondelete="CASCADE"))
+    team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=False)
     team = relationship(Team,
                         backref=backref("location", cascade="all, delete-orphan", lazy="joined", uselist=False),
                         cascade="all",
