@@ -20,13 +20,19 @@ def login():
 
 
 @bp.route("/logout")
+@valid_admin
 def logout():
     delete_token()
-    redirect(url_for(".login"))
+    return redirect(url_for(".login"))
 
 
 @bp.route("/")
 @valid_admin
 def overview():
-    return "Working"
+    return render_template("admin/base.html")
 
+
+@bp.route("/map")
+@valid_admin
+def team_map():
+    return render_template("admin/map.html")

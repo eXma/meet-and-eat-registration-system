@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Meet & Eat Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+    </style>
+    {% block styles %}{% endblock %}
+    <link href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap-responsive.min.css') }}" rel="stylesheet">
+
+</head>
+
+<body>
+{% import "admin/macros.html" as macros with context %}
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="#">Meet&Eat Admin</a>
+
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    {{ macros.nav_part("Übersicht", ".overview") }}
+                    {{ macros.nav_part("Karte", ".team_map") }}
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a href="{{ url_for(".logout") }}">Logout</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    {% block content %}
+        <h1>Bootstrap starter template</h1>
+
+        <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones
+            HTML
+            document.</p>
+    {% endblock %}
+</div>
+<!-- /container -->
+
+<script type="text/javascript" src="{{ url_for('static', filename='lib/jquery/jquery-1.9.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.min.js') }}"></script>
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>
