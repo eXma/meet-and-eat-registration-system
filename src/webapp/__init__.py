@@ -1,10 +1,14 @@
-from flask import Flask, render_template
-import database
-import register
 import os
+
+from flask import Flask, render_template
 from flask.ext.mail import Mail
 
+import database
+import register
+
+
 #todo http://pythonhosted.org/Flask-ErrorMail/
+from webapp import admin
 
 
 EXAMPLE_CONFIG = "config_example"
@@ -35,6 +39,7 @@ def init_app(app):
     configure_app(app)
     database.init_session(connection_string=app.config["DB_CONNECTION"])
     app.register_blueprint(register.bp, url_prefix='/register')
+    app.register_blueprint(admin.bp, url_prefix='/admin')
 
     app.mail = Mail(app)
 

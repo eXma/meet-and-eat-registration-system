@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form, TextField, Required, Email
 from flask.ext.wtf.html5 import EmailField, IntegerField, DecimalField
-from wtforms import BooleanField
+from wtforms import BooleanField, PasswordField
 
 
 class TeamRegisterForm(Form):
@@ -19,3 +19,8 @@ class TeamRegisterForm(Form):
     vegetarians = IntegerField("Vegetarier", validators={Required()}, default=0)
     legal_accepted = BooleanField("Datenschutzbestimmungen", validators=[Required()])
     information = BooleanField("Informationen")
+
+
+class AdminLoginForm(Form):
+    login = TextField("Login")
+    password = PasswordField("Passwort")

@@ -23,3 +23,6 @@ MAIL_PASSWORD = None
 DEFAULT_MAIL_SENDER = "meet-and-eat@exmatrikulationsamt.de"
 
 CONFIRM_SUBJECT = "Meet & Eat Aktivierung"
+
+ADMIN_USER = "admin"
+ADMIN_PASSWORD = "test"
