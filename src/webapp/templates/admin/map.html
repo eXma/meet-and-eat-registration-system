@@ -25,5 +25,41 @@
                 osm = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg', {maxZoom: 19, subdomains: "1234",
                     attribution: osmAttrib
                 }).addTo(map);
+
+        var icon_red = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-red.png"}),
+                icon_green = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-green.png"}),
+                icon_blue = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-blue.png"}),
+                icon_yellow = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-yellow.png"}),
+                markers = {red: icon_red, green: icon_green, blue: icon_blue, yellow: icon_yellow};
+
+    </script>
+
+    <script type="text/javascript">
+        function transformLoc(lat, lon) {
+            // debug return [lat, lon];
+            return  [51.0322627 + ((0.5 - Math.random()) / 10), 13.7071665 + ((0.5 - Math.random()) / 10)]
+        }
+
+        function setMarker(data) {
+            var marker = L.marker(transformLoc(data.location.lat, data.location.lon), {icon: icon_red});
+            if (data.data !== undefined) {
+                marker.setIcon(markers[data.data.color]);
+                var popup = $("<span><h4>Team: " + data.data.name + "<br><small>" + data.data.address + "</small></h4><br><strong>Members:</strong><ul></ul></span>");
+                for (var i = 0; i < data.data.members.length; i++) {
+                    popup.find("ul").append($("<li>" + data.data.members[i] + "</li>"));
+                }
+                marker.bindPopup(popup.html());
+            }
+            marker.addTo(map);
+        }
+
+        $(function () {
+            $.getJSON("{{ url_for(".map_teams") }}", function (data) {
+                var i = 0;
+                for (i = 0; i < data.length; i++) {
+                    setMarker(data[i]);
+                }
+            });
+        })
     </script>
 {% endblock %}
