@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from flask.ext.mail import Mail
 
 import database
@@ -52,7 +52,7 @@ def init_app(app):
 
     @app.route("/")
     def start():
-        return render_template("start.html")
+        return redirect("register.form")
 
     return app
 
