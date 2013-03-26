@@ -3,8 +3,6 @@ from flask.ext.mail import Message
 from forms import TeamRegisterForm
 from database.model import Team, Location, Members
 import database as db
-import hashlib
-import datetime
 import json
 
 
@@ -21,16 +19,11 @@ def _do_register(form):
     if not form.validate_on_submit():
         return None
 
-    token_hash = hashlib.sha1()
-    token_hash.update(form.name.data)
-    token_hash.update(str(datetime.datetime.now()))
-
     team = Team(name=form.name.data,
                 allergies=form.allergies.data,
                 vegetarians=form.vegetarians.data,
                 phone=form.phone.data,
-                email=form.email.data,
-                token=token_hash.hexdigest())
+                email=form.email.data)
     db.session.add(team)
 
     for member_name in (form.member1.data, form.member2.data, form.member3.data):

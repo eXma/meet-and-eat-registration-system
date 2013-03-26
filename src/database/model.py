@@ -1,6 +1,8 @@
+import hashlib
+import datetime
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Boolean
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship, backref, validates
 
 Base = declarative_base()
 
@@ -15,6 +17,18 @@ class Team(Base):
     confirmed = Column(Boolean, default=False)
     phone = Column(String)
     email = Column(String)
+
+    @validates("name")
+    def validate_name(self, _, value):
+        if self.name != value:
+            self._update_token(value)
+        return value
+
+    def _update_token(self, payload):
+        token_hash = hashlib.sha1()
+        token_hash.update(payload)
+        token_hash.update(str(datetime.datetime.now()))
+        self.token = token_hash.hexdigest()
 
 
 class Members(Base):
