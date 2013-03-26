@@ -48,20 +48,32 @@ _color_map = ["blue", "yellow", "green", "red"]
 @bp.route("/map_teams")
 @valid_admin
 def map_teams():
-    # ToDo: filter by confirmed, order by distance
-
-    teams = db.session.query(Team).order_by(Team.id).all()
+    teams = db.session.query(Team).filter_by(confirmed=True).order_by(Team.id).all()
     data = []
 
     max_working = len(teams) - (len(teams) % 3)
     divider = max_working / 3.0
+
+    def distance_sort(a, b):
+        if a.location.center_distance > b.location.center_distance:
+            return -1
+        if a.location.center_distance < b.location.center_distance:
+            return 1
+        return 0
+
+    working = teams[:max_working]
+    teams = sorted(working, distance_sort) + teams[max_working:]
+
     for idx, team in enumerate(teams):
+        color_idx = 0
+        if (divider > 0):
+            color_idx = int(floor(idx / divider))
         team_data = {"name": team.name,
                      "confirmed": team.confirmed,
                      "email": team.email,
                      "members": [member.name for member in team.members],
                      "address": team.location.street,
-                     "color": _color_map[int(floor(idx / divider))]}
+                     "color": _color_map[color_idx]}
         location = {"lat": team.location.lat,
                     "lon": team.location.lon}
         data.append({"location": location,
