@@ -20,7 +20,7 @@ class Team(Base):
 
     @validates("name")
     def validate_name(self, _, value):
-        if self.name != value:
+        if self.name != value and self.token is None:
             self._update_token(value)
         return value
 
