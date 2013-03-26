@@ -8,7 +8,8 @@ import register
 
 
 #todo http://pythonhosted.org/Flask-ErrorMail/
-from webapp import admin
+from webapp import admin, public
+from webapp.dummy_data import make_dummy_data
 
 
 EXAMPLE_CONFIG = "config_example"
@@ -40,8 +41,10 @@ def init_app(app):
     database.init_session(connection_string=app.config["DB_CONNECTION"])
     app.register_blueprint(register.bp, url_prefix='/register')
     app.register_blueprint(admin.bp, url_prefix='/admin')
+    app.register_blueprint(public.bp, url_prefix='/public')
 
     app.mail = Mail(app)
+    #make_dummy_data(30)
 
     @app.teardown_request
     def session_cleanup(_):

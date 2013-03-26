@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html dir="ltr" lang="en-US" class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html dir="ltr" lang="en-US" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html dir="ltr" lang="en-US" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html dir="ltr" lang="en-US" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html dir="ltr" lang="en-US"> <!--<![endif]-->
+
+<head>
+    <title>Meet & Eat Teams</title>
+    <!--  Mobile Viewport Fix -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <!-- Google WebFonts -->
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.ie.css" />
+<![endif]-->
+    <style type="text/css">
+        #map {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+    </style>
+
+
+    <!-- make legacy Internet Explorer play nice(r) -->
+    <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+<![endif]-->
+</head>
+<body>
+
+<div id="map"></div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='lib/jquery/jquery-1.9.1.min.js') }}"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet-src.js"></script>
+<script type="text/javascript">
+    var map = L.map('map').setView([51.050399, 13.737246], 13);
+    var osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            osm = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg', {maxZoom: 19, subdomains: "1234",
+                attribution: osmAttrib
+            }).addTo(map);
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $.getJSON("{{ url_for(".map_teams") }}", function (data) {
+            var i = 0;
+            for (i = 0; i < data.length; i++) {
+                var marker = L.marker([data[i].lat, data[i].lon], {}).addTo(map);
+            }
+        });
+    })
+</script>
+</body>
+</html>
