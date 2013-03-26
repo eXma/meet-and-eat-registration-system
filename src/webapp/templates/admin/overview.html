@@ -1,0 +1,35 @@
+{% extends "admin/base.html" %}
+{% block styles %}
+    <style type="text/css">
+        .confirmed {
+            font-weight: bold;
+        }
+
+        .unconfirmed {
+            color: gray;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>Team Übersicht</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Team</th>
+            <th>Adresse</th>
+            <th>Mitglieder</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for team in teams %}
+            <tr>
+                <td class="{% if team.confirmed %}confirmed{% else %}unconfirmed{% endif %}">{{ team.name }}</td>
+                <td>{{ team.location.street }}{% if team.location.extra %}({{ team.location.extra }}){% endif %}</td>
+                <td>{% for member in team.members %}{% if not loop.first %}; {% endif %}
+                    {{ member.name }}{% endfor %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

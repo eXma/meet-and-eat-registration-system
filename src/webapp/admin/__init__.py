@@ -33,7 +33,8 @@ def logout():
 @bp.route("/")
 @valid_admin
 def overview():
-    return render_template("admin/base.html")
+    teams = db.session.query(Team).order_by(Team.name)
+    return render_template("admin/overview.html", teams=teams)
 
 
 @bp.route("/map")
