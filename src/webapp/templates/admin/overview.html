@@ -19,6 +19,8 @@
             <th>Team</th>
             <th>Adresse</th>
             <th>Mitglieder</th>
+            <th>Telefon</th>
+            <th>Email</th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +30,8 @@
                 <td>{{ team.location.street }}{% if team.location.extra %}({{ team.location.extra }}){% endif %}</td>
                 <td>{% for member in team.members %}{% if not loop.first %}; {% endif %}
                     {{ member.name }}{% endfor %}</td>
+                <td>{{ team.phone }}</td>
+                <td>{{ team.email }}</td>
             </tr>
         {% endfor %}
         </tbody>
