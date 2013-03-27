@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{% block content %}
+    <h1>Bestätigen</h1>
+    <h4>{{ what }}</h4>
+    <form class="form-horizontal" id="data_form" method="POST" action="#">
+        {{ form.hidden_tag() }}
+        {% for field in form %}
+            {% if field.type not in ("HiddenField", "CSRFTokenField") %}
+                <div class="control-group">
+                    {{ field.label(class="control-label") }}
+                    <div class="controls">
+                        {{ field }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Speichern</button>
+            <a class="btn" href="{{ url_for(".overview") }}">Abbrechen</a>
+        </div>
+    </form>
+{% endblock %}

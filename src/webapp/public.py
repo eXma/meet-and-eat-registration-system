@@ -14,7 +14,7 @@ def map_page():
 
 @bp.route("/map_teams")
 def map_teams():
-    qry = db.session.query(Team).filter_by(confirmed=True)
+    qry = db.session.query(Team).filter_by(confirmed=True).filter_by(deleted=False)
     data = []
     for item in qry:
         if item.location is not None:

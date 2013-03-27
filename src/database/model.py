@@ -17,6 +17,7 @@ class Team(Base):
     confirmed = Column(Boolean, default=False)
     phone = Column(String)
     email = Column(String)
+    deleted = Column(Boolean, default=False)
 
     @validates("name")
     def validate_name(self, _, value):

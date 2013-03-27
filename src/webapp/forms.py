@@ -1,6 +1,7 @@
 from flask.ext.wtf import Form, TextField, Required, Email
 from flask.ext.wtf.html5 import EmailField, IntegerField, DecimalField
-from wtforms import BooleanField, PasswordField
+from wtforms import BooleanField, PasswordField, FloatField
+from wtforms.validators import NumberRange
 
 
 class TeamRegisterForm(Form):
@@ -10,13 +11,13 @@ class TeamRegisterForm(Form):
     address = TextField("Adresse", validators=[Required()])
     zipno = TextField("Postleitzahl", validators=[Required()])
     address_info = TextField("Adresszusatz", default="")
-    lat = DecimalField("Lat", validators=[Required()])
-    lon = DecimalField("Lon", validators=[Required()])
+    lat = FloatField("Lat", validators=[Required()])
+    lon = FloatField("Lon", validators=[Required()])
     member1 = TextField("Teammitglied 3", validators=[Required()])
     member2 = TextField("Teammitglied 3", validators=[Required()])
     member3 = TextField("Teammitglied 3", validators=[Required()])
     allergies = TextField("Allergien", default="")
-    vegetarians = IntegerField("Vegetarier", validators={Required()}, default=0)
+    vegetarians = IntegerField("Vegetarier", validators={NumberRange(min=0, max=3)}, default=0)
     legal_accepted = BooleanField("Datenschutzbestimmungen", validators=[Required()])
     information = BooleanField("Informationen")
 
@@ -24,3 +25,23 @@ class TeamRegisterForm(Form):
 class AdminLoginForm(Form):
     login = TextField("Login")
     password = PasswordField("Passwort")
+
+
+class TeamEditForm(Form):
+    name = TextField("Teamname", validators=[Required()])
+    email = EmailField("Email", validators=[Required(), Email()])
+    phone = IntegerField("Telefonnummer", validators=[Required()])
+    address = TextField("Adresse", validators=[Required()])
+    zipno = TextField("Postleitzahl", validators=[Required()])
+    address_info = TextField("Adresszusatz", default="")
+    lat = FloatField("Lat", validators=[Required()])
+    lon = FloatField("Lon", validators=[Required()])
+    member1 = TextField("Teammitglied 3", validators=[Required()])
+    member2 = TextField("Teammitglied 3", validators=[Required()])
+    member3 = TextField("Teammitglied 3", validators=[Required()])
+    allergies = TextField("Allergien", default="")
+    vegetarians = IntegerField("Vegetarier", validators={NumberRange(min=0, max=3)}, default=0)
+
+
+class ConfirmForm(Form):
+    confirmed = BooleanField(u"Bestaetigen")
