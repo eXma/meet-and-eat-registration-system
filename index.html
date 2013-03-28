@@ -30,10 +30,10 @@
 		<div class="fuelux">
 			<div id="myWizard" class="wizard">
 				<ul class="steps">
-					<li data-target="#step1" class="active"><span class="badge badge-info">1</span>Team<span class="chevron"></span></li>
-					<li data-target="#step2"><span class="badge">2</span>Kitchen<span class="chevron"></span></li>
-					<li data-target="#step3"><span class="badge">3</span>Member<span class="chevron"></span></li>
-					<li data-target="#step4"><span class="badge">4</span>Finish<span class="chevron"></span></li>
+					<li data-target="#step1" class="active"><span class="badge badge-info">1</span>Daten<span class="chevron"></span></li>
+					<li data-target="#step2"><span class="badge">2</span>Karte<span class="chevron"></span></li>
+					<li data-target="#step3"><span class="badge">3</span>Teilnehmer<span class="chevron"></span></li>
+					<li data-target="#step4"><span class="badge">4</span>Absenden<span class="chevron"></span></li>
 				</ul>
 <!-- 				<div class="actions">
 					<button class="btn btn-mini btn-prev"><i class="icon-arrow-left"></i>Prev</button>
@@ -49,7 +49,7 @@
 								<label class="control-label" for="inputName">Teamname</label>
 
 								<div class="controls">
-									<input  type="text" 
+									<input 	type="text" 
 											id="inputName" 
 											name="teamname" 
 											placeholder="Teamname"
@@ -62,7 +62,7 @@
 								<label class="control-label" for="inputEmail">E-Mail-Adresse*</label>
 
 								<div class="controls">
-									<input  type="email" 
+									<input 	type="email" 
 											id="inputEmail" 
 											name="email"
 											placeholder="E-Mail-Adresse*" 
@@ -76,7 +76,7 @@
 								<label class="control-label" for="inputRepeatEmail">E-Mail-Adresse bestätigen*</label>
 
 								<div class="controls">
-									<input  type="email" 
+									<input 	type="email" 
 											id="inputRepeatEmail" 
 											name="email_repeat"
 											placeholder="E-Mail-Adresse bestätigen*"
@@ -92,7 +92,7 @@
 								<label class="control-label" for="inputPhone">Handynummer für Rückfragen*</label>
 
 								<div class="controls">
-									<input  type="text" 
+									<input 	type="text" 
 											id="inputPhone" 
 											name="phone"
 											placeholder="Handynummer für Rückfragen*" 
@@ -110,12 +110,12 @@
 								<label class="control-label" for="inputStreet">Straße und Hausnummer*</label>
 
 								<div class="controls">
-									<input  type="text" 
+									<input 	type="text" 
 											id="inputStreet" 
 											name="street"
 											placeholder="Straße und Hausnummer*" 
 											data-validation-required-message="Bitte eine Straße und Hausnummer eintragen!"
-											value="Petersburger Str. 25"
+											value="St. Petersburger Str. 25"
 											required>
 								</div>
 							</div>
@@ -123,7 +123,7 @@
 								<label class="control-label" for="inputZip">Postleitzahl in Dresden*</label>
 
 								<div class="controls">
-									<input  type="text" 
+									<input 	type="text" 
 											maxlength="5" 
 											id="inputZip" 
 											name="zip"
@@ -131,6 +131,7 @@
 											pattern="01[0-4][0-9]{2}"
 											data-validation-required-message="Bitte eine Postleitzahl eintragen!"
 											data-validation-pattern-message="Die Postleitzahl muss aus Dresden sein!"
+											value="01069"
 											required>
 								</div>
 							</div>
@@ -148,74 +149,93 @@
 
 
 				<div class="step-pane" id="step2">
-					<h3>Confirm your kitchen location</h3>
+					<h3>Bestätige die Adresse der meet&amp;eat-Küche</h3>
 
-					<p>Drag the marker to the right position if it points not to the right place and press next.</p>
+					<p>Falls der Marker nicht direkt am Hauseingang ist, zieh ihn an die richtige Stelle.</p>
 
 					<div id="map" style="height: 300px; width: 680px;"></div>
 				</div>
 				<div class="step-pane" id="step3">
 					<form class="form-horizontal" onsubmit="return false;">
 						<fieldset>
-							<legend>Member Names.</legend>
+							<legend>Namen der Teilnehmer</legend>
 							<div class="control-group">
-								<label class="control-label" for="inputMemberName1">Name of Member 1</label>
+								<label class="control-label" for="inputMemberName1">Erster Name</label>
 
 								<div class="controls">
-									<input type="text" id="inputMemberName1" name="member1"
-										   placeholder="Name of your first member"
-										   required>
+									<input 	type="text" 
+											id="inputMemberName1" 
+											name="member1"
+										   	placeholder="Erster Name"
+											data-validation-required-message="Bitte einen Namen eintragen!"
+										   	required>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="inputMemberName2">Name of Member 2</label>
+								<label class="control-label" for="inputMemberName2">Zweiter Name</label>
 
 								<div class="controls">
-									<input type="text" id="inputMemberName2" name="member1"
-										   placeholder="Name of your second member"
-										   required>
+									<input 	type="text" 
+											id="inputMemberName2" 
+											name="member1"
+											placeholder="Zweiter Name"
+											data-validation-required-message="Bitte einen Namen eintragen!"
+											required>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="inputMemberName3">Name of Member 3</label>
+								<label class="control-label" for="inputMemberName3">Dritter Name</label>
 
 								<div class="controls">
-									<input type="text" id="inputMemberName3" name="member1"
-										   placeholder="Name of your third member"
-										   required>
+									<input 	type="text"
+											id="inputMemberName3" 
+											name="member1"
+											placeholder="Dritter Name"
+											data-validation-required-message="Bitte einen Namen eintragen!"
+											required>
 								</div>
 							</div>
 						</fieldset>
 						<fieldset>
-							<legend>General Data.</legend>
+							<legend>Weitere Informationen</legend>
 							<div class="control-group">
-								<label class="control-label" for="allergies">Food allergies</label>
+								<label class="control-label" for="allergies">Lebensmittelallergien</label>
 
 								<div class="controls">
-									<input type="text" id="allergies" name="allergies"
-										   placeholder="Name all of your members">
+									<textarea 	type="text"
+												id="allergies" 
+												name="allergies"
+												placeholder="Lebensmittelallergien"></textarea>
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="vegetaian">Vegetarians?</label>
-
+								<label class="control-label" for="vegetaian">Wie viele von euch sind Vegetarier?</label>
 								<div class="controls">
-									<label class="checkbox">
-										<input type="checkbox" id="vegetaian" name="terms-and-conditions"> Yes, we
-										have!</label>
+									<input 	type="number"
+											id="vegetarians" 
+											name="vegetarians"
+											placeholder="Wie viele Vegetarier?"
+											pattern="[0-3]"
+											data-validation-required-message="Bitte die Anzahl der Vegetarier eintragen!"
+											data-validation-number-message="Bitte eine Zahl eintragen!"
+											data-validation-pattern-message="Es muss eine Zahl zwischen 0 und 3 sein!"
+											required>
 								</div>
 							</div>
+
 							<div class="control-group">
-								<label class="control-label" for="terms-and-conditions">Legal</label>
+								<label class="control-label" for="terms">Legal</label>
 
 								<div class="controls">
 									<label class="checkbox">
-										<input type="checkbox" id="terms-and-conditions" name="terms-and-conditions"
-											   required=""
-											   data-validation-required-message="You must agree to the terms and conditions"
-											   aria-invalid="true">
-										I agree to the <a href="#">terms and conditions</a> and allow to process my data
-										according the given <a href="#">privacy notes</a>.
+										<input 	type="checkbox" 
+												id="terms" 
+												name="terms"
+												data-validation-required-message="Bitte die Teilnahmebedingungen bestätigen!"
+												aria-invalid="true"
+												required>
+										Ich bin mit den <a href="#">Teilnahmebedingungen</a> einverstanden und erlaube
+										die Verarbeitung meiner Daten gemäß der <a href="#">Datenschutzerklärung</a>.
 									</label>
 								</div>
 							</div>
@@ -282,8 +302,9 @@
 
 		searcher = new L.Control.GeoSearch({
 			provider: new L.GeoSearch.Provider.OpenStreetMap(),
-			messageHideDelay: 999999,
-			notFoundMessage: 'Die Adresse konnte nicht gefunden werden. Bitte gehe zurück und überprüfe die Eingaben. Sollte die Adresse trotzdem nicht gefunden werden, kontaktiere uns bitte unter <a href="mailto:meet&eat@exma.de">meet&amp;eat@exma.de</a>'
+			zoomLevel: 17,
+			messageHideDelay: 9999,
+			notFoundMessage: '<strong>Die Adresse konnte nicht gefunden werden.</strong> Bitte gehe zurück und überprüfe die Eingaben. Sollte die Adresse trotzdem nicht gefunden werden, kontaktiere uns bitte unter <a href="mailto:meet&eat@exma.de">meet&amp;eat@exma.de</a>'
 		});
 		searcher.addTo(map);
 
@@ -323,7 +344,7 @@
 					break;
 				case 3:
 					if (data.direction === 'next') {
-						form = $("#step2").find(">form");
+						form = $("#step3").find(">form");
 						if (form.find("input").jqBootstrapValidation("hasErrors")) {
 							form.submit();
 							e.preventDefault();
@@ -340,8 +361,8 @@
 							member2: $("#inputMemberName2").val(),
 							member3: $("#inputMemberName3").val(),
 							allergies: $("#allergies").val(),
-							vegetarian: $("#vegetaian").is(":checked"),
-							accepted: $("#terms-terms-and-conditions").is(":checked")
+							vegetarians: $("#vegetarians").val(),
+							accepted: $("#terms").is(":checked")
 						};
 						alert("(Would) send data via ajax:\n" + JSON.stringify(resultData, null, '\t'));
 						haveNext = false;
