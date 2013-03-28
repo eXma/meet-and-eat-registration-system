@@ -2,84 +2,18 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
-    <title>meet&amp;eat registration mockup</title>
+    <title>meet&amp;eat Anmeldung</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- CSS -->
-    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">
-
-            /* Sticky footer styles
-            -------------------------------------------------- */
-
-        html,
-        body {
-            height: 100%;
-            /* The html and body elements cannot have any padding or margin. */
-        }
-
-            /* Wrapper for page content to push down footer */
-        #wrap {
-            min-height: 100%;
-            height: auto !important;
-            height: 100%;
-            /* Negative indent footer by it's height */
-            margin: 0 auto -60px;
-        }
-
-            /* Set the fixed height of the footer here */
-        #push,
-        #footer {
-            height: 60px;
-        }
-
-        #footer {
-            background-color: #f5f5f5;
-        }
-
-            /* Lastly, apply responsive CSS fixes as necessary */
-        @media (max-width: 767px) {
-            #footer {
-                margin-left: -20px;
-                margin-right: -20px;
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-        }
-
-            /* Custom page CSS
-            -------------------------------------------------- */
-            /* Not required for template or sticky footer method. */
-        .container {
-            width: auto;
-            max-width: 680px;
-        }
-
-        .container .credit {
-            margin: 20px 0;
-        }
-
-        .wizard-footer {
-            background-color: #f9f9f9;
-            border: 1px solid #d4d4d4;
-            -webkit-border-radius: 4px;
-            -moz-border-radius: 4px;
-            border-radius: 4px;
-            -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-            -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-        }
-
-        .wizard {
-            margin-bottom: 1em;;
-        }
-    </style>
-    <link href="lib/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="lib/fuelux/css/fuelux.min.css" rel="stylesheet">
-    <link href="lib/fuelux/css/fuelux-responsive.min.css" rel="stylesheet">
-    <link href="lib/leaflet/leaflet.css" rel="stylesheet">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="lib/fuelux/css/fuelux.min.css">
+    <link rel="stylesheet" href="lib/fuelux/css/fuelux-responsive.min.css">
+    <link rel="stylesheet" href="lib/leaflet/leaflet.css">
+    <link rel="stylesheet" href="css/custom.css">
 
 
 </head>
@@ -91,82 +25,108 @@
     <!-- Begin page content -->
     <div class="container">
         <div class="page-header">
-            <h1>meet&eat registration mockup</h1>
+            <h1>meet&amp;eat Anmeldung</h1>
         </div>
         <div class="fuelux">
             <div id="myWizard" class="wizard">
                 <ul class="steps">
-                    <li data-target="#step1" class="active"><span class="badge badge-info">1</span>Team<span
-                            class="chevron"></span></li>
+                    <li data-target="#step1" class="active"><span class="badge badge-info">1</span>Team<span class="chevron"></span></li>
                     <li data-target="#step2"><span class="badge">2</span>Kitchen<span class="chevron"></span></li>
                     <li data-target="#step3"><span class="badge">3</span>Member<span class="chevron"></span></li>
                     <li data-target="#step4"><span class="badge">4</span>Finish<span class="chevron"></span></li>
                 </ul>
-                <div class="actions">
+<!--                 <div class="actions">
                     <button class="btn btn-mini btn-prev"><i class="icon-arrow-left"></i>Prev</button>
-                    <button class="btn btn-mini btn-next" data-last="Finish">Next<i class="icon-arrow-right"></i>
-                    </button>
+                    <button class="btn btn-mini btn-next" data-last="Finish">Next<i class="icon-arrow-right"></i></button>
                 </div>
-            </div>
+ -->            </div>
             <div class="step-content">
                 <div class="step-pane active" id="step1">
                     <form class="form-horizontal" onsubmit="return false;">
                         <fieldset>
-                            <legend>Basic Team Data.</legend>
+                            <legend>Anmeldedaten eures Kochteams</legend>
                             <div class="control-group">
-                                <label class="control-label" for="inputName">Team Name</label>
+                                <label class="control-label" for="inputName">Teamname</label>
 
                                 <div class="controls">
-                                    <input type="text" id="inputName" name="teamname" placeholder="Name of your team"
-                                           required data-validation-required-message="Please choose a teamname!">
+                                    <input  type="text" 
+                                            id="inputName" 
+                                            name="teamname" 
+                                            placeholder="Teamname"
+                                            data-validation-required-message="Bitte einen Teamnamen eintragen!"
+                                            required>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="inputEmail">Team Email*</label>
+                                <label class="control-label" for="inputEmail">E-Mail-Adresse*</label>
 
                                 <div class="controls">
-                                    <input type="email" id="inputEmail" name="email"
-                                           placeholder="An email to reach your team" required>
+                                    <input  type="email" 
+                                            id="inputEmail" 
+                                            name="email"
+                                            placeholder="E-Mail-Adresse*" 
+                                            data-validation-required-message="Bitte eine E-Mail-Adresse eintragen!"
+                                            data-validation-email-message="Bitte eine gültige E-Mail-Adresse eintragen!"
+                                            required>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="inputRepeatEmail">Repeat Email*</label>
+                                <label class="control-label" for="inputRepeatEmail">E-Mail-Adresse bestätigen*</label>
 
                                 <div class="controls">
-                                    <input type="email" id="inputRepeatEmail" name="email_repeat"
-                                           placeholder="Repeat the email address" required
-                                           data-validation-matches-match="email"
-                                           data-validation-matches-message=
-                                                   "Must match email address entered above">
+                                    <input  type="email" 
+                                            id="inputRepeatEmail" 
+                                            name="email_repeat"
+                                            placeholder="E-Mail-Adresse bestätigen*"
+                                            data-validation-required-message="Bitte die E-Mail-Adresse zur Bestätigung nochmal eintragen!"
+                                            data-validation-email-message="Bitte eine gültige E-Mail-Adresse eintragen!"
+                                            data-validation-matches-match="email"
+                                            data-validation-matches-message="Die angegebene Adresse muss mit der ersten übereinstimmen!" 
+                                            required>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="inputPhone">Team Phone*</label>
+                                <label class="control-label" for="inputPhone">Handynummer für Rückfragen*</label>
 
                                 <div class="controls">
-                                    <input type="text" id="inputPhone" name="phone"
-                                           placeholder="A phone number of your team" required pattern="\d+"
-                                           data-validation-pattern-message="Only digits are allowed.">
+                                    <input  type="text" 
+                                            id="inputPhone" 
+                                            name="phone"
+                                            placeholder="Handynummer für Rückfragen*" 
+                                            pattern="^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{6,16}$"
+                                            data-validation-required-message="Bitte eine Handynummer eintragen!"
+                                            data-validation-pattern-message="Bitte eine gültige Mobilfunknummer eintragen!"
+                                            required>
                                 </div>
                             </div>
                         </fieldset>
                         <fieldset>
-                            <legend>Please enter the location where you want to cook.</legend>
+                            <legend>Adresse eurer meet&amp;eat-Küche</legend>
                             <div class="control-group">
-                                <label class="control-label" for="inputStreet">Street and Number</label>
+                                <label class="control-label" for="inputStreet">Straße und Hausnummer*</label>
 
                                 <div class="controls">
-                                    <input type="text" id="inputStreet" name="street"
-                                           placeholder="Street and the house number" required>
+                                    <input  type="text" 
+                                            id="inputStreet" 
+                                            name="street"
+                                            placeholder="Straße und Hausnummer*" 
+                                            data-validation-required-message="Bitte eine Straße und Hausnummer eintragen!"
+                                            required>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="inputZip">Zip Code</label>
+                                <label class="control-label" for="inputZip">Postleitzahl in Dresden*</label>
 
                                 <div class="controls">
-                                    <input type="text" maxlength="5" id="inputZip" name="zip"
-                                           placeholder="Your zip code" required pattern="\d{1,5}"
-                                           data-validation-pattern-message="Must consist of 5 digits.">
+                                    <input  type="text" 
+                                            maxlength="5" 
+                                            id="inputZip" 
+                                            name="zip"
+                                            placeholder="Postleitzahl in Dresden*" 
+                                            pattern="01[0-4][0-9]{2}"
+                                            data-validation-required-message="Bitte eine Postleitzahl eintragen!"
+                                            data-validation-pattern-message="Die Postleitzahl muss aus Dresden sein!"
+                                            required>
                                 </div>
                             </div>
                         </fieldset>
@@ -174,10 +134,8 @@
                     <div class="row-fluid">
                         <dl class="dl-horizontal span8">
                             <dt>*</dt>
-                            <dd>We will never publish this data to the public. Only your guests can see your address and
-                                phone and your hosts your phone number from their plans. Detailed informations can be
-                                taken
-                                from our <a href="#">privacy</a> page.
+                            <dd>Die Daten sind nur für die interne Abwicklung bestimmt und werden nicht veröffentlicht.
+                                Nur eure Gäste werden eure Adresse und Telefonnummer erhalten.
                             </dd>
                         </dl>
                     </div>
@@ -270,12 +228,13 @@
                     <p>Thank you, your eXma team.</p>
                 </div>
             </div>
-            <div class="form-actions wizard-footer" style="margin-top: 2em;">
-                <button type="button" class="btn" id="wizard-prev" value=""><i class="icon-arrow-left"></i> prev
-                </button>
-                <button type="button" class="btn btn-primary" id="wizard-next" value="next" style="float: right">next <i
+
+             <div class="form-actions wizard-footer" style="margin-top: 2em;">
+                <button type="button" class="btn" id="wizard-prev" value=""><i class="icon-arrow-left"></i> zurück</button>
+                <button type="button" class="btn btn-primary" id="wizard-next" value="next" style="float: right">weiter <i
                         class="icon-arrow-right icon-white"></i></button>
             </div>
+         
         </div>
 
 
@@ -286,7 +245,7 @@
 
 <div id="footer">
     <div class="container">
-        <p class="muted credit">meet&amp;eat registration mockup by JanLo from <a
+        <p class="muted credit">meet&amp;eat Anmeldung <a
                 href="http://www.exmatrikulationsamt.de">eXmatrikulationsamt.de</a>.</p>
     </div>
 </div>
@@ -298,7 +257,7 @@
 <script src="lib/jquery/jquery-1.9.1.min.js"></script>
 <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="lib/jqBootstrapValidation/jqBootstrapValidation.js"></script>
-<script src="lib/fuelux/myWizard.js"></script>
+<script src="js/myWizard.js"></script>
 
 <script src="lib/leaflet/leaflet.js"></script>
 <script src="js/geosearch.js"></script>
