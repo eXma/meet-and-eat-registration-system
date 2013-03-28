@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="utf-8">
-    <title>meet&amp;eat Anmeldung</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+	<meta charset="utf-8">
+	<title>meet&amp;eat Anmeldung</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" href="lib/fuelux/css/fuelux.min.css">
-    <link rel="stylesheet" href="lib/fuelux/css/fuelux-responsive.min.css">
-    <link rel="stylesheet" href="lib/leaflet/leaflet.css">
-    <link rel="stylesheet" href="css/custom.css">
+	<!-- CSS -->
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="lib/fuelux/css/fuelux.min.css">
+	<link rel="stylesheet" href="lib/fuelux/css/fuelux-responsive.min.css">
+	<link rel="stylesheet" href="lib/leaflet/leaflet.css">
+	<link rel="stylesheet" href="css/custom.css">
 
 
 </head>
@@ -22,232 +22,237 @@
 <!-- Part 1: Wrap all page content here -->
 <div id="wrap">
 
-    <!-- Begin page content -->
-    <div class="container">
-        <div class="page-header">
-            <h1>meet&amp;eat Anmeldung</h1>
-        </div>
-        <div class="fuelux">
-            <div id="myWizard" class="wizard">
-                <ul class="steps">
-                    <li data-target="#step1" class="active"><span class="badge badge-info">1</span>Team<span class="chevron"></span></li>
-                    <li data-target="#step2"><span class="badge">2</span>Kitchen<span class="chevron"></span></li>
-                    <li data-target="#step3"><span class="badge">3</span>Member<span class="chevron"></span></li>
-                    <li data-target="#step4"><span class="badge">4</span>Finish<span class="chevron"></span></li>
-                </ul>
-<!--                 <div class="actions">
-                    <button class="btn btn-mini btn-prev"><i class="icon-arrow-left"></i>Prev</button>
-                    <button class="btn btn-mini btn-next" data-last="Finish">Next<i class="icon-arrow-right"></i></button>
-                </div>
- -->            </div>
-            <div class="step-content">
-                <div class="step-pane active" id="step1">
-                    <form class="form-horizontal" onsubmit="return false;">
-                        <fieldset>
-                            <legend>Anmeldedaten eures Kochteams</legend>
-                            <div class="control-group">
-                                <label class="control-label" for="inputName">Teamname</label>
+	<!-- Begin page content -->
+	<div class="container">
+		<div class="page-header">
+			<h1>meet&amp;eat Anmeldung</h1>
+		</div>
+		<div class="fuelux">
+			<div id="myWizard" class="wizard">
+				<ul class="steps">
+					<li data-target="#step1" class="active"><span class="badge badge-info">1</span>Team<span class="chevron"></span></li>
+					<li data-target="#step2"><span class="badge">2</span>Kitchen<span class="chevron"></span></li>
+					<li data-target="#step3"><span class="badge">3</span>Member<span class="chevron"></span></li>
+					<li data-target="#step4"><span class="badge">4</span>Finish<span class="chevron"></span></li>
+				</ul>
+<!-- 				<div class="actions">
+					<button class="btn btn-mini btn-prev"><i class="icon-arrow-left"></i>Prev</button>
+					<button class="btn btn-mini btn-next" data-last="Finish">Next<i class="icon-arrow-right"></i></button>
+				</div>
+ -->			</div>
+			<div class="step-content">
+				<div class="step-pane active" id="step1">
+					<form class="form-horizontal" onsubmit="return false;">
+						<fieldset>
+							<legend>Anmeldedaten eures Kochteams</legend>
+							<div class="control-group">
+								<label class="control-label" for="inputName">Teamname</label>
 
-                                <div class="controls">
-                                    <input  type="text" 
-                                            id="inputName" 
-                                            name="teamname" 
-                                            placeholder="Teamname"
-                                            data-validation-required-message="Bitte einen Teamnamen eintragen!"
-                                            required>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="inputEmail">E-Mail-Adresse*</label>
+								<div class="controls">
+									<input  type="text" 
+											id="inputName" 
+											name="teamname" 
+											placeholder="Teamname"
+											data-validation-required-message="Bitte einen Teamnamen eintragen!"
+											value="asdf@exma.de"
+											required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputEmail">E-Mail-Adresse*</label>
 
-                                <div class="controls">
-                                    <input  type="email" 
-                                            id="inputEmail" 
-                                            name="email"
-                                            placeholder="E-Mail-Adresse*" 
-                                            data-validation-required-message="Bitte eine E-Mail-Adresse eintragen!"
-                                            data-validation-email-message="Bitte eine gültige E-Mail-Adresse eintragen!"
-                                            required>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="inputRepeatEmail">E-Mail-Adresse bestätigen*</label>
+								<div class="controls">
+									<input  type="email" 
+											id="inputEmail" 
+											name="email"
+											placeholder="E-Mail-Adresse*" 
+											data-validation-required-message="Bitte eine E-Mail-Adresse eintragen!"
+											data-validation-email-message="Bitte eine gültige E-Mail-Adresse eintragen!"
+											value="asdf@exma.de"
+											required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputRepeatEmail">E-Mail-Adresse bestätigen*</label>
 
-                                <div class="controls">
-                                    <input  type="email" 
-                                            id="inputRepeatEmail" 
-                                            name="email_repeat"
-                                            placeholder="E-Mail-Adresse bestätigen*"
-                                            data-validation-required-message="Bitte die E-Mail-Adresse zur Bestätigung nochmal eintragen!"
-                                            data-validation-email-message="Bitte eine gültige E-Mail-Adresse eintragen!"
-                                            data-validation-matches-match="email"
-                                            data-validation-matches-message="Die angegebene Adresse muss mit der ersten übereinstimmen!" 
-                                            required>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="inputPhone">Handynummer für Rückfragen*</label>
+								<div class="controls">
+									<input  type="email" 
+											id="inputRepeatEmail" 
+											name="email_repeat"
+											placeholder="E-Mail-Adresse bestätigen*"
+											data-validation-required-message="Bitte die E-Mail-Adresse zur Bestätigung nochmal eintragen!"
+											data-validation-email-message="Bitte eine gültige E-Mail-Adresse eintragen!"
+											data-validation-matches-match="email"
+											data-validation-matches-message="Die angegebene Adresse muss mit der ersten übereinstimmen!" 
+											value="asdf@exma.de"
+											required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputPhone">Handynummer für Rückfragen*</label>
 
-                                <div class="controls">
-                                    <input  type="text" 
-                                            id="inputPhone" 
-                                            name="phone"
-                                            placeholder="Handynummer für Rückfragen*" 
-                                            pattern="^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{6,16}$"
-                                            data-validation-required-message="Bitte eine Handynummer eintragen!"
-                                            data-validation-pattern-message="Bitte eine gültige Mobilfunknummer eintragen!"
-                                            required>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Adresse eurer meet&amp;eat-Küche</legend>
-                            <div class="control-group">
-                                <label class="control-label" for="inputStreet">Straße und Hausnummer*</label>
+								<div class="controls">
+									<input  type="text" 
+											id="inputPhone" 
+											name="phone"
+											placeholder="Handynummer für Rückfragen*" 
+											pattern="^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{6,16}$"
+											data-validation-required-message="Bitte eine Handynummer eintragen!"
+											data-validation-pattern-message="Bitte eine gültige Mobilfunknummer eintragen!"
+											value="01234567890"
+											required>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>Adresse eurer meet&amp;eat-Küche</legend>
+							<div class="control-group">
+								<label class="control-label" for="inputStreet">Straße und Hausnummer*</label>
 
-                                <div class="controls">
-                                    <input  type="text" 
-                                            id="inputStreet" 
-                                            name="street"
-                                            placeholder="Straße und Hausnummer*" 
-                                            data-validation-required-message="Bitte eine Straße und Hausnummer eintragen!"
-                                            required>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="inputZip">Postleitzahl in Dresden*</label>
+								<div class="controls">
+									<input  type="text" 
+											id="inputStreet" 
+											name="street"
+											placeholder="Straße und Hausnummer*" 
+											data-validation-required-message="Bitte eine Straße und Hausnummer eintragen!"
+											value="Petersburger Str. 25"
+											required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputZip">Postleitzahl in Dresden*</label>
 
-                                <div class="controls">
-                                    <input  type="text" 
-                                            maxlength="5" 
-                                            id="inputZip" 
-                                            name="zip"
-                                            placeholder="Postleitzahl in Dresden*" 
-                                            pattern="01[0-4][0-9]{2}"
-                                            data-validation-required-message="Bitte eine Postleitzahl eintragen!"
-                                            data-validation-pattern-message="Die Postleitzahl muss aus Dresden sein!"
-                                            required>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                    <div class="row-fluid">
-                        <dl class="dl-horizontal span8">
-                            <dt>*</dt>
-                            <dd>Die Daten sind nur für die interne Abwicklung bestimmt und werden nicht veröffentlicht.
-                                Nur eure Gäste werden eure Adresse und Telefonnummer erhalten.
-                            </dd>
-                        </dl>
-                    </div>
-                </div>
-
-
-                <div class="step-pane" id="step2">
-                    <h3>Confirm your kitchen location</h3>
-
-                    <p>Drag the marker to the right position if it points not to the right place and press next.</p>
-
-                    <div id="map" style="height: 300px; width: 680px;"></div>
-                </div>
-                <div class="step-pane" id="step3">
-                    <form class="form-horizontal" onsubmit="return false;">
-                        <fieldset>
-                            <legend>Member Names.</legend>
-                            <div class="control-group">
-                                <label class="control-label" for="inputMemberName1">Name of Member 1</label>
-
-                                <div class="controls">
-                                    <input type="text" id="inputMemberName1" name="member1"
-                                           placeholder="Name of your first member"
-                                           required>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="inputMemberName2">Name of Member 2</label>
-
-                                <div class="controls">
-                                    <input type="text" id="inputMemberName2" name="member1"
-                                           placeholder="Name of your second member"
-                                           required>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="inputMemberName3">Name of Member 3</label>
-
-                                <div class="controls">
-                                    <input type="text" id="inputMemberName3" name="member1"
-                                           placeholder="Name of your third member"
-                                           required>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>General Data.</legend>
-                            <div class="control-group">
-                                <label class="control-label" for="allergies">Food allergies</label>
-
-                                <div class="controls">
-                                    <input type="text" id="allergies" name="allergies"
-                                           placeholder="Name all of your members">
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="vegetaian">Vegetarians?</label>
-
-                                <div class="controls">
-                                    <label class="checkbox">
-                                        <input type="checkbox" id="vegetaian" name="terms-and-conditions"> Yes, we
-                                        have!</label>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="terms-and-conditions">Legal</label>
-
-                                <div class="controls">
-                                    <label class="checkbox">
-                                        <input type="checkbox" id="terms-and-conditions" name="terms-and-conditions"
-                                               required=""
-                                               data-validation-required-message="You must agree to the terms and conditions"
-                                               aria-invalid="true">
-                                        I agree to the <a href="#">terms and conditions</a> and allow to process my data
-                                        according the given <a href="#">privacy notes</a>.
-                                    </label>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-                <div class="step-pane" id="step4">
-                    <h3>Data was submitted</h3>
-
-                    <p>Your registration data was submitted successfully to our Server. We have sent you a
-                        confirmation email with a link in it. Please click on the link to confirm your registration and
-                        finish this last step. If you not recieve an email within 12 hours, please net us know at
-                        <a href="mailto:redaktion@exmatrikulationsamt.de">redaktion@exmatrikulationsamt.de</a>.</p>
-
-                    <p>Thank you, your eXma team.</p>
-                </div>
-            </div>
-
-             <div class="form-actions wizard-footer" style="margin-top: 2em;">
-                <button type="button" class="btn" id="wizard-prev" value=""><i class="icon-arrow-left"></i> zurück</button>
-                <button type="button" class="btn btn-primary" id="wizard-next" value="next" style="float: right">weiter <i
-                        class="icon-arrow-right icon-white"></i></button>
-            </div>
-         
-        </div>
+								<div class="controls">
+									<input  type="text" 
+											maxlength="5" 
+											id="inputZip" 
+											name="zip"
+											placeholder="Postleitzahl in Dresden*" 
+											pattern="01[0-4][0-9]{2}"
+											data-validation-required-message="Bitte eine Postleitzahl eintragen!"
+											data-validation-pattern-message="Die Postleitzahl muss aus Dresden sein!"
+											required>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+					<div class="row-fluid">
+						<dl class="dl-horizontal span8">
+							<dt>*</dt>
+							<dd>Die Daten sind nur für die interne Abwicklung bestimmt und werden nicht veröffentlicht.
+								Nur eure Gäste werden eure Adresse und Telefonnummer erhalten.
+							</dd>
+						</dl>
+					</div>
+				</div>
 
 
-    </div>
+				<div class="step-pane" id="step2">
+					<h3>Confirm your kitchen location</h3>
 
-    <div id="push"></div>
+					<p>Drag the marker to the right position if it points not to the right place and press next.</p>
+
+					<div id="map" style="height: 300px; width: 680px;"></div>
+				</div>
+				<div class="step-pane" id="step3">
+					<form class="form-horizontal" onsubmit="return false;">
+						<fieldset>
+							<legend>Member Names.</legend>
+							<div class="control-group">
+								<label class="control-label" for="inputMemberName1">Name of Member 1</label>
+
+								<div class="controls">
+									<input type="text" id="inputMemberName1" name="member1"
+										   placeholder="Name of your first member"
+										   required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputMemberName2">Name of Member 2</label>
+
+								<div class="controls">
+									<input type="text" id="inputMemberName2" name="member1"
+										   placeholder="Name of your second member"
+										   required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputMemberName3">Name of Member 3</label>
+
+								<div class="controls">
+									<input type="text" id="inputMemberName3" name="member1"
+										   placeholder="Name of your third member"
+										   required>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>General Data.</legend>
+							<div class="control-group">
+								<label class="control-label" for="allergies">Food allergies</label>
+
+								<div class="controls">
+									<input type="text" id="allergies" name="allergies"
+										   placeholder="Name all of your members">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="vegetaian">Vegetarians?</label>
+
+								<div class="controls">
+									<label class="checkbox">
+										<input type="checkbox" id="vegetaian" name="terms-and-conditions"> Yes, we
+										have!</label>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="terms-and-conditions">Legal</label>
+
+								<div class="controls">
+									<label class="checkbox">
+										<input type="checkbox" id="terms-and-conditions" name="terms-and-conditions"
+											   required=""
+											   data-validation-required-message="You must agree to the terms and conditions"
+											   aria-invalid="true">
+										I agree to the <a href="#">terms and conditions</a> and allow to process my data
+										according the given <a href="#">privacy notes</a>.
+									</label>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+				<div class="step-pane" id="step4">
+					<h3>Data was submitted</h3>
+
+					<p>Your registration data was submitted successfully to our Server. We have sent you a
+						confirmation email with a link in it. Please click on the link to confirm your registration and
+						finish this last step. If you not recieve an email within 12 hours, please net us know at
+						<a href="mailto:redaktion@exmatrikulationsamt.de">redaktion@exmatrikulationsamt.de</a>.</p>
+
+					<p>Thank you, your eXma team.</p>
+				</div>
+			</div>
+
+			 <div class="form-actions wizard-footer" style="margin-top: 2em;">
+				<button type="button" class="btn" id="wizard-prev" value=""><i class="icon-arrow-left"></i> zurück</button>
+				<button type="button" class="btn btn-primary" id="wizard-next" value="next" style="float: right">weiter <i
+						class="icon-arrow-right icon-white"></i></button>
+			</div>
+		 
+		</div>
+
+
+	</div>
+
+	<div id="push"></div>
 </div>
 
 <div id="footer">
-    <div class="container">
-        <p class="muted credit">meet&amp;eat Anmeldung <a
-                href="http://www.exmatrikulationsamt.de">eXmatrikulationsamt.de</a>.</p>
-    </div>
+	<div class="container">
+		<p class="muted credit">meet&amp;eat Anmeldung <a
+				href="http://www.exmatrikulationsamt.de">eXmatrikulationsamt.de</a>.</p>
+	</div>
 </div>
 
 
@@ -264,130 +269,134 @@
 <script src="js/geosearch_provider.js"></script>
 
 <script type="text/javascript">
-    var map = undefined;
-    var searcher = undefined;
+	var map = undefined;
+	var searcher = undefined;
 
-    function displayMap() {
-        map = L.map('map').setView([51.050399, 13, 737246], 11);
+	function displayMap() {
+		map = L.map('map').setView([51.050399, 13, 737246], 11);
 
-        var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib}).addTo(map);
-
-
-        searcher = new L.Control.GeoSearch({
-            provider: new L.GeoSearch.Provider.OpenStreetMap()
-        });
-        searcher.addTo(map);
-
-    }
-
-    $(function () {
-        var myWizard = $('#myWizard');
-        var myPrevBtn = $('#wizard-prev');
-        var myNextBtn = $('#wizard-next');
+		var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+				osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+				osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib}).addTo(map);
 
 
-        myWizard.wizard();
-        myWizard.on('change', function (e, data) {
-            var havePrev = true;
-            var haveNext = true;
-            var form;
-            switch (data.step) {
-                case 1:
-                    if (data.direction == "next") {
-                        form = $("#step1").find(">form");
-                        if (form.find("input").jqBootstrapValidation("hasErrors")) {
-                            form.submit();
-                            e.preventDefault();
-                            return;
-                        }
-                    }
-                    break;
-                case 2:
-                    if (data.direction != "next")
-                        break;
-                    if (map !== undefined || searcher !== undefined || searcher.getSelectedLocation() !== undefined) {
-                        console.log("Your location is: " + searcher.getSelectedLocation());
-                    } else {
-                        e.preventDefault();
-                        return;
-                    }
-                    break;
-                case 3:
-                    if (data.direction === 'next') {
-                        form = $("#step2").find(">form");
-                        if (form.find("input").jqBootstrapValidation("hasErrors")) {
-                            form.submit();
-                            e.preventDefault();
-                            return;
-                        }
-                        var resultData = {
-                            teamname: $("#inputName").val(),
-                            email: $("#inputEmail").val(),
-                            phone: $("#inputPhone").val(),
-                            street: $("#inputStreet").val(),
-                            zip: $("#inputZip").val(),
-                            geolocation: searcher.getSelectedLocation(),
-                            member1: $("#inputMemberName1").val(),
-                            member2: $("#inputMemberName2").val(),
-                            member3: $("#inputMemberName3").val(),
-                            allergies: $("#allergies").val(),
-                            vegetarian: $("#vegetaian").is(":checked"),
-                            accepted: $("#terms-terms-and-conditions").is(":checked")
-                        };
-                        alert("(Would) send data via ajax:\n" + JSON.stringify(resultData, null, '\t'));
-                        haveNext = false;
-                    }
+		searcher = new L.Control.GeoSearch({
+			provider: new L.GeoSearch.Provider.OpenStreetMap(),
+			messageHideDelay: 999999,
+			notFoundMessage: 'Die Adresse konnte nicht gefunden werden. Bitte gehe zurück und überprüfe die Eingaben. Sollte die Adresse trotzdem nicht gefunden werden, kontaktiere uns bitte unter <a href="mailto:meet&eat@exma.de">meet&amp;eat@exma.de</a>'
+		});
+		searcher.addTo(map);
 
-                    havePrev = false;
-                    break;
-                case 4:
-                    e.preventDefault();
-                    return;
+	}
 
-            }
-            myNextBtn.attr("disabled", false === haveNext);
-            myPrevBtn.attr("disabled", false === havePrev);
-        });
-        myWizard.on('changed', function (e, data) {
-            var item = myWizard.data("wizard").selectedItem().step;
-            if (item === 2) {
-                if (map == undefined) {
-                    displayMap();
-                }
-                var qry = $("#inputStreet").val() + ", " + $("#inputZip").val() + ", Dresden";
-                searcher.geosearch(qry);
-                $modal.find(".btn-primary").on("click", function (e) {
-                    e.preventDefault();
-                    console.log(searcher.getSelectedLocation());
-                    alert(searcher.getSelectedLocation());
-                });
-            }
-            console.log('changed');
+	$(function () {
+		var myWizard = $('#myWizard');
+		var myPrevBtn = $('#wizard-prev');
+		var myNextBtn = $('#wizard-next');
 
-        });
-        myWizard.on('finished', function (e, data) {
-            console.log('finished');
-            myWizard.data("wizard").$prevBtn.attr("disabled", true);
-        });
 
-        myPrevBtn.on('click', function () {
-            $('#myWizard').wizard('previous');
-        });
-        myPrevBtn.attr("disabled", true);
-        myNextBtn.on('click', function () {
-            $('#myWizard').wizard('next', 'foo');
-        });
-        $('#wizard-logItem').on('click', function () {
-            var item = $('#myWizard').wizard('selectedItem');
-            console.log(item.step);
-        });
-        $("input").jqBootstrapValidation();
-    });
+		myWizard.wizard();
+		myWizard.on('change', function (e, data) {
+			var havePrev = true;
+			var haveNext = true;
+			var form;
+			switch (data.step) {
+				case 1:
+					if (data.direction == "next") {
+						form = $("#step1").find(">form");
+						if (form.find("input").jqBootstrapValidation("hasErrors")) {
+							form.submit();
+							e.preventDefault();
+							return;
+						}
+					}
+					break;
+				case 2:
+					if (data.direction != "next")
+						break;
+					if (map !== undefined || searcher !== undefined || searcher.getSelectedLocation() !== undefined) {
+						console.log("Your location is: " + searcher.getSelectedLocation());
+					} else {
+						e.preventDefault();
+						return;
+					}
+					break;
+				case 3:
+					if (data.direction === 'next') {
+						form = $("#step2").find(">form");
+						if (form.find("input").jqBootstrapValidation("hasErrors")) {
+							form.submit();
+							e.preventDefault();
+							return;
+						}
+						var resultData = {
+							teamname: $("#inputName").val(),
+							email: $("#inputEmail").val(),
+							phone: $("#inputPhone").val(),
+							street: $("#inputStreet").val(),
+							zip: $("#inputZip").val(),
+							geolocation: searcher.getSelectedLocation(),
+							member1: $("#inputMemberName1").val(),
+							member2: $("#inputMemberName2").val(),
+							member3: $("#inputMemberName3").val(),
+							allergies: $("#allergies").val(),
+							vegetarian: $("#vegetaian").is(":checked"),
+							accepted: $("#terms-terms-and-conditions").is(":checked")
+						};
+						alert("(Would) send data via ajax:\n" + JSON.stringify(resultData, null, '\t'));
+						haveNext = false;
+					}
+
+					havePrev = false;
+					break;
+				case 4:
+					e.preventDefault();
+					return;
+
+			}
+			myNextBtn.attr("disabled", false === haveNext);
+			myPrevBtn.attr("disabled", false === havePrev);
+		});
+		myWizard.on('changed', function (e, data) {
+			var item = myWizard.data("wizard").selectedItem().step;
+			if (item === 2) {
+				if (map == undefined) {
+					displayMap();
+				}
+				var qry = $("#inputStreet").val() + ", " + $("#inputZip").val() + ", Dresden";
+				searcher.geosearch(qry);
+				$modal.find(".btn-primary").on("click", function (e) {
+					e.preventDefault();
+					console.log(searcher.getSelectedLocation());
+					alert(searcher.getSelectedLocation());
+				});
+			}
+			console.log('changed');
+
+		});
+		myWizard.on('finished', function (e, data) {
+			console.log('finished');
+			myWizard.data("wizard").$prevBtn.attr("disabled", true);
+		});
+
+		myPrevBtn.on('click', function () {
+			$('#myWizard').wizard('previous');
+		});
+		myPrevBtn.attr("disabled", true);
+		myNextBtn.on('click', function () {
+			$('#myWizard').wizard('next', 'foo');
+		});
+		$('#wizard-logItem').on('click', function () {
+			var item = $('#myWizard').wizard('selectedItem');
+			console.log(item.step);
+		});
+		$("input").jqBootstrapValidation();
+	});
 
 
 </script>
+<script type="text/javascript">
 
+</script>
 </body>
 </html>
