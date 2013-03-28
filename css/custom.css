@@ -79,3 +79,22 @@ body {
     border: 1px solid #888;
     box-shadow: 0 0 8px rgba(0,0,0,0.4);
 }
+
+.logo {
+    font-family: akenatennormal;
+    font-size: 2em;
+    letter-spacing: -2px;
+    word-spacing: -16px;
+    padding-right: 0.5em;
+}
+.logo .amp {
+    color: #f00;
+
+}
+.logo .meet {
+    vertical-align: super;
+    font-size: 70%;
+}
+.logo .eat {
+    font-size: 70%;
+}
