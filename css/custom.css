@@ -67,13 +67,6 @@ body {
 .fuelux .control-label {
     display: none;
 }
-/*.fuelux .form-horizontal .controls {
-    margin: 0 112px 0 100px;
-}
-.fuelux .form-horizontal input {
-    width: 100%;
-}
-*/
 
 #leaflet-control-geosearch-results li {
     top: 100px;
