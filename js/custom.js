@@ -13,7 +13,7 @@
 			provider: new L.GeoSearch.Provider.OpenStreetMap(),
 			zoomLevel: 17,
 			messageHideDelay: 9999,
-			notFoundMessage: '<strong>Die Adresse konnte nicht gefunden werden.</strong> Bitte gehe zurück und überprüfe die Eingaben. Sollte die Adresse trotzdem nicht gefunden werden, kontaktiere uns bitte unter <a href="mailto:meet&eat@exma.de">meet&amp;eat@exma.de</a>'
+			notFoundMessage: '<strong>Die Adresse konnte nicht gefunden werden.</strong> Bitte gehe zurück und überprüfe die Eingaben. Sollte die Adresse trotzdem nicht gefunden werden, kontaktiere uns bitte unter <a href="mailto:meet-and-eat@exma.de">meet-and-eat@exma.de</a>'
 		});
 		searcher.addTo(map);
 
@@ -42,8 +42,12 @@
 					}
 					break;
 				case 2:
-					if (data.direction != 'next')
+					if (data.direction != 'next') {
+						havePrev = false;
 						break;
+					} else {
+						myNextBtn.html('Anmeldung abschicken').addClass('btn-primary');
+					}
 					if (map !== undefined || searcher !== undefined || searcher.getSelectedLocation() !== undefined) {
 						console.log('Your location is: ' + searcher.getSelectedLocation());
 					} else {
@@ -52,7 +56,7 @@
 					}
 					break;
 				case 3:
-					if (data.direction === 'next') {
+					if (data.direction == 'next') {
 						form = $('#step3').find('>form');
 						if (form.find('input').jqBootstrapValidation('hasErrors')) {
 							form.submit();
@@ -75,9 +79,9 @@
 						};
 						alert('(Would) send data via ajax:\n' + JSON.stringify(resultData, null, '\t'));
 						haveNext = false;
+					} else {
+						myNextBtn.html('weiter <i class="icon-arrow-right"></i>').removeClass('btn-primary');
 					}
-
-					havePrev = false;
 					break;
 				case 4:
 					e.preventDefault();
@@ -95,30 +99,22 @@
 				}
 				var qry = $('#inputStreet').val() + ', ' + $('#inputZip').val() + ', Dresden';
 				searcher.geosearch(qry);
-				$modal.find('.btn-primary').on('click', function (e) {
-					e.preventDefault();
-					console.log(searcher.getSelectedLocation());
-					alert(searcher.getSelectedLocation());
-				});
 			}
-			console.log('changed',item);
 
 		});
 		myWizard.on('finished', function (e, data) {
-			console.log('finished');
-			myWizard.data('wizard').$prevBtn.attr('disabled', true);
+			$('.wizard-footer').hide(); // Navigationsleiste ausblenden
 		});
 
 		myPrevBtn.on('click', function () {
 			$('#myWizard').wizard('previous');
 		});
-		myPrevBtn.attr('disabled', true);
+
 		myNextBtn.on('click', function () {
 			$('#myWizard').wizard('next', 'foo');
 		});
-		$('#wizard-logItem').on('click', function () {
-			var item = $('#myWizard').wizard('selectedItem');
-			console.log(item.step);
-		});
+
+		// myPrevBtn.attr('disabled', true);
+
 		$('input').jqBootstrapValidation();
 	});
