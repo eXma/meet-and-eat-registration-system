@@ -32,10 +32,11 @@
 		<div class="fuelux">
 			<div id="myWizard" class="wizard">
 				<ul class="steps">
-					<li data-target="#step1" class="active"><span class="badge badge-info">1</span>Daten<span class="chevron"></span></li>
-					<li data-target="#step2"><span class="badge">2</span>Karte<span class="chevron"></span></li>
+					<li data-target="#step1" class="active"><span class="badge badge-info">1</span>Kontakt<span class="chevron"></span></li>
+					<li data-target="#step2"><span class="badge">2</span>Standort<span class="chevron"></span></li>
 					<li data-target="#step3"><span class="badge">3</span>Teilnehmer<span class="chevron"></span></li>
-					<li data-target="#step4"><span class="badge">4</span>Absenden<span class="chevron"></span></li>
+					<li data-target="#step4"><span class="badge">4</span>Bestätigen<span class="chevron"></span></li>
+					<li data-target="#step5">Fertig</li>
 				</ul>
 <!-- 				<div class="actions">
 					<button class="btn btn-mini btn-prev"><i class="icon-arrow-left"></i>Prev</button>
@@ -56,7 +57,7 @@
 											name="teamname" 
 											placeholder="Teamname"
 											data-validation-required-message="Bitte einen Teamnamen eintragen!"
-											value="asdf@exma.de"
+											value="narme"
 											required>
 								</div>
 							</div>
@@ -155,7 +156,7 @@
 
 					<p>Falls der Marker nicht direkt am Hauseingang ist, zieh ihn an die richtige Stelle.</p>
 
-					<div id="map" style="height: 300px; width: 680px;"></div>
+					<div id="map"></div>
 				</div>
 				<div class="step-pane" id="step3">
 					<form class="form-horizontal" onsubmit="return false;">
@@ -249,14 +250,29 @@
 					</form>
 				</div>
 				<div class="step-pane" id="step4">
-					<h3>Data was submitted</h3>
+					<h3>Alles nochmal zur Kontrolle</h3>
 
-					<p>Your registration data was submitted successfully to our Server. We have sent you a
-						confirmation email with a link in it. Please click on the link to confirm your registration and
-						finish this last step. If you not recieve an email within 12 hours, please net us know at
-						<a href="mailto:redaktion@exmatrikulationsamt.de">redaktion@exmatrikulationsamt.de</a>.</p>
+					<table class="table table-striped table-bordered"><tbody></tbody></table>
+					<p>Sollte etwas nicht stimmen, geh zurück und ändere es.</p>
 
-					<p>Thank you, your eXma team.</p>
+				</div>
+				<div class="step-pane" id="step5">
+					<h3>Fast geschafft</h3>
+
+					<p>Eure Registrierungsdaten wurden gespeichert und ihr solltet gleich eine E-Mail als Bestätigung erhalten.
+						<strong>In der Mail müsst ihr noch den Bestätigungslink klicken</strong>, um eure Anmeldung abzuschließen.
+						Sollte innerhalb von 12 Stunden keine Mail eintreffen, prüft bitte den Spam-Ordner. Wenn dort auch nichts zu finden ist, schreibt eine Mail an
+						<a href="mailto:meetandeat@exmatrikulationsamt.de">meetandeat@exmatrikulationsamt.de</a>.</p>
+
+					<p>Vielen Dank fürs mitmachen wünscht euer Team von eXmatrikulationsamt.de</p>
+				</div>
+				<div class="step-pane" id="step6">
+					<h3>Etwas ist schief gegangen</h3>
+
+					<p>Leider konnten eure Daten nicht gespeichert werden. Bitte versucht es noch einmal oder schreibt eine Mail an
+						<a href="mailto:meetandeat@exmatrikulationsamt.de">meetandeat@exmatrikulationsamt.de</a>.</p>
+
+					<p>Wir bitten um Entschuldigung.</p>
 				</div>
 			</div>
 

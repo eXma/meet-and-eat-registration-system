@@ -24,6 +24,7 @@
 		var myPrevBtn = $('#wizard-prev');
 		var myNextBtn = $('#wizard-next');
 
+		var resultData;
 
 		myWizard.wizard();
 		myWizard.on('change', function (e, data) {
@@ -45,8 +46,6 @@
 					if (data.direction != 'next') {
 						havePrev = false;
 						break;
-					} else {
-						myNextBtn.html('Anmeldung abschicken').addClass('btn-primary');
 					}
 					if (map !== undefined || searcher !== undefined || searcher.getSelectedLocation() !== undefined) {
 						console.log('Your location is: ' + searcher.getSelectedLocation());
@@ -63,7 +62,7 @@
 							e.preventDefault();
 							return;
 						}
-						var resultData = {
+						resultData = {
 							teamname: $('#inputName').val(),
 							email: $('#inputEmail').val(),
 							phone: $('#inputPhone').val(),
@@ -77,13 +76,39 @@
 							vegetarians: $('#vegetarians').val(),
 							accepted: $('#terms').is(':checked')
 						};
-						alert('(Would) send data via ajax:\n' + JSON.stringify(resultData, null, '\t'));
-						haveNext = false;
-					} else {
-						myNextBtn.html('weiter <i class="icon-arrow-right"></i>').removeClass('btn-primary');
+
+						var tBody = '';
+						tBody += '<tr><td>Teamname</td><td>'+resultData.teamname+'</td></tr>';
+						tBody += '<tr><td>E-Mail-Adresse</td><td>'+resultData.email+'</td></tr>';
+						tBody += '<tr><td>Handynummer</td><td>'+resultData.phone+'</td></tr>';
+						tBody += '<tr><td>Adresse</td><td>'+resultData.street+', '+resultData.zip+' Dresden</td></tr>';
+						tBody += '<tr><td>Eure Namen</td><td>'+resultData.member1+', '+resultData.member2+', '+resultData.member3+'</td></tr>';
+						tBody += '<tr><td>Allergien</td><td>'+ ((resultData.allergies == '') ? 'keine' : resultData.allergies )+'</td></tr>';
+						tBody += '<tr><td>Anzahl Vegetarier</td><td>'+resultData.vegetarians+'</td></tr>';
+
+						$('#step4 tbody').html(tBody);
+
+						myNextBtn.html('Anmeldung abschicken').addClass('btn-primary'); // Weiter-Button -> Abschicken-Button
 					}
 					break;
 				case 4:
+					if (data.direction == 'next') {
+						form = $('#step3').find('>form');
+						if (form.find('input').jqBootstrapValidation('hasErrors')) {
+							form.submit();
+							e.preventDefault();
+							return;
+						}
+						alert('(Would) send data via ajax:\n' + JSON.stringify(resultData, null, '\t'));
+
+						// success callback -> step5
+						// error callback -> step6
+						haveNext = false;
+					} else {
+						myNextBtn.html('weiter <i class="icon-arrow-right"></i>').removeClass('btn-primary'); // Abschicken-Button -> Weiter-Button
+					}
+					break;
+				case 5:
 					e.preventDefault();
 					return;
 

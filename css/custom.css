@@ -42,7 +42,7 @@ body {
 /* Not required for template or sticky footer method. */
 .container {
     width: auto;
-    max-width: 680px;
+    max-width: 700px;
 }
 
 .container .credit {
@@ -68,6 +68,11 @@ body {
     display: none;
 }
 
+#map {
+    height: 300px;
+    width: 700px;
+}
+
 #leaflet-control-geosearch-results li {
     top: 100px;
     position: relative;
@@ -80,6 +85,9 @@ body {
     box-shadow: 0 0 8px rgba(0,0,0,0.4);
 }
 
+.fuelux .wizard ul li:last-child {
+    background-color: inherit;
+}
 .logo {
     font-family: akenatennormal;
     font-size: 2em;
