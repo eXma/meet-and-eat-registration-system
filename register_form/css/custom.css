@@ -1,0 +1,197 @@
+@import url('../fonts/akenaten/stylesheet.css');
+@import url('../fonts/ozhandicraft/stylesheet.css');
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+	height: 100%;
+/* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+/* Negative indent footer by it's height */
+	margin: 0 auto -59px;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+	height: 60px;
+}
+
+#footer, #footer a {
+	text-align: center;
+	background-color: #8797b6;
+	color: #fff;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+	#footer {
+		margin-left: -20px;
+		margin-right: -20px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+}
+
+/* Custom page CSS
+	-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+.container {
+	width: auto;
+	max-width: 700px;
+}
+.page-header {
+	border-bottom: 0;
+}
+.container .credit {
+	margin: 20px 0;
+}
+
+.wizard-footer {
+	background-color: #f9f9f9;
+	border: 1px solid #d4d4d4;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+}
+
+.wizard {
+	margin-bottom: 1em;
+	min-width: 200px;
+}
+
+.exmalogo {
+	font-family: ozhandicraft_btroman;
+}
+#footer .exmalogo {
+	font-size: 20px;
+	vertical-align: -1px;
+}
+.fuelux .control-label {
+	display: none;
+}
+
+#map {
+	height: 500px;
+	width: 100%;
+	max-width: 700px;
+}
+
+#leaflet-control-geosearch-results li {
+	top: 100px;
+	position: relative;
+	margin: 0 50px 0 40px;
+	list-style: none;
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 10px;
+	border-radius: 4px;
+	border: 1px solid #888;
+	box-shadow: 0 0 8px rgba(0,0,0,0.4);
+}
+
+.fuelux .wizard ul li:last-child {
+	background-color: inherit;
+}
+.logo {
+	font-family: akenatennormal;
+	font-size: 2em;
+	letter-spacing: -2px;
+	word-spacing: -16px;
+	padding-right: 0.5em;
+	position: relative;
+}
+.logo:after {
+	content: "eXmatrikulationsamt.de";
+	font-family: ozhandicraft_btroman;
+	letter-spacing: 0px;
+	word-spacing: 0px;
+	font-size: 8px;
+	position: absolute;
+	top: 50px;
+	right: 40px;
+}
+.logo .amp {
+	color: #f00;
+
+}
+.logo .meet {
+	vertical-align: super;
+	font-size: 70%;
+}
+.logo .eat {
+	font-size: 70%;
+}
+
+@media (max-width: 767px) {
+
+	.fuelux .wizard ul li {
+		font-size: 12px;
+		height: 26px;
+		line-height: 26px;
+	}
+	.fuelux .wizard ul li .chevron {
+		border-width: 13px;
+	}
+	.fuelux .wizard ul li .chevron:before {
+		border-width: 13px;
+		top: -13px;
+	}
+	.fuelux .wizard ul li .actions {
+		line-height: 24px
+	}
+	.fuelux .wizard ul li a {
+		line-height: 24px
+	}
+
+}
+
+@media (max-width: 667px) and (min-width: 450px) {
+	.fuelux .wizard ul li .badge {
+		display: none;
+	}
+}
+
+@media (max-width: 567px) {
+	.fuelux .wizard ul li {
+		padding: 0 10px 0 20px;
+	}
+	#map {
+		height: 300px;
+	}	
+}
+
+@media (max-width: 450px) {
+	.fuelux .wizard ul li {
+		font-size: 0;
+	}
+	.fuelux .wizard ul li .badge {
+		margin-top: 4px;
+	}
+}
+
+@media (max-width: 350px) {
+	.fuelux .wizard ul li {
+		padding-right: 0;
+	}
+	.logo {
+		padding-right: 0;
+		font-size: 1.5em;
+	}
+}
+
+@media (max-width: 300px) {
+	.fuelux .wizard ul li .badge {
+		margin-right: 0;
+	}
+}

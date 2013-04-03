@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta charset="utf-8">
+	<title>meet&amp;eat Anmeldung</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="lib/fuelux/css/fuelux.min.css">
+	<link rel="stylesheet" href="lib/fuelux/css/fuelux-responsive.min.css">
+	<link rel="stylesheet" href="lib/leaflet/leaflet.css">
+
+	<link rel="stylesheet" href="css/custom.css">
+
+
+</head>
+
+<body>
+<!-- Part 1: Wrap all page content here -->
+<div id="wrap">
+
+	<!-- Begin page content -->
+	<div class="container">
+		<div class="page-header">
+			<h1><span class="logo"><span class="meet">meet</span> <span class="amp">&amp;</span> <span class="eat">eat</span></span> Anmeldung</h1>
+		</div>
+		<div class="fuelux">
+			<div id="myWizard" class="wizard">
+				<ul class="steps">
+					<li data-target="#step1" class="active"><span class="badge badge-info">1</span>Kontakt<span class="chevron"></span></li>
+					<li data-target="#step2"><span class="badge">2</span>Standort<span class="chevron"></span></li>
+					<li data-target="#step3"><span class="badge">3</span>Teilnehmer<span class="chevron"></span></li>
+					<li data-target="#step4"><span class="badge">4</span>Bestätigen<span class="chevron"></span></li>
+					<li data-target="#step5">Fertig</li>
+				</ul>
+<!-- 				<div class="actions">
+					<button class="btn btn-mini btn-prev"><i class="icon-arrow-left"></i>Prev</button>
+					<button class="btn btn-mini btn-next" data-last="Finish">Next<i class="icon-arrow-right"></i></button>
+				</div>
+ -->			</div>
+			<div class="step-content">
+				<div class="step-pane active" id="step1">
+					<form class="form-horizontal" onsubmit="return false;">
+						<fieldset>
+							<legend>Anmeldedaten eures Kochteams</legend>
+							<div class="control-group">
+								<label class="control-label" for="inputName">Teamname</label>
+
+								<div class="controls">
+									<input 	type="text" 
+											id="inputName" 
+											name="teamname" 
+											placeholder="Teamname"
+											data-validation-required-message="Bitte einen Teamnamen eintragen!"
+											value="narme"
+											required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputEmail">E-Mail-Adresse*</label>
+
+								<div class="controls">
+									<input 	type="email" 
+											id="inputEmail" 
+											name="email"
+											placeholder="E-Mail-Adresse*" 
+											data-validation-required-message="Bitte eine E-Mail-Adresse eintragen!"
+											data-validation-email-message="Bitte eine gültige E-Mail-Adresse eintragen!"
+											value="asdf@exma.de"
+											required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputRepeatEmail">E-Mail-Adresse bestätigen*</label>
+
+								<div class="controls">
+									<input 	type="email" 
+											id="inputRepeatEmail" 
+											name="email_repeat"
+											placeholder="E-Mail-Adresse bestätigen*"
+											data-validation-required-message="Bitte die E-Mail-Adresse zur Bestätigung nochmal eintragen!"
+											data-validation-email-message="Bitte eine gültige E-Mail-Adresse eintragen!"
+											data-validation-matches-match="email"
+											data-validation-matches-message="Die angegebene Adresse muss mit der ersten übereinstimmen!" 
+											value="asdf@exma.de"
+											required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputPhone">Handynummer für Rückfragen*</label>
+
+								<div class="controls">
+									<input 	type="text" 
+											id="inputPhone" 
+											name="phone"
+											placeholder="Handynummer für Rückfragen*" 
+											pattern="^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{6,16}$"
+											data-validation-required-message="Bitte eine Handynummer eintragen!"
+											data-validation-pattern-message="Bitte eine gültige Mobilfunknummer eintragen!"
+											value="01234567890"
+											required>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>Eure meet&amp;eat-Adresse</legend>
+							<div class="control-group">
+								<label class="control-label" for="inputStreet">Straße und Hausnummer*</label>
+
+								<div class="controls">
+									<input 	type="text" 
+											id="inputStreet" 
+											name="street"
+											placeholder="Straße und Hausnummer*" 
+											data-validation-required-message="Bitte eine Straße und Hausnummer eintragen!"
+											value="St. Petersburger Str. 25"
+											required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputZip">Postleitzahl in Dresden*</label>
+
+								<div class="controls">
+									<input 	type="text" 
+											maxlength="5" 
+											id="inputZip" 
+											name="zip"
+											placeholder="Postleitzahl in Dresden*" 
+											pattern="01[0-4][0-9]{2}"
+											data-validation-required-message="Bitte eine Postleitzahl eintragen!"
+											data-validation-pattern-message="Die Postleitzahl muss aus Dresden sein!"
+											value="01069"
+											required>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+					<div class="row-fluid">
+						<dl class="dl-horizontal span8">
+							<dt>*</dt>
+							<dd>Die Daten sind nur für die interne Abwicklung bestimmt und werden nicht veröffentlicht.
+								Nur eure Gäste werden eure Adresse und Telefonnummer erhalten.
+							</dd>
+						</dl>
+					</div>
+				</div>
+
+
+				<div class="step-pane" id="step2">
+					<h3>Bestätige eure meet&amp;eat-Adresse</h3>
+
+					<p>Falls der Marker nicht direkt am Hauseingang ist, zieh ihn an die richtige Stelle.</p>
+
+					<div id="map"></div>
+				</div>
+				<div class="step-pane" id="step3">
+					<form class="form-horizontal" onsubmit="return false;">
+						<fieldset>
+							<legend>Namen der Teilnehmer</legend>
+							<div class="control-group">
+								<label class="control-label" for="inputMemberName1">Erster Name</label>
+
+								<div class="controls">
+									<input 	type="text" 
+											id="inputMemberName1" 
+											name="member1"
+										   	placeholder="Erster Name"
+											data-validation-required-message="Bitte einen Namen eintragen!"
+											value="Alfred"
+										   	required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputMemberName2">Zweiter Name</label>
+
+								<div class="controls">
+									<input 	type="text" 
+											id="inputMemberName2" 
+											name="member1"
+											placeholder="Zweiter Name"
+											data-validation-required-message="Bitte einen Namen eintragen!"
+											value="Bernd"
+											required>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputMemberName3">Dritter Name</label>
+
+								<div class="controls">
+									<input 	type="text"
+											id="inputMemberName3" 
+											name="member1"
+											placeholder="Dritter Name"
+											data-validation-required-message="Bitte einen Namen eintragen!"
+											value="Claus"
+											required>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>Weitere Informationen</legend>
+							<div class="control-group">
+								<label class="control-label" for="allergies">Lebensmittelallergien</label>
+
+								<div class="controls">
+									<textarea 	type="text"
+												id="allergies" 
+												name="allergies"
+												placeholder="Lebensmittelallergien"></textarea>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="vegetaian">Wie viele von euch sind Vegetarier?</label>
+								<div class="controls">
+									<input 	type="number"
+											id="vegetarians" 
+											name="vegetarians"
+											placeholder="Wie viele Vegetarier?"
+											pattern="[0-3]"
+											data-validation-required-message="Bitte die Anzahl der Vegetarier eintragen!"
+											data-validation-number-message="Bitte eine Zahl eintragen!"
+											data-validation-pattern-message="Es muss eine Zahl zwischen 0 und 3 sein!"
+											value="0"
+											required>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="terms">Legal</label>
+
+								<div class="controls">
+									<label class="checkbox">
+										<input 	type="checkbox" 
+												id="terms" 
+												name="terms"
+												data-validation-required-message="Bitte die Teilnahmebedingungen bestätigen!"
+												aria-invalid="true"
+												required>
+										Ich bin mit den <a href="#">Teilnahmebedingungen</a> einverstanden und erlaube
+										die Verarbeitung meiner Daten gemäß der <a href="#">Datenschutzerklärung</a>.
+									</label>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+				<div class="step-pane" id="step4">
+					<h3>Alles nochmal zur Kontrolle</h3>
+
+					<table class="table table-striped table-bordered"><tbody></tbody></table>
+					<p>Sollte etwas nicht stimmen, geh zurück und ändere es.</p>
+
+				</div>
+				<div class="step-pane" id="step5">
+					<h3>Geschafft!</h3>
+
+					<p>Eure Registrierungsdaten wurden gespeichert und ihr solltet gleich eine E-Mail zur Bestätigung erhalten.
+						<strong>In der Mail müsst ihr noch den Bestätigungslink klicken</strong>, um eure Anmeldung abzuschließen.
+						Sollte innerhalb von 12 Stunden keine Mail eintreffen, prüft bitte den Spam-Ordner. Wenn dort auch nichts zu finden ist, schreibt eine Mail an
+						<a href="mailto:meetandeat@exmatrikulationsamt.de">meetandeat@exmatrikulationsamt.de</a>.</p>
+
+					<p>Vielen Dank fürs mitmachen wünscht euer Team von eXmatrikulationsamt.de</p>
+				</div>
+				<div class="step-pane" id="step6">
+					<h3>Etwas ist schief gegangen</h3>
+
+					<p>Leider konnten eure Daten nicht gespeichert werden. Bitte versucht es noch einmal oder schreibt eine Mail an
+						<a href="mailto:meetandeat@exmatrikulationsamt.de">meetandeat@exmatrikulationsamt.de</a>.</p>
+
+					<p>Wir bitten um Entschuldigung.</p>
+				</div>
+			</div>
+
+			 <div class="form-actions wizard-footer" style="margin-top: 2em;">
+				<button type="button" class="btn" id="wizard-prev" value="prev"><i class="icon-arrow-left"></i> zurück</button>
+				<button type="button" class="btn" id="wizard-next" value="next" style="float: right">weiter <i class="icon-arrow-right"></i></button>
+			</div>
+		 
+		</div>
+
+
+	</div>
+
+	<div id="push"></div>
+</div>
+
+<div id="footer">
+	<div class="container">
+		<p class="credit">meet&amp;eat ist eine Aktion von <a class="exmalogo"
+				href="http://www.exmatrikulationsamt.de">eXmatrikulationsamt.de</a></p>
+	</div>
+</div>
+
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="lib/jquery/jquery-1.9.1.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/jqBootstrapValidation/jqBootstrapValidation.js"></script>
+<script src="js/myWizard.js"></script>
+
+<script src="lib/leaflet/leaflet.js"></script>
+<script src="js/geosearch.js"></script>
+<script src="js/geosearch_provider.js"></script>
+
+<script type="text/javascript" src="js/custom.js"></script>
+</body>
+</html>
