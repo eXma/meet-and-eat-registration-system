@@ -4,105 +4,170 @@
 
 html,
 body {
-    height: 100%;
+	height: 100%;
 /* The html and body elements cannot have any padding or margin. */
 }
 
 /* Wrapper for page content to push down footer */
 #wrap {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
 /* Negative indent footer by it's height */
-    margin: 0 auto -60px;
+	margin: 0 auto -60px;
 }
 
 /* Set the fixed height of the footer here */
 #push,
 #footer {
-    height: 60px;
+	height: 60px;
 }
 
 #footer {
-    background-color: #f5f5f5;
+	background-color: #f5f5f5;
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
 @media (max-width: 767px) {
-    #footer {
-        margin-left: -20px;
-        margin-right: -20px;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
+	#footer {
+		margin-left: -20px;
+		margin-right: -20px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
 }
 
 /* Custom page CSS
-    -------------------------------------------------- */
+	-------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 .container {
-    width: auto;
-    max-width: 700px;
+	width: auto;
+	max-width: 700px;
 }
 
 .container .credit {
-    margin: 20px 0;
+	margin: 20px 0;
 }
 
 .wizard-footer {
-    background-color: #f9f9f9;
-    border: 1px solid #d4d4d4;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	background-color: #f9f9f9;
+	border: 1px solid #d4d4d4;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
 }
 
 .wizard {
-    margin-bottom: 1em;;
+	margin-bottom: 1em;
+	min-width: 200px;
 }
 
 .fuelux .control-label {
-    display: none;
+	display: none;
 }
 
 #map {
-    height: 300px;
-    width: 700px;
+	height: 500px;
+	width: 100%;
+	max-width: 700px;
 }
 
 #leaflet-control-geosearch-results li {
-    top: 100px;
-    position: relative;
-    margin: 0 50px 0 40px;
-    list-style: none;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #888;
-    box-shadow: 0 0 8px rgba(0,0,0,0.4);
+	top: 100px;
+	position: relative;
+	margin: 0 50px 0 40px;
+	list-style: none;
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 10px;
+	border-radius: 4px;
+	border: 1px solid #888;
+	box-shadow: 0 0 8px rgba(0,0,0,0.4);
 }
 
 .fuelux .wizard ul li:last-child {
-    background-color: inherit;
+	background-color: inherit;
 }
 .logo {
-    font-family: akenatennormal;
-    font-size: 2em;
-    letter-spacing: -2px;
-    word-spacing: -16px;
-    padding-right: 0.5em;
+	font-family: akenatennormal;
+	font-size: 2em;
+	letter-spacing: -2px;
+	word-spacing: -16px;
+	padding-right: 0.5em;
 }
 .logo .amp {
-    color: #f00;
+	color: #f00;
 
 }
 .logo .meet {
-    vertical-align: super;
-    font-size: 70%;
+	vertical-align: super;
+	font-size: 70%;
 }
 .logo .eat {
-    font-size: 70%;
+	font-size: 70%;
+}
+
+@media (max-width: 767px) {
+
+	.fuelux .wizard ul li {
+		font-size: 12px;
+		height: 26px;
+		line-height: 26px;
+	}
+	.fuelux .wizard ul li .chevron {
+		border-width: 13px;
+	}
+	.fuelux .wizard ul li .chevron:before {
+		border-width: 13px;
+		top: -13px;
+	}
+	.fuelux .wizard ul li .actions {
+		line-height: 24px
+	}
+	.fuelux .wizard ul li a {
+		line-height: 24px
+	}
+
+}
+
+@media (max-width: 667px) and (min-width: 450px) {
+	.fuelux .wizard ul li .badge {
+		display: none;
+	}
+}
+
+@media (max-width: 567px) {
+	.fuelux .wizard ul li {
+		padding: 0 10px 0 20px;
+	}
+	#map {
+		height: 300px;
+	}	
+}
+
+@media (max-width: 450px) {
+	.fuelux .wizard ul li {
+		font-size: 0;
+	}
+	.fuelux .wizard ul li .badge {
+		margin-top: 4px;
+	}
+}
+
+@media (max-width: 350px) {
+	.fuelux .wizard ul li {
+		padding-right: 0;
+	}
+	.logo {
+		padding-right: 0;
+		font-size: 1.5em;
+	}
+}
+
+@media (max-width: 300px) {
+	.fuelux .wizard ul li .badge {
+		margin-right: 0;
+	}
 }
