@@ -86,7 +86,7 @@ $(function () {
 					tBody += '<tr><td>Allergien</td><td>'+ ((resultData.allergies == '') ? 'keine' : resultData.allergies )+'</td></tr>';
 					tBody += '<tr><td>Anzahl Vegetarier</td><td>'+resultData.vegetarians+'</td></tr>';
 
-					$('#step4 tbody').html(tBody);
+					$('#step4').find('tbody').html(tBody);
 
 					myNextBtn.html('Anmeldung abschicken').addClass('btn-primary'); // Weiter-Button -> Abschicken-Button
 				}
@@ -145,7 +145,7 @@ $(function () {
 });
 
 // Browser-Update Hinweis
-var $buoop = {vs:{i:8,f:4,o:11,s:4,n:9}} 
+var $buoop = {vs:{i:8,f:4,o:11,s:4,n:9}};
 $buoop.ol = window.onload; 
 window.onload=function(){ 
 try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
@@ -153,4 +153,4 @@ try {if ($buoop.ol) $buoop.ol();}catch (e) {}
 	e.setAttribute("type", "text/javascript"); 
 	e.setAttribute("src", "http://browser-update.org/update.js"); 
 	document.body.appendChild(e); 
-} 
+};
