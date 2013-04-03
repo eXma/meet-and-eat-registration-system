@@ -56,7 +56,7 @@ def form():
     if form.validate_on_submit():
         team = _do_register(form)
         return "Submitted"
-    return render_template('register/form.html', form=form)
+    return render_template('register/index.html', form=form)
 
 
 @bp.route('/doit', methods=("POST",))
