@@ -1,3 +1,5 @@
+@import url('../fonts/akenaten/stylesheet.css');
+@import url('../fonts/ozhandicraft/stylesheet.css');
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -14,7 +16,7 @@ body {
 	height: auto !important;
 	height: 100%;
 /* Negative indent footer by it's height */
-	margin: 0 auto -60px;
+	margin: 0 auto -59px;
 }
 
 /* Set the fixed height of the footer here */
@@ -23,8 +25,10 @@ body {
 	height: 60px;
 }
 
-#footer {
-	background-color: #f5f5f5;
+#footer, #footer a {
+	text-align: center;
+	background-color: #8797b6;
+	color: #fff;
 }
 
 /* Lastly, apply responsive CSS fixes as necessary */
@@ -44,7 +48,9 @@ body {
 	width: auto;
 	max-width: 700px;
 }
-
+.page-header {
+	border-bottom: 0;
+}
 .container .credit {
 	margin: 20px 0;
 }
@@ -65,6 +71,13 @@ body {
 	min-width: 200px;
 }
 
+.exmalogo {
+	font-family: ozhandicraft_btroman;
+}
+#footer .exmalogo {
+	font-size: 20px;
+	vertical-align: -1px;
+}
 .fuelux .control-label {
 	display: none;
 }
@@ -96,6 +109,17 @@ body {
 	letter-spacing: -2px;
 	word-spacing: -16px;
 	padding-right: 0.5em;
+	position: relative;
+}
+.logo:after {
+	content: "eXmatrikulationsamt.de";
+	font-family: ozhandicraft_btroman;
+	letter-spacing: 0px;
+	word-spacing: 0px;
+	font-size: 8px;
+	position: absolute;
+	top: 50px;
+	right: 40px;
 }
 .logo .amp {
 	color: #f00;
