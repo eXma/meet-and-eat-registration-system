@@ -8,13 +8,13 @@
 	<meta name="author" content="">
 
 	<!-- CSS -->
-	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap-responsive.min.css">
-	<link rel="stylesheet" href="lib/fuelux/css/fuelux.min.css">
-	<link rel="stylesheet" href="lib/fuelux/css/fuelux-responsive.min.css">
-	<link rel="stylesheet" href="lib/leaflet/leaflet.css">
+	<link href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap-responsive.min.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='lib/fuelux/css/fuelux.min.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='lib/fuelux/css/fuelux-responsive.min.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='lib/leaflet/leaflet.css') }}" rel="stylesheet">
 
-	<link rel="stylesheet" href="css/custom.css">
+	<link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
 
 
 </head>
@@ -299,15 +299,15 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="lib/jquery/jquery-1.9.1.min.js"></script>
-<script src="lib/bootstrap/js/bootstrap.min.js"></script>
-<script src="lib/jqBootstrapValidation/jqBootstrapValidation.js"></script>
-<script src="js/myWizard.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='lib/jquery/jquery-1.9.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='lib/jqBootstrapValidation/jqBootstrapValidation.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/myWizard.js') }}"></script>
 
-<script src="lib/leaflet/leaflet.js"></script>
-<script src="js/geosearch.js"></script>
-<script src="js/geosearch_provider.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='lib/leaflet/leaflet.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/geosearch.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/geosearch_provider.js') }}"></script>
 
-<script type="text/javascript" src="js/custom.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/custom.js') }}"></script>
 </body>
 </html>
