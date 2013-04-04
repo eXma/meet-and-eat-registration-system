@@ -1,9 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
-    <title>meet&eat Register -> confirmed</title>
+    <meta charset="utf-8">
+    <title>meet&amp;eat Anmeldung</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- CSS -->
+    <link href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap-responsive.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='lib/fuelux/css/fuelux.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='lib/fuelux/css/fuelux-responsive.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='lib/leaflet/leaflet.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+
+
 </head>
+
 <body>
-<h1>Team {{ team.name }} is confirmed .. hurray</h1>
+<!-- Part 1: Wrap all page content here -->
+<div id="wrap">
+
+<!-- Begin page content -->
+<div class="container">
+<div class="page-header">
+    <h1><span class="logo"><span class="meet">meet</span> <span class="amp">&amp;</span> <span class="eat">eat</span></span> Anmeldung</h1>
+</div>
+<div class="fuelux">
+<div id="myWizard" class="wizard">
+    <ul class="steps">
+        <li data-target="#step1" class="complete"><span class="badge badge-success">1</span>Kontakt<span class="chevron"></span></li>
+        <li data-target="#step2" class="complete"><span class="badge badge-success">2</span>Standort<span class="chevron"></span></li>
+        <li data-target="#step3" class="complete"><span class="badge badge-success">3</span>Teilnehmer<span class="chevron"></span></li>
+        <li data-target="#step4" class="complete"><span class="badge badge-success">4</span>Bestätigen<span class="chevron"></span></li>
+        <li data-target="#step5" class="complete active"><span class="badge badge-success">Fertig</span></li>
+    </ul>
+</div>
+<div class="step-content">
+<div class="step-pane active">
+    <h3>Erfolgreich bestätigt!</h3>
+
+    <p>Euer Team <strong>{{ team.name }}</strong> wurde erfolgreich bei uns bestätigt! Solltet ihr noch Fragen haben, dann schreibt einfach eine Mail an
+        <a href="mailto:meetandeat@exmatrikulationsamt.de">meetandeat@exmatrikulationsamt.de</a>.</p>
+
+    <p>Bis zum 4. Mai!</p>
+</div>
+</div>
+</div>
+
+
+</div>
+
+<div id="push"></div>
+</div>
+
+<div id="footer">
+    <div class="container">
+        <p class="credit">meet&amp;eat ist eine Aktion von <a class="exmalogo"
+                                                              href="http://www.exmatrikulationsamt.de">eXmatrikulationsamt.de</a></p>
+    </div>
+</div>
+
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="{{ url_for('static', filename='lib/jquery/jquery-1.9.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.min.js') }}"></script>
 </body>
 </html>
