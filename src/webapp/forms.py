@@ -7,7 +7,7 @@ from wtforms.validators import NumberRange
 class TeamRegisterForm(Form):
     teamname = TextField("Teamname", validators=[Required()])
     email = EmailField("Email", validators=[Required(), Email()])
-    phone = IntegerField("Telefonnummer", validators=[Required()])
+    phone = TextField("Telefonnummer", validators=[Required()])
     street = TextField("Adresse", validators=[Required()])
     zipno = TextField("Postleitzahl", validators=[Required()])
     address_info = TextField("Adresszusatz", default="")
