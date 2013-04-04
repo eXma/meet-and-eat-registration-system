@@ -12,6 +12,7 @@ var Wizard = function (element, options) {
     this.$element = $(element);
     this.options = $.extend({}, $.fn.wizard.defaults, options);
     this.currentStep = 1;
+    this.customTarget = undefined;
     this.numSteps = this.$element.find('li').length;
     this.$prevBtn = this.$element.find('button.btn-prev');
     this.$nextBtn = this.$element.find('button.btn-next');
@@ -81,6 +82,10 @@ Wizard.prototype = {
 
         // set display of target element
         var target = $currentStep.data().target;
+        if (this.customTarget !== undefined) {
+            target = this.customTarget;
+            this.customTarget = undefined;
+        }
         $('.step-pane').removeClass('active');
         $(target).addClass('active');
 
@@ -97,6 +102,10 @@ Wizard.prototype = {
 
         this.currentStep = (index + 1);
         this.setState();
+    },
+
+    changeTarget: function(target) {
+          this.customTarget = target;
     },
 
     previous: function () {

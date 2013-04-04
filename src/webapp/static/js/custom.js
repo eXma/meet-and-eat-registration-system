@@ -110,19 +110,14 @@ $(function () {
                                dataType: "json",
                                async:false
                            }).done(function(data) {
-                                       // TODO success-callback (check the json status?)
                                        if (undefined !== data) {
-                                           if (data.state == "success") {
-                                               // Success
-                                           } else {
-                                               // FAIL
-                                               // data.errors contains errors
+                                           if (data.state != "success") {
+                                               $('#myWizard').wizard('changeTarget', $("#step6"));
                                            }
                                        } else {
-                                           // FAIL
                                        }
                                    }).fail(function () {
-                                               // TODO (http) fail callback
+                                               $('#myWizard').wizard('changeTarget', $("#step6"));
                                            });
 
 
