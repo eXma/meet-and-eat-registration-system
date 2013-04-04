@@ -45,6 +45,7 @@
 			<div class="step-content">
 				<div class="step-pane active" id="step1">
 					<form class="form-horizontal" onsubmit="return false;">
+                        {{ form.hidden_tag() }}
 						<fieldset>
 							<legend>Anmeldedaten eures Kochteams</legend>
 							<div class="control-group">
@@ -56,7 +57,7 @@
 											name="teamname" 
 											placeholder="Teamname"
 											data-validation-required-message="Bitte einen Teamnamen eintragen!"
-											value="narme"
+											value="{{ form.teamname.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -70,7 +71,7 @@
 											placeholder="E-Mail-Adresse*" 
 											data-validation-required-message="Bitte eine E-Mail-Adresse eintragen!"
 											data-validation-email-message="Bitte eine gültige E-Mail-Adresse eintragen!"
-											value="asdf@exma.de"
+											value="{{ form.email.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -86,7 +87,7 @@
 											data-validation-email-message="Bitte eine gültige E-Mail-Adresse eintragen!"
 											data-validation-matches-match="email"
 											data-validation-matches-message="Die angegebene Adresse muss mit der ersten übereinstimmen!" 
-											value="asdf@exma.de"
+                                            value="{{ form.email.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -101,7 +102,7 @@
 											pattern="^([+][ ]?[1-9][0-9][ ]?[-]?[ ]?|[(]?[0][ ]?)[0-9]{3,4}[-)/ ]?[ ]?[1-9][-0-9 ]{6,16}$"
 											data-validation-required-message="Bitte eine Handynummer eintragen!"
 											data-validation-pattern-message="Bitte eine gültige Mobilfunknummer eintragen!"
-											value="01234567890"
+                                            value="{{ form.phone.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -117,7 +118,7 @@
 											name="street"
 											placeholder="Straße und Hausnummer*" 
 											data-validation-required-message="Bitte eine Straße und Hausnummer eintragen!"
-											value="St. Petersburger Str. 25"
+                                            value="{{ form.street.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -133,7 +134,7 @@
 											pattern="01[0-4][0-9]{2}"
 											data-validation-required-message="Bitte eine Postleitzahl eintragen!"
 											data-validation-pattern-message="Die Postleitzahl muss aus Dresden sein!"
-											value="01069"
+                                            value="{{ form.zipno.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -170,7 +171,7 @@
 											name="member1"
 										   	placeholder="Erster Name"
 											data-validation-required-message="Bitte einen Namen eintragen!"
-											value="Alfred"
+                                            value="{{ form.member1.data or '' }}"
 										   	required>
 								</div>
 							</div>
@@ -183,7 +184,7 @@
 											name="member1"
 											placeholder="Zweiter Name"
 											data-validation-required-message="Bitte einen Namen eintragen!"
-											value="Bernd"
+                                            value="{{ form.member2.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -196,7 +197,7 @@
 											name="member1"
 											placeholder="Dritter Name"
 											data-validation-required-message="Bitte einen Namen eintragen!"
-											value="Claus"
+                                            value="{{ form.member3.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -224,7 +225,7 @@
 											data-validation-required-message="Bitte die Anzahl der Vegetarier eintragen!"
 											data-validation-number-message="Bitte eine Zahl eintragen!"
 											data-validation-pattern-message="Es muss eine Zahl zwischen 0 und 3 sein!"
-											value="0"
+                                            value="{{ form.member3.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -309,5 +310,7 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/geosearch_provider.js') }}"></script>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/custom.js') }}"></script>
+
+<script type="text/javascript">var post_url = "{{ url_for(".register_async") }}";</script>
 </body>
 </html>

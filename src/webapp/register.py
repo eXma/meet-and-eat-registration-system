@@ -19,7 +19,7 @@ def _do_register(form):
     if not form.validate_on_submit():
         return None
 
-    team = Team(name=form.name.data,
+    team = Team(name=form.teamname.data,
                 allergies=form.allergies.data,
                 vegetarians=form.vegetarians.data,
                 phone=form.phone.data,
@@ -30,7 +30,7 @@ def _do_register(form):
         member = Members(name=member_name, team=team)
         db.session.add(member)
 
-    location = Location(street=form.address.data,
+    location = Location(street=form.street.data,
                         zip_no=form.zipno.data,
                         extra=form.address_info.data,
                         lat=form.lat.data,
@@ -69,7 +69,7 @@ def register_async():
         return json.dumps({"state": "error", "errors": form.errors})
 
     team = _do_register(form)
-    return json.dumps({"state": "success", "token": team.token})
+    return json.dumps({"state": "success"})
 
 
 @bp.route("/confirm/<token>")

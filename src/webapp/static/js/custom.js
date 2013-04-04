@@ -24,7 +24,7 @@ $(function () {
 	var myPrevBtn = $('#wizard-prev');
 	var myNextBtn = $('#wizard-next');
 
-	var resultData;
+	var resultData, location;
 
 	myWizard.wizard();
 	myWizard.on('change', function (e, data) {
@@ -62,26 +62,30 @@ $(function () {
 						e.preventDefault();
 						return;
 					}
+
+                    location = searcher.getSelectedLocation();
 					resultData = {
 						teamname: $('#inputName').val(),
 						email: $('#inputEmail').val(),
 						phone: $('#inputPhone').val(),
 						street: $('#inputStreet').val(),
-						zip: $('#inputZip').val(),
-						geolocation: searcher.getSelectedLocation(),
+						zipno: $('#inputZip').val(),
+						lat: location.lat,
+                        lon: location.lng,
 						member1: $('#inputMemberName1').val(),
 						member2: $('#inputMemberName2').val(),
 						member3: $('#inputMemberName3').val(),
 						allergies: $('#allergies').val(),
 						vegetarians: $('#vegetarians').val(),
-						accepted: $('#terms').is(':checked')
+						legal_accepted: $('#terms').is(':checked'),
+                        csrf_token: $("#csrf_token").val()
 					};
 
 					var tBody = '';
 					tBody += '<tr><td>Teamname</td><td>'+resultData.teamname+'</td></tr>';
 					tBody += '<tr><td>E-Mail-Adresse</td><td>'+resultData.email+'</td></tr>';
 					tBody += '<tr><td>Handynummer</td><td>'+resultData.phone+'</td></tr>';
-					tBody += '<tr><td>Adresse</td><td>'+resultData.street+', '+resultData.zip+' Dresden</td></tr>';
+					tBody += '<tr><td>Adresse</td><td>'+resultData.street+', '+resultData.zipno+' Dresden</td></tr>';
 					tBody += '<tr><td>Eure Namen</td><td>'+resultData.member1+', '+resultData.member2+', '+resultData.member3+'</td></tr>';
 					tBody += '<tr><td>Allergien</td><td>'+ ((resultData.allergies == '') ? 'keine' : resultData.allergies )+'</td></tr>';
 					tBody += '<tr><td>Anzahl Vegetarier</td><td>'+resultData.vegetarians+'</td></tr>';
@@ -99,7 +103,28 @@ $(function () {
 						e.preventDefault();
 						return;
 					}
-					alert('(Would) send data via ajax:\n' + JSON.stringify(resultData, null, '\t'));
+                    $.ajax({
+                               type: 'POST',
+                               url: post_url,
+                               data: resultData,
+                               dataType: "json",
+                               async:false
+                           }).done(function(data) {
+                                       // TODO success-callback (check the json status?)
+                                       if (undefined !== data) {
+                                           if (data.state == "success") {
+                                               // Success
+                                           } else {
+                                               // FAIL
+                                               // data.errors contains errors
+                                           }
+                                       } else {
+                                           // FAIL
+                                       }
+                                   }).fail(function () {
+                                               // TODO (http) fail callback
+                                           });
+
 
 					// success callback -> step5
 					// error callback -> step6

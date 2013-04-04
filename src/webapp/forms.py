@@ -5,10 +5,10 @@ from wtforms.validators import NumberRange
 
 
 class TeamRegisterForm(Form):
-    name = TextField("Teamname", validators=[Required()])
+    teamname = TextField("Teamname", validators=[Required()])
     email = EmailField("Email", validators=[Required(), Email()])
     phone = IntegerField("Telefonnummer", validators=[Required()])
-    address = TextField("Adresse", validators=[Required()])
+    street = TextField("Adresse", validators=[Required()])
     zipno = TextField("Postleitzahl", validators=[Required()])
     address_info = TextField("Adresszusatz", default="")
     lat = FloatField("Lat", validators=[Required()])
@@ -19,7 +19,6 @@ class TeamRegisterForm(Form):
     allergies = TextField("Allergien", default="")
     vegetarians = IntegerField("Vegetarier", validators={NumberRange(min=0, max=3)}, default=0)
     legal_accepted = BooleanField("Datenschutzbestimmungen", validators=[Required()])
-    information = BooleanField("Informationen")
 
 
 class AdminLoginForm(Form):
