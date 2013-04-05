@@ -52,7 +52,7 @@
         $.getJSON("{{ url_for(".map_teams") }}", function (data) {
             var i = 0;
             for (i = 0; i < data.length; i++) {
-                var marker = L.marker([data[i].lat, data[i].lon], {}).addTo(map);
+                var marker = L.marker([data[i].lat, data[i].lon], {}).bindPopup("<strong>" + data[i].name + "</strong>").addTo(map);
             }
         });
     })
