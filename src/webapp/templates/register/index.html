@@ -119,6 +119,19 @@
 								</div>
 							</div>
 							<div class="control-group">
+								<label class="control-label" for="inputBell">Klingeln bei*</label>
+
+								<div class="controls">
+									<input 	type="text" 
+											id="inputBell" 
+											name="bell"
+											placeholder="Klingeln bei*" 
+											data-validation-required-message="Bitte den Namen auf dem Klingelschild eintragen!"
+                                            value="{{ form.bell.data or '' }}"
+											required>
+								</div>
+							</div>
+							<div class="control-group">
 								<label class="control-label" for="inputZip">Postleitzahl in Dresden*</label>
 
 								<div class="controls">
