@@ -81,7 +81,16 @@ body {
 .fuelux .control-label {
 	display: none;
 }
-
+.fuelux .control-label.visible {
+	display: block;
+	float: none;
+	width: 100%;
+	text-align: left;
+	margin-left: 180px;
+}
+.fuelux .step-content .controls button.active {
+	display: inline;
+}
 #map {
 	height: 500px;
 	width: 100%;
@@ -103,6 +112,7 @@ body {
 .fuelux .wizard ul li:last-child {
 	background-color: inherit;
 }
+
 .logo {
 	font-family: akenatennormal;
 	font-size: 2em;
@@ -156,7 +166,7 @@ body {
 
 }
 
-@media (max-width: 667px) and (min-width: 450px) {
+@media (max-width: 667px) and (min-width: 451px) {
 	.fuelux .wizard ul li .badge {
 		display: none;
 	}
@@ -166,9 +176,21 @@ body {
 	.fuelux .wizard ul li {
 		padding: 0 10px 0 20px;
 	}
+	.fuelux .form-horizontal .controls,
+	.fuelux .control-label.visible {
+		margin-left: 100px;
+	}	
 	#map {
 		height: 300px;
+	}
+}
+
+@media (max-width: 480px) {
+	.fuelux .form-horizontal .controls,
+	.fuelux .control-label.visible {
+		margin-left: 0;
 	}	
+
 }
 
 @media (max-width: 450px) {

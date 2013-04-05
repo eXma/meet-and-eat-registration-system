@@ -224,21 +224,22 @@
 								</div>
 							</div>
 							<div class="control-group">
-								<label class="control-label" for="vegetarians">Wie viele von euch sind Vegetarier?</label>
+								<label class="control-label visible" for="vegetaian">Wie viele Vegetarier sind dabei?</label>
 								<div class="controls">
-									<input 	type="number"
-											id="vegetarians" 
-											name="vegetarians"
-											placeholder="Wie viele Vegetarier?"
-											pattern="[0-3]"
-											data-validation-required-message="Bitte die Anzahl der Vegetarier eintragen!"
-											data-validation-number-message="Bitte eine Zahl eintragen!"
-											data-validation-pattern-message="Es muss eine Zahl zwischen 0 und 3 sein!"
-                                            value="{{ form.member3.data or '' }}"
-											required>
+									<div class="btn-group" data-toggle="buttons-radio">
+										<button class="btn" type="button" name="vegetarian" value="1">
+											1
+										</button>
+										<button class="btn" type="button" name="vegetarian" value="2">
+											2
+										</button>
+										<button class="btn" type="button" name="vegetarian" value="3">
+											3
+										</button>
+									</div>
+									<a href="#" id="del-vegetarian">Löschen</a>
 								</div>
 							</div>
-
 							<div class="control-group">
 								<label class="control-label" for="terms">Legal</label>
 

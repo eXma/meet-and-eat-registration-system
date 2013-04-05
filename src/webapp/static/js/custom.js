@@ -77,7 +77,7 @@ $(function () {
 						member2: $('#inputMemberName2').val(),
 						member3: $('#inputMemberName3').val(),
 						allergies: $('#allergies').val(),
-						vegetarians: $('#vegetarians').val(),
+						vegetarians: $('button[name="vegetarian"].active').val(),
 						legal_accepted: $('#terms').is(':checked'),
                         csrf_token: $("#csrf_token").val()
 					};
@@ -175,3 +175,8 @@ try {if ($buoop.ol) $buoop.ol();}catch (e) {}
 	e.setAttribute("src", "http://browser-update.org/update.js"); 
 	document.body.appendChild(e); 
 };
+
+$('#del-vegetarian').on('click', function(e){
+	e.preventDefault();
+	$('button[name="vegetarian"].active').removeClass('active');
+});
