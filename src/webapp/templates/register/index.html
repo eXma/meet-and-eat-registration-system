@@ -127,7 +127,7 @@
 											name="bell"
 											placeholder="Klingeln bei*" 
 											data-validation-required-message="Bitte den Namen auf dem Klingelschild eintragen!"
-                                            value="{{ form.bell.data or '' }}"
+                                            value="{{ form.address_info.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -324,7 +324,7 @@
 <script type="text/javascript">var post_url = "{{ url_for(".register_async") }}";</script>
 
 <!-- Piwik -->
-<script type="text/javascript">
+<!--script type="text/javascript">
 	var _paq = _paq || [];
 	_paq.push(["trackPageView"]);
 	_paq.push(["enableLinkTracking"]);
@@ -336,7 +336,7 @@
 		var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
 		g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
 	})();
-</script>
+</script-->
 <!-- End Piwik Code -->
 </body>
 </html>
