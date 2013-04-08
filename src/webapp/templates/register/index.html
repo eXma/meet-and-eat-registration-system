@@ -251,8 +251,8 @@
 												data-validation-required-message="Bitte die Teilnahmebedingungen bestätigen!"
 												aria-invalid="true"
 												required>
-										Ich bin mit den <a href="#">Teilnahmebedingungen</a> einverstanden und erlaube
-										die Verarbeitung meiner Daten gemäß der <a href="#">Datenschutzerklärung</a>.
+										Ich bin mit den <a href="{{ url_for(".terms") }}" target="_blank">Teilnahmebedingungen</a> einverstanden und erlaube
+										die Verarbeitung meiner Daten gemäß der <a href="{{ url_for(".terms") }}" target="_blank">Datenschutzerklärung</a>.
 									</label>
 								</div>
 							</div>
@@ -302,7 +302,7 @@
 <div id="footer">
 	<div class="container">
 		<p class="credit">meet&amp;eat ist eine Aktion von <a class="exmalogo"
-				href="http://www.exmatrikulationsamt.de">eXmatrikulationsamt.de</a></p>
+				href="http://www.exmatrikulationsamt.de" target="_blank">eXmatrikulationsamt.de</a></p>
 	</div>
 </div>
 

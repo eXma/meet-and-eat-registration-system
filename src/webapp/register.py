@@ -82,3 +82,8 @@ def confirm(token):
     db.session.commit()
 
     return render_template("register/confirmed.html", team=team)
+
+
+@bp.route("/terms")
+def terms():
+    return render_template("register/terms.html")
