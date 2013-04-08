@@ -47,7 +47,7 @@ $(function () {
 					havePrev = false;
 					break;
 				}
-				if (map !== undefined || searcher !== undefined || searcher.getSelectedLocation() !== undefined) {
+				if (map !== undefined && searcher !== undefined && searcher.getSelectedLocation() != undefined) {
 					console.log('Your location is: ' + searcher.getSelectedLocation());
 				} else {
 					e.preventDefault();
