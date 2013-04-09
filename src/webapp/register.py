@@ -44,7 +44,7 @@ def _do_register(form):
                       recipients=[form.email.data],
                       bcc=[current_app.config["DEFAULT_MAIL_SENDER"]],
                       body=render_template("register/confirm_email.txt",
-                                           teamname=team.name,
+                                           team=team,
                                            token=team.token))
     current_app.mail.send(message)
     return team

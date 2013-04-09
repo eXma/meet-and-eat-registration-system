@@ -1,15 +1,15 @@
-Hallo {{ teamname }},
+Hallo {{ team.name }},
 
 wir haben eure Anmeldung beim meet&eat erhalten. Hier nochmal eure Angaben:
 
-Eure Namen: {{ member1 }}, {{ member2 }} und {{ member3 }}
-E-Mail-Adresse: {{ email }})
-Handynummer: {{ phone }})
-Adresse: {{ street }}, {{ zipno }} Dresden
-Klingeln bei: {{ bell }}
+Eure Namen: {{ team.members[0].name }}, {{ team.members[1].name }} und {{ team.members[2].name }}
+E-Mail-Adresse: {{ team.email }})
+Handynummer: {{ team.phone }})
+Adresse: {{ team.location.street }}, {{ team.location.zip_no }} Dresden
+Klingeln bei: {{ team.location.extra }}
 
-Es sind {{ vegetarians }} Vegetarier unter euch.
-Liste eurer Allergien: {{ allergies }}
+Es sind {{ team.vegetarians }} Vegetarier unter euch.
+Liste eurer Allergien: {{ team.allergies }}
 
 
 Um die Anmeldung vollständig abzuschließen, klickt bitte auf folgenden Aktivierungslink: 
