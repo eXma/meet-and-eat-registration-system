@@ -4,11 +4,10 @@ from flask import Flask, render_template, redirect, url_for
 from flask.ext.mail import Mail
 
 import database
-import register
 
 
 #todo http://pythonhosted.org/Flask-ErrorMail/
-from webapp import admin, public
+from webapp import admin, public, register
 from webapp.dummy_data import make_dummy_data
 
 
@@ -23,7 +22,7 @@ def configure_app(app):
     :param app: The Application to configure.
     """
     filename = EXAMPLE_CONFIG
-    if os.path.isfile(os.path.join("cfg", "%s.py" % PRODUCTIVE_CONFIG)):
+    if os.path.isfile(os.path.join(os.path.dirname(__file__), "cfg", "%s.py" % PRODUCTIVE_CONFIG)):
         filename = PRODUCTIVE_CONFIG
 
     app.config.from_object("webapp.cfg.%s" % filename)

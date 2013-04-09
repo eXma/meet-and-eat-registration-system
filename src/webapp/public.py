@@ -19,5 +19,6 @@ def map_teams():
     for item in qry:
         if item.location is not None:
             data.append({"lat": item.location.lat,
-                         "lon": item.location.lon})
+                         "lon": item.location.lon,
+                         "name": item.name})
     return json.dumps(data)

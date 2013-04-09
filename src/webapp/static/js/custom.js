@@ -47,7 +47,7 @@ $(function () {
 					havePrev = false;
 					break;
 				}
-				if (map !== undefined || searcher !== undefined || searcher.getSelectedLocation() !== undefined) {
+				if (map !== undefined && searcher !== undefined && searcher.getSelectedLocation() != undefined) {
 					console.log('Your location is: ' + searcher.getSelectedLocation());
 				} else {
 					e.preventDefault();
@@ -69,7 +69,7 @@ $(function () {
 						email: $('#inputEmail').val(),
 						phone: $('#inputPhone').val(),
 						street: $('#inputStreet').val(),
-						bell: $('#inputBell').val(),
+						address_info: $('#inputBell').val(),
 						zipno: $('#inputZip').val(),
 						lat: location.lat,
                         lon: location.lng,
@@ -86,7 +86,7 @@ $(function () {
 					tBody += '<tr><td>Teamname</td><td>'+resultData.teamname+'</td></tr>';
 					tBody += '<tr><td>E-Mail-Adresse</td><td>'+resultData.email+'</td></tr>';
 					tBody += '<tr><td>Handynummer</td><td>'+resultData.phone+'</td></tr>';
-					tBody += '<tr><td>Adresse</td><td>'+resultData.street+', '+resultData.zipno+' Dresden, klingeln bei '+resultData.bell+'</td></tr>';
+					tBody += '<tr><td>Adresse</td><td>'+resultData.street+', '+resultData.zipno+' Dresden, klingeln bei '+resultData.address_info+'</td></tr>';
 					tBody += '<tr><td>Eure Namen</td><td>'+resultData.member1+', '+resultData.member2+', '+resultData.member3+'</td></tr>';
 					tBody += '<tr><td>Allergien</td><td>'+ ((resultData.allergies == '') ? 'keine' : resultData.allergies )+'</td></tr>';
 					tBody += '<tr><td>Anzahl Vegetarier</td><td>'+resultData.vegetarians+'</td></tr>';
