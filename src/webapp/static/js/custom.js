@@ -143,7 +143,7 @@ $(function () {
 			if (map == undefined) {
 				displayMap();
 			}
-			var qry = $('#inputStreet').val() + ', ' + $('#inputZip').val() + ', Dresden';
+			var qry = $('#inputStreet').val() + ', Dresden';
 			searcher.geosearch(qry);
 		}
 
