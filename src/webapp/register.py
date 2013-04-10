@@ -4,6 +4,7 @@ from forms import TeamRegisterForm
 from database.model import Team, Location, Members
 import database as db
 import json
+import tasks
 
 
 bp = Blueprint('register', __name__)
@@ -42,10 +43,11 @@ def _do_register(form):
     # ToDo rewrite the message text!
     message = Message(current_app.config["CONFIRM_SUBJECT"],
                       recipients=[form.email.data],
-                      bcc=[current_app.config["DEFAULT_MAIL_SENDER"]],
+                      bcc=[current_app.config["MAIL_DEFAULT_SENDER"]],
                       body=render_template("register/confirm_email.txt",
                                            team=team,
                                            token=team.token))
+    tasks.get_aqua_distance.spool(team_id=str(team.id))
     current_app.mail.send(message)
     return team
 
