@@ -68,7 +68,7 @@ def map_teams():
     for idx, team in enumerate(teams):
         color_idx = 0
         if (divider > 0):
-            color_idx = int(floor(idx / divider))
+            color_idx = min(int(floor(idx / divider)), 3)
         team_data = {"name": team.name,
                      "confirmed": team.confirmed,
                      "email": team.email,
