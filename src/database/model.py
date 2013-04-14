@@ -27,7 +27,10 @@ class Team(Base):
 
     def _update_token(self, payload):
         token_hash = hashlib.sha1()
-        token_hash.update(payload)
+        if isinstance(payload, unicode):
+            token_hash.update(payload.encode("utf8"))
+        else:
+            token_hash.update(payload)
         token_hash.update(str(datetime.datetime.now()))
         self.token = token_hash.hexdigest()
 
