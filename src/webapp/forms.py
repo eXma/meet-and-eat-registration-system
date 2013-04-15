@@ -29,7 +29,7 @@ class AdminLoginForm(Form):
 class TeamEditForm(Form):
     name = TextField("Teamname", validators=[Required()])
     email = EmailField("Email", validators=[Required(), Email()])
-    phone = IntegerField("Telefonnummer", validators=[Required()])
+    phone = TextField("Telefonnummer", validators=[Required()])
     address = TextField("Adresse", validators=[Required()])
     zipno = TextField("Postleitzahl", validators=[Required()])
     address_info = TextField("Adresszusatz", default="")
