@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from logging import Formatter, getLogger
 
@@ -78,6 +79,8 @@ def init_app(app):
 
     app.mail = Mail(app)
     #make_dummy_data(30)
+
+    app.config["REGISTER_END"] = datetime.strptime(app.config["REGISTER_END"], "%Y-%m-%d %H:%M")
 
     @app.teardown_request
     def session_cleanup(_):
