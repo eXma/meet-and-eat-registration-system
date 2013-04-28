@@ -1,8 +1,15 @@
-from uwsgidecorators import spool
 import database as db
 from database.model import Team
 from geotools import simple_distance
 from geotools.routing import MapPoint
+
+try:
+    from uwsgidecorators import spool
+except ImportError as e:
+    def spool(fn):
+        def nufun(*args, **kwargs):
+            raise e
+        return nufun
 
 
 @spool
