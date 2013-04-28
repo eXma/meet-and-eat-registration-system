@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, abort, current_app
+from datetime import datetime
+from flask import Blueprint, render_template, request, abort, current_app, redirect, url_for
 from flask.ext.mail import Message
 from forms import TeamRegisterForm
 from database.model import Team, Location, Members
@@ -54,6 +55,8 @@ def _do_register(form):
 
 @bp.route('/', methods=("GET", "POST"))
 def form():
+    if current_app.config["REGISTER_END"] < datetime.now():
+        return redirect(url_for(".late"))
     form = TeamRegisterForm()
     if form.validate_on_submit():
         team = _do_register(form)
@@ -63,6 +66,9 @@ def form():
 
 @bp.route('/doit', methods=("POST",))
 def register_async():
+    if current_app.config["REGISTER_END"] < datetime.now():
+        return json.dumps({"state": "error", "errors": "too late"})
+
     if not request.is_xhr:
         abort(400)
 
@@ -93,4 +99,6 @@ def terms():
 
 @bp.route("/late")
 def late():
+    if current_app.config["REGISTER_END"] > datetime.now():
+        return redirect(url_for(".form"))
     return render_template("register/end.html")
