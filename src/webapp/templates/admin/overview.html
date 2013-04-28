@@ -16,6 +16,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>Lfd.Nr</th>
             <th>Team</th>
             <th>Adresse</th>
             <th>Mitglieder</th>
@@ -26,6 +27,7 @@
         <tbody>
         {% for team in teams %}
             <tr>
+                <td>{{ loop.index }}</td>
                 <td class="{% if team.confirmed %}confirmed{% else %}unconfirmed{% endif %}">{{ team.name }}</td>
                 <td>{{ team.location.street }}{% if team.location.extra %}({{ team.location.extra }}){% endif %}</td>
                 <td>{% for member in team.members %}{% if not loop.first %}; {% endif %}
