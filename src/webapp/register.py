@@ -89,3 +89,8 @@ def confirm(token):
 @bp.route("/terms")
 def terms():
     return render_template("register/terms.html")
+
+
+@bp.route("/late")
+def late():
+    return render_template("register/end.html")
