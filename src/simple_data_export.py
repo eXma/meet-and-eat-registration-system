@@ -55,16 +55,15 @@ with open("teams.json", "w+") as f:
     json.dump(data, f)
 
 
-
 def get_round_distances(from_teams, to_teams):
     distances = defaultdict(dict)
-    global team_from, location_from, team_to, location_to, distance
     for team_from in from_teams:
         location_from = MapPoint.from_team(team_from)
         for team_to in to_teams:
             location_to = MapPoint.from_team(team_to)
 
             distances[team_from.id][team_to.id] = simple_distance(location_from, location_to)
+    return distances
 
 
 distance_data = []
