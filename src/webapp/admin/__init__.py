@@ -70,6 +70,7 @@ def map_teams():
         if (divider > 0):
             color_idx = min(int(floor(idx / divider)), 3)
         team_data = {"name": team.name,
+                     "id": team.id,
                      "confirmed": team.confirmed,
                      "email": team.email,
                      "members": [member.name for member in team.members],
