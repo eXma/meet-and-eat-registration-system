@@ -28,8 +28,8 @@ def smtp_session():
 def get_template(name):
     filename = "%s.txt" % name
     filepath = os.path.join(os.path.dirname(__file__), "templates", filename)
-    if not os.path.isfile(filename):
-        raise Exception("File not found!")
+    if not os.path.isfile(filepath):
+        raise Exception("File not found: %s!" % filepath)
 
     with open(filepath, "r") as fn:
         return Template(unicode(fn.read(), "utf8"))
