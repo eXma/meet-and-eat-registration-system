@@ -1,3 +1,5 @@
+#!python
+
 import json
 import sys
 import database as db

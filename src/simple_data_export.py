@@ -1,3 +1,4 @@
+#!python
 from collections import defaultdict
 import json
 from math import floor

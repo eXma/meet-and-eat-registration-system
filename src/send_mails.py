@@ -1,3 +1,4 @@
+#!python
 from argparse import ArgumentParser
 from teammails import informal_to_teams
 
