@@ -44,3 +44,7 @@ ADMIN_PASSWORD = "test"
 # end date for registing
 # Format: "yyyy-mm-dd HH:MM"
 REGISTER_END = "2020-05-01 22:30"
+
+# Date of the event (for plan mails)
+# Format: "yyyy-mm-dd"
+EVENT_DATE = "2020-05-01"
