@@ -62,3 +62,15 @@ class Location(Base):
                         backref=backref("location", cascade="all, delete-orphan", lazy="joined", uselist=False),
                         cascade="all",
                         lazy="joined")
+
+
+class RouteDistance(Base):
+    __tablename__ = "route_distances"
+    id = Column(Integer, primary_key=True)
+    location_from_id = Column(Integer, ForeignKey("locations.id", ondelete="CASCADE"), nullable=False)
+    location_from = relationship(Location, foreign_keys=[location_from_id])
+
+    location_to_id = Column(Integer, ForeignKey("locations.id", ondelete="CASCADE"), nullable=False)
+    location_to = relationship(Location, foreign_keys=[location_to_id])
+
+    distance = Column(Float, nullable=False)
