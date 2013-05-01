@@ -20,9 +20,8 @@ def smtp_session():
 
     try:
         yield session
-    except:
+    finally:
         session.quit()
-        raise
 
 
 def get_template(name):
