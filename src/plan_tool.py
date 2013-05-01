@@ -1,7 +1,10 @@
 #!env python
 
 from argparse import ArgumentParser
+from collections import defaultdict
 import json
+import imp
+from math import floor
 
 import database as db
 from database.model import Team, RouteDistance
@@ -23,12 +26,65 @@ def read_legacy_plan(in_file):
     return result
 
 
+def read_dan_marc_partial(in_file):
+    """Debug output prefixed with "data="
+
+    :param in_file: The file with the result
+    :return: The processed data
+    """
+    contents = imp.load_source("_dummy", in_file)
+
+    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).order_by(Team.id).all()
+    round_teams = defaultdict(list)
+
+    max_working = len(teams) - (len(teams) % 3)
+    divider = max_working / 3.0
+
+    def distance_sort(a, b):
+        if a.location.center_distance > b.location.center_distance:
+            return -1
+        if a.location.center_distance < b.location.center_distance:
+            return 1
+        return 0
+
+    working = teams[:max_working]
+    teams = sorted(working, distance_sort) + teams[max_working:]
+
+    for idx, team in enumerate(teams):
+        round_idx = 0
+        if (divider > 0):
+            round_idx = min(int(floor(idx / divider)), 3)
+        round_teams[round_idx].append(idx)
+
+    plans_idx = defaultdict(list)
+    for (round_idx, round_entry) in enumerate(contents.data):
+        for meeting in round_entry:
+            host = None
+            for team_idx in meeting:
+                if team_idx in round_teams[round_idx]:
+                    host = team_idx
+                    break
+            for team_idx in meeting:
+                plans_idx[team_idx].append(host)
+
+    def map_team(idx):
+        return str(teams[idx].id)
+
+    result = defaultdict(list)
+    for team_idx in plans_idx:
+        team_id = map_team(team_idx)
+        for station in plans_idx[team_idx]:
+            result[team_id].append(map_team(station))
+
+    return result
+
+
 def read_plan_file(args):
     result = {}
     if args.inform == "legacy":
         result = read_legacy_plan(args.in_file)
-    elif args.inform == "dan_marc":
-        print "to be implemented"
+    elif args.inform == "dan_marc_partial":
+        result = read_dan_marc_partial(args.in_file)
     return result
 
 
@@ -71,7 +127,7 @@ def parse_args():
 
     subcommands = args.add_subparsers()
     args.add_argument("--inform", help="Specify the input format", required=True,
-                      choices=("legacy", "dan_marc"))
+                      choices=("legacy", "dan_marc_partial"))
     args.add_argument("in_file", help="The file to convert")
 
     convert_parser = subcommands.add_parser("convert")
