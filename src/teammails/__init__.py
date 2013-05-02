@@ -115,6 +115,7 @@ zu Gast sind bei Euch:
                 round_data = round_datas[round_idx]
                 end_point = MapPoint.from_team(teams[host])
                 route = openroute_link([start_point, end_point])
+                start_point = end_point
                 if team != host:
                     detail = guestentry % {"time": round_data["time"],
                                            "roundname": round_data["name"],
