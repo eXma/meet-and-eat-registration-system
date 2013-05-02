@@ -11,6 +11,7 @@ from database.model import Team, RouteDistance
 from geotools import openroute_link
 from geotools.routing import MapPoint
 from webapp.cfg.config import DB_CONNECTION
+from planning.cluster_graph import process_plan
 
 
 db.init_session(connection_string=DB_CONNECTION)
@@ -122,6 +123,11 @@ def cmd_print_plan(args):
         print ""
 
 
+def cmd_graph_plan(args):
+    result = read_plan_file(args)
+    process_plan(args.out_file, result)
+
+
 def parse_args():
     args = ArgumentParser()
 
@@ -137,6 +143,10 @@ def parse_args():
     print_parser = subcommands.add_parser("print")
     print_parser.add_argument("--osm", action="store_true", help="build osm route links")
     print_parser.set_defaults(func=cmd_print_plan)
+
+    graph_parser = subcommands.add_parser("graph", help="Build a clustering graph")
+    graph_parser.add_argument("out_file", help="The filename for the output png")
+    graph_parser.set_defaults(func=cmd_graph_plan)
 
     return args.parse_args()
 
