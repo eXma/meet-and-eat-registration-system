@@ -15,6 +15,7 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/src/webapp/templates" />
+        <option value="$MODULE_DIR$/src/teammails/templates" />
       </list>
     </option>
   </component>
