@@ -8,6 +8,8 @@ from email.mime.text import MIMEText
 
 from jinja2 import Template
 from database.model import Team
+from geotools import openroute_link
+from geotools.routing import MapPoint
 
 from webapp.cfg import config
 
@@ -108,8 +110,11 @@ zu Gast sind bei Euch:
         print "Send mails..."
         for team in plan_results:
             plan_detail = []
+            start_point = MapPoint.from_team(teams[team])
             for (round_idx, host) in enumerate(plan_results[team]):
                 round_data = round_datas[round_idx]
+                end_point = MapPoint.from_team(teams[host])
+                route = openroute_link([start_point, end_point])
                 if team != host:
                     detail = guestentry % {"time": round_data["time"],
                                            "roundname": round_data["name"],
@@ -117,7 +122,7 @@ zu Gast sind bei Euch:
                                            "address": teams[host].location.street,
                                            "bell": teams[host].location.extra,
                                            "phone": teams[host].phone,
-                                           "link": "WURSt"}
+                                           "link": route}
                     plan_detail.append(detail)
                 else:
                     guest_details = []
@@ -134,7 +139,6 @@ zu Gast sind bei Euch:
                     plan_detail.append(detail)
             plan = "\n\n".join(plan_detail)
             text = template.render(eventdate=config.EVENT_DATE, teamname=teams[team].name, plan=plan)
-
             msg = MIMEText(text, "plain", "utf8")
 
             rcpt = teams[team].email
