@@ -1,6 +1,6 @@
 Liebe Meet & Eat Teilnehmer,
 
-Wir freuen uns sehr, dass Ihr am Samstag den 10.11.2012 - beim 6. Meet &
+wir freuen uns sehr, dass Ihr am Samstag den {{ eventdate }} - beim 6. Meet &
 Eat in Dresden - veranstaltet von eXmatrikulationsamt.de (Studentenforum
 Dresden e.V.) dabei seid.
 In dieser Mail findet Ihr alles Wissenswerte zum Ablauf der Veranstaltung
@@ -21,40 +21,9 @@ PS: Macht fleißig Fotos - unsere Fotografen können ja nicht überall sein.
     Wir stellen dann ein Meet & Eat Album auf eXmatrikulationsamt.de!
 
 
-Abendplan Team Wollsocken
+Abendplan Team {{ teamname }}
 
-18:00 Uhr - Vorspeise bei "2 girls 1 cook"
-Louisenstraße 62
-Stockwerk: Dach
-Klingeln bei: Ulrich (unten am Tor)
-Bei Problemen erreicht ihr dieses Team unter: 01704151431
-Routenlink: http://maps.google.de/maps?f=q&source=s_q&...ße+62+,+Dresden
-
-19:30 Uhr - Hauptgericht wird von Euch zubereitet. (Wollsocken)
-
-zu Gast sind bei Euch:
-
-  Team "Die LEH-Chicks"
-  (Allergien: )
-  (Vegeratier dabei: Nein)
-  Telefon: 015115675935
-
-  Team "Gans'n'Sauces "
-  (Allergien: -, -, -, )
-  (Vegeratier dabei: Nein)
-  Telefon: 017696763777
-
-
-
-
-21:00 Uhr - Dessert bei "Das Maggi-Kochstudio"
-St. Petersburger Straße 29
-Stockwerk: 8
-Klingeln bei: 0802 Pöhland
-Bei Problemen erreicht ihr dieses Team unter: 0162/9543223
-Routenlink: http://maps.google.de/maps?f=q&source=s_q&...ße+29+,+Dresden
-
-
+{{ plan }}
 
 eXma-Telefon für Notfälle: +49 176 70859627
 
