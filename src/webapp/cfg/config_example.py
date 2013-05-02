@@ -46,5 +46,5 @@ ADMIN_PASSWORD = "test"
 REGISTER_END = "2020-05-01 22:30"
 
 # Date of the event (for plan mails)
-# Format: "yyyy-mm-dd"
-EVENT_DATE = "2020-05-01"
+# Format: human readeable
+EVENT_DATE = "01.05.2013"
