@@ -1,6 +1,5 @@
 from collections import defaultdict
 from contextlib import contextmanager
-from email.header import make_header
 import os
 import smtplib
 import database as db
