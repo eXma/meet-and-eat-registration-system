@@ -153,3 +153,47 @@ zu Gast sind bei Euch:
             session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
             i += 1
         print "Mails sent: %d" % i
+
+
+def emergency_plan_routes(plan_results, debug=True):
+    sender = "meet&eat Orga <%s>" % config.MAIL_DEFAULT_SENDER
+    envelope = config.MAIL_DEFAULT_SENDER
+
+    template = get_template("emergency_routes")
+    aqua = MapPoint(51.04485, 13.74011)
+
+    teams = {}
+    for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True):
+        teams[str(team.id)] = team
+
+    i = 0
+    with smtp_session() as session:
+        for team in plan_results:
+            route_data = {}
+            plan = plan_results[team]
+
+            if plan[0] == team:
+                route_data["pre"] = "braucht ihr keine, da diese ja bei euch stattfindet"
+            else:
+                route_data["pre"] = openroute_link(
+                    [MapPoint.from_team(teams[team]), MapPoint.from_team(teams[plan[0]])])
+
+            for (idx, name) in enumerate(["main", "dessert"]):
+                route_data[name] = openroute_link(
+                    [MapPoint.from_team(teams[plan[idx]]), MapPoint.from_team(teams[plan[idx + 1]])])
+
+            route_data["aqua"] = openroute_link([MapPoint.from_team(teams[plan[2]]), aqua])
+
+            rcpt = teams[team].email
+            if debug:
+                rcpt = config.MAIL_DEFAULT_SENDER
+
+            text = template.render(name=teams[team].name, routes=route_data)
+            msg = MIMEText(text, "plain", "utf8")
+            msg['Subject'] = "Betreff: Korrektur der Routenlinks zum meet&eat"
+            msg['From'] = sender
+            msg['To'] = rcpt
+
+            session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
+            i += 1
+    print "Mails sent: %d" % i
