@@ -1,30 +1,28 @@
 Liebe Meet & Eat Teilnehmer,
 
-wir freuen uns sehr, dass Ihr am Samstag den {{ eventdate }} - beim 6. Meet &
-Eat in Dresden - veranstaltet von eXmatrikulationsamt.de (Studentenforum
-Dresden e.V.) dabei seid.
-In dieser Mail findet Ihr alles Wissenswerte zum Ablauf der Veranstaltung
-auf Euch zugeschnitten.
-Wir freuen uns, Euch gut gesättigt auf der "After-Dinner-Party" ab 22 Uhr
-im Studentenclub Aquarium (Sankt-Petersburger-Str. 21) zu begrüßen. Der
-Eintritt ist für Euch und alle Freunde, die Ihr gerne mitbringen wollt,
-frei!
+wir freuen uns sehr, dass Ihr am Samstag, dem {{ eventdate }}, beim 7.
+meet&eat in Dresden dabei seid.  In dieser Mail findet Ihr alles
+Wissenswerte zum Ablauf der Veranstaltung auf Euch zugeschnitten.
+
+Wir freuen uns darauf, Euch gut gesättigt auf der "After-Dinner-Party" ab
+22 Uhr im Studentenclub Aquarium (Sankt-Petersburger-Str. 21) zu begrüßen.
+Der Eintritt ist für Euch und alle Freunde, die Ihr gerne mitbringen
+wollt, frei! Um 23 Uhr findet dort dann die Verlosung der Preise statt.
 
 Um 23 Uhr findet dort dann die Verlosung der Preise statt.
 
+Unter 0176-70859627 erreicht ihr das eXma-Notfalltelefon.
 
 Viele Grüße
 Euer eXma-Team
 
 PS: Macht fleißig Fotos - unsere Fotografen können ja nicht überall sein.
-    Wir stellen dann ein Meet & Eat Album auf eXmatrikulationsamt.de!
+    Wir stellen dann ein meet&eat-Album auf eXmatrikulationsamt.de!
 
 
 
 Abendplan Team {{ teamname }}
 
 {{ plan }}
-
-eXma-Telefon für Notfälle: +49 176 70859627
 
 Rückfragen beantworten wir gerne per Email an redaktion@exmatrikulationsamt.de.

@@ -83,8 +83,8 @@ zu Gast sind bei Euch:
 """
     subject = "Meet&Eat - Abendplanung Team %s"
     round_datas = ({"time": "18:00", "name": "Vorspeise"},
-                   {"time": "19:30", "name": "Hauptgericht"},
-                   {"time": "21:00", "name": "Dessert"})
+                   {"time": "20:00", "name": "Hauptgericht"},
+                   {"time": "21:30", "name": "Dessert"})
 
     print "Preprocess plan..."
     guestmap = defaultdict(list)
