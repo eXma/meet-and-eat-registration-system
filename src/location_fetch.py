@@ -18,12 +18,22 @@ print "fetch distances..."
 for (idx, team_from) in enumerate(teams):
     location_from = MapPoint.from_team(team_from)
     for team_to in teams[(idx + 1):]:
+        route_a = db.session.query(RouteDistance).filter_by(
+            location_from=team_from.location, location_to=team_to.location).fist()
+        route_b = db.session.query(RouteDistance).filter_by(
+            location_to=team_from.location, location_from=team_to.location).fist()
+
+        if route_a is not None and route_b is not None:
+            continue
+
         location_to = MapPoint.from_team(team_to)
 
         dist = int(simple_distance(location_from, location_to) * 1000)
 
-        distances.append(RouteDistance(location_from=team_from.location, location_to=team_to.location, distance=dist))
-        distances.append(RouteDistance(location_to=team_from.location, location_from=team_to.location, distance=dist))
+        if route_a is None:
+            distances.append(RouteDistance(location_from=team_from.location, location_to=team_to.location, distance=dist))
+        if route_b is None:
+            distances.append(RouteDistance(location_to=team_from.location, location_from=team_to.location, distance=dist))
 
 print "write to db..."
 db.session.add_all(distances)
