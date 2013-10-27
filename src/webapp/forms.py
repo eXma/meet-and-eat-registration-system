@@ -40,6 +40,7 @@ class TeamEditForm(Form):
     member3 = TextField("Teammitglied 3", validators=[Required()])
     allergies = TextField("Allergien", default="")
     vegetarians = IntegerField("Vegetarier", validators={NumberRange(min=0, max=3)}, default=0)
+    backup = BooleanField("Warteliste")
 
 
 class ConfirmForm(Form):

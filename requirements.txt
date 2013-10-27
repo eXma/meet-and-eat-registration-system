@@ -10,7 +10,7 @@ argparse==1.2.1
 blinker==1.2
 distribute==0.6.36
 nose==1.2.1
-pysqlite==2.6.3
+pysqlite==2.6.0
 uWSGI==1.9.6
 wsgiref==0.1.2
 pyparsing==1.5.7

@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask import Blueprint, render_template, request, abort, current_app, redirect, url_for
 from flask.ext.mail import Message
+from sqlalchemy import func
 from forms import TeamRegisterForm
 from database.model import Team, Location, Members
 import database as db
@@ -10,6 +11,10 @@ import tasks
 
 bp = Blueprint('register', __name__)
 
+
+def _is_backup():
+    teams_qry = db.session.query(func.count(Team.id).label("num")).filter_by(deleted=False).first()
+    return current_app.config["MAX_TEAMS"] <= teams_qry.num
 
 def _do_register(form):
     """Actually perform the registration request
@@ -25,7 +30,8 @@ def _do_register(form):
                 allergies=form.allergies.data,
                 vegetarians=form.vegetarians.data,
                 phone=form.phone.data,
-                email=form.email.data)
+                email=form.email.data,
+                backup=_is_backup())
     db.session.add(team)
 
     for member_name in (form.member1.data, form.member2.data, form.member3.data):
@@ -42,10 +48,13 @@ def _do_register(form):
     db.session.commit()
 
     # ToDo rewrite the message text!
+    message_template = "register/confirm_email.txt"
+    if team.backup:
+        message_template = "register/confirm_email_backup.txt"
     message = Message(current_app.config["CONFIRM_SUBJECT"],
                       recipients=[form.email.data],
                       bcc=[current_app.config["MAIL_DEFAULT_SENDER"]],
-                      body=render_template("register/confirm_email.txt",
+                      body=render_template(message_template,
                                            team=team,
                                            token=team.token))
     tasks.get_aqua_distance.spool(team_id=str(team.id))
@@ -61,7 +70,7 @@ def form():
     if form.validate_on_submit():
         team = _do_register(form)
         return "Submitted"
-    return render_template('register/index.html', form=form)
+    return render_template('register/index.html', form=form, backup=_is_backup())
 
 
 @bp.route('/doit', methods=("POST",))

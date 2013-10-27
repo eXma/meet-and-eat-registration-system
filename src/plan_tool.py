@@ -35,7 +35,7 @@ def read_dan_marc_partial(in_file):
     """
     contents = imp.load_source("_dummy", in_file)
 
-    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).order_by(Team.id).all()
+    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).all()
     round_teams = defaultdict(list)
 
     max_working = len(teams) - (len(teams) % 3)
@@ -99,7 +99,7 @@ def cmd_print_plan(args):
     result = read_plan_file(args)
     teams = {}
 
-    for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True):
+    for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).filter_by(backup=False):
         teams[str(team.id)] = team
 
     for entry in result:

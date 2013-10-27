@@ -60,7 +60,7 @@ def graph_way(team, team_plan, nodes):
 
 def fetch_teams():
     teams = {}
-    for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True):
+    for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False):
         teams[str(team.id)] = team
     return teams
 

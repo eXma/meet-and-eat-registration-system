@@ -23,7 +23,7 @@ db.init_session(connection_string=DB_CONNECTION)
 
 print "fetch teams..."
 
-teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).order_by(Team.id).limit(MAX_TEAMS).all()
+teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).limit(MAX_TEAMS).all()
 data = []
 round_teams = defaultdict(list)
 

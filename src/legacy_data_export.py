@@ -1,5 +1,3 @@
-#!env python
-
 import json
 import sys
 import database as db
@@ -19,7 +17,8 @@ db.init_session(connection_string=DB_CONNECTION)
 
 print "fetch teams..."
 
-teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).order_by(Team.id).limit(MAX_TEAMS).all()
+teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).filter_by(backup=False).order_by(
+    Team.id).limit(MAX_TEAMS).all()
 
 distances = list()
 

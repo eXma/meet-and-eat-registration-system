@@ -26,7 +26,7 @@
         </thead>
         <tbody>
         {% for team in teams %}
-            <tr>
+            <tr{% if team.backup %} class="muted"{% endif %}>
                 <td>{{ loop.index }}</td>
                 <td class="{% if team.confirmed %}confirmed{% else %}unconfirmed{% endif %}">{{ team.name }}</td>
                 <td>{{ team.location.street }} {% if team.location.extra %}({{ team.location.extra }}){% endif %}</td>
