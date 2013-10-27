@@ -32,7 +32,7 @@ def init_session(connection_string=None, drop=False):
     """
     if connection_string is None:
         engine =  create_engine('sqlite://',
-                                echo=True,
+                                echo=False,
                                 connect_args={'check_same_thread':False},
                                 poolclass=StaticPool)
     else:
