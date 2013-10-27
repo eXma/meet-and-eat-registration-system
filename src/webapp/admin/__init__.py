@@ -133,7 +133,7 @@ def edit_team(team_id):
                 member.data = team.members[idx].name
         form.allergies.data = team.allergies
         form.vegetarians.data = team.allergies
-        form.backup.data = team.data
+        form.backup.data = team.backup
 
     # ToDo make lat/lon selectable via a map!
     return render_template("admin/team_edit.html", form=form, team=team)
