@@ -10,6 +10,9 @@
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="leaflet-src" level="application" />
   </component>
+  <component name="PyDocumentationSettings">
+    <option name="myDocStringFormat" value="reStructuredText" />
+  </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
     <option name="TEMPLATE_FOLDERS">
@@ -18,6 +21,10 @@
         <option value="$MODULE_DIR$/src/teammails/templates" />
       </list>
     </option>
+  </component>
+  <component name="TestRunnerService">
+    <option name="projectConfiguration" value="Unittests" />
+    <option name="PROJECT_TEST_RUNNER" value="Unittests" />
   </component>
 </module>
 
