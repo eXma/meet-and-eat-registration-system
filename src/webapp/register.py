@@ -31,6 +31,7 @@ def _do_register(form):
                 vegetarians=form.vegetarians.data,
                 phone=form.phone.data,
                 email=form.email.data,
+                want_information=form.want_information.data,
                 backup=_is_backup())
     db.session.add(team)
 
@@ -84,6 +85,9 @@ def register_async():
     form = TeamRegisterForm()
     if not form.validate_on_submit():
         return json.dumps({"state": "error", "errors": form.errors})
+
+    if not form.legal_accepted.data:
+        return json.dumps({"state": "error", "errors": "terms not confirmed"})
 
     team = _do_register(form)
     return json.dumps({"state": "success"})

@@ -19,6 +19,7 @@ class TeamRegisterForm(Form):
     allergies = TextField("Allergien", default="")
     vegetarians = IntegerField("Vegetarier", validators={NumberRange(min=0, max=3)}, default=0)
     legal_accepted = BooleanField("Datenschutzbestimmungen", validators=[Required()])
+    want_information = BooleanField("Informationen", default=False)
 
 
 class AdminLoginForm(Form):
