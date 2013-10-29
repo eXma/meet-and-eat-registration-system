@@ -2,3 +2,4 @@
 *.pyo
 *.swp
 src/webapp/cfg/config.py
+.idea/workspace.xml

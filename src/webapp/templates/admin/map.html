@@ -29,8 +29,10 @@
         var icon_red = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-red.png"}),
                 icon_green = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-green.png"}),
                 icon_blue = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-blue.png"}),
+                icon_gray = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-gray.png"}),
                 icon_yellow = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-yellow.png"}),
-                markers = {red: icon_red, green: icon_green, blue: icon_blue, yellow: icon_yellow};
+                icon_transparent = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-transparent.png"}),
+                markers = {red: icon_red, green: icon_green, blue: icon_blue, yellow: icon_yellow, gray: icon_gray, transparent: icon_transparent};
 
     </script>
 
@@ -44,7 +46,7 @@
             var marker = L.marker(transformLoc(data.location.lat, data.location.lon), {icon: icon_red});
             if (data.data !== undefined) {
                 marker.setIcon(markers[data.data.color]);
-                var popup = $("<span><h4>Team: " + data.data.name + "<br><small>" + data.data.address + "</small></h4><br><strong>Members:</strong><ul></ul></span>");
+                var popup = $("<span><h4>Team: " + data.data.name + " ("+ data.data.id +")<br><small>" + data.data.address + "</small></h4><br><strong>Members:</strong><ul></ul></span>");
                 for (var i = 0; i < data.data.members.length; i++) {
                     popup.find("ul").append($("<li>" + data.data.members[i] + "</li>"));
                 }

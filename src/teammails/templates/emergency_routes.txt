@@ -1,0 +1,15 @@
+Hallo Team {{ name }},
+
+in der Email mit eurem Abendplan ist uns ein kleiner Fehler bei den
+Routenlinks unterlaufen, die  teilweise auf falsche Daten verlinken. Der
+Abendplan so wie ihr ihn erhalten habt, ist vollkommen korrekt, wir wollen
+euch aber trotzdem noch die korrekten Routenlinks zum einfachen Finden der
+Locations nachreichen:
+
+Zur Vorspeise {{ routes.pre }}
+danach führt euch folgende Route zum Hauptgericht: {{ routes.main }}
+von dort dann die Route zur Nachspeise: {{ routes.dessert }}
+und zuletzt gelangt ihr mit der letzten Route zum Aqua: {{ routes.aqua }}
+
+Viele Grüße und bis Samstag,
+euer eXma-Team

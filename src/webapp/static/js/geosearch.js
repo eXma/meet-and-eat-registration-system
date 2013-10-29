@@ -25,6 +25,7 @@ L.GeoSearch.Result = function (x, y, label) {
 L.Control.GeoSearch = L.Control.extend({
 
     initialize: function (options) {
+        this._found = false;
         this._config = {};
         L.Util.extend(this.options, options);
         this.setConfig(options);
@@ -70,6 +71,7 @@ L.Control.GeoSearch = L.Control.extend({
     },
 
     geosearch: function (qry) {
+        this._found = true;
         try {
             var provider = this._config.provider;
 
@@ -117,6 +119,7 @@ L.Control.GeoSearch = L.Control.extend({
     },
 
     _printError: function(message) {
+        this._found = false;
         $(this._resultslist)
             .html('<li>'+message+'</li>')
             .fadeIn('slow').delay(this._config.messageHideDelay).fadeOut('slow',
@@ -125,6 +128,9 @@ L.Control.GeoSearch = L.Control.extend({
 
     getSelectedLocation: function() {
         if (typeof this._positionMarker === 'undefined') {
+            return undefined;
+        }
+        if (!this._found) {
             return undefined;
         }
         return this._positionMarker.getLatLng();

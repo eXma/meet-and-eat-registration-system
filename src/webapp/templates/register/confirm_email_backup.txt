@@ -1,6 +1,7 @@
 Hallo {{ team.name }},
 
-wir haben eure Anmeldung beim meet&eat erhalten. Hier nochmal eure Angaben:
+wir haben eure Anmeldung für die Warteliste zum meet&eat erhalten.
+Hier nochmal eure Angaben:
 
 Eure Namen: {{ team.members[0].name }}, {{ team.members[1].name }} und {{ team.members[2].name }}
 E-Mail-Adresse: {{ team.email }})
@@ -15,6 +16,7 @@ Liste eurer Allergien: {{ team.allergies }}
 Um die Anmeldung vollständig abzuschließen, klickt bitte auf folgenden Aktivierungslink: 
 {{ url_for(".confirm", token=token, _external=True) }}
 
+Ihr werdet von uns rechtzeitig informiert sobald ein Platz frei wird.
 
 Viele Grüße und bis bald,
 euer meet&eat Team von eXmatrikulationsamt.de

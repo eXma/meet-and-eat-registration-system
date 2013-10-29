@@ -1,12 +1,12 @@
+from datetime import datetime
 import os
+from logging import Formatter, getLogger
 
 from flask import Flask, render_template, redirect, url_for
 from flask.ext.mail import Mail
 
 import database
 
-
-#todo http://pythonhosted.org/Flask-ErrorMail/
 from webapp import admin, public, register
 from webapp.dummy_data import make_dummy_data
 
@@ -28,6 +28,40 @@ def configure_app(app):
     app.config.from_object("webapp.cfg.%s" % filename)
 
 
+def init_logging(app):
+    """Initialize app error logging
+
+    :type app: flask.Flask
+    :param app: The application to configure.
+    """
+    if app.debug:
+        return
+
+    ADMINS = ['meetandeat@exmatrikulationsamt.de']
+    import logging
+    from logging.handlers import SMTPHandler
+
+    credentials = None
+    secure = None
+    if app.config.get("MAIL_USERNAME") is not None:
+        credentials = (app.config["MAIL_USERNAME"], app.config.get("MAIL_PASSWORD"))
+        if app.config.get("MAIL_USE_TLS") is not None or app.config.get("MAIL_USE_SSL") is not None:
+            secure = tuple()
+
+    mail_handler = SMTPHandler(app.config["MAIL_SERVER"],
+                               app.config["ERROR_SENDER"],
+                               app.config["ERROR_ADDRESS"],
+                               app.config["ERROR_SUBJECT"],
+                               credentials=credentials, secure=secure)
+
+    mail_handler.setLevel(logging.ERROR)
+    if app.config.get("ERROR_FORMAT") is not None:
+        mail_handler.setFormatter(Formatter(app.config["ERROR_FORMAT"]))
+
+    for log in (getLogger('sqlalchemy'), app.logger):
+        log.addHandler(mail_handler)
+
+
 def init_app(app):
     """Initialize the given Flask application.
 
@@ -37,6 +71,7 @@ def init_app(app):
     :return: The configured application.
     """
     configure_app(app)
+    init_logging(app)
     database.init_session(connection_string=app.config["DB_CONNECTION"])
     app.register_blueprint(register.bp, url_prefix='/register')
     app.register_blueprint(admin.bp, url_prefix='/admin')
@@ -44,6 +79,8 @@ def init_app(app):
 
     app.mail = Mail(app)
     #make_dummy_data(30)
+
+    app.config["REGISTER_END"] = datetime.strptime(app.config["REGISTER_END"], "%Y-%m-%d %H:%M")
 
     @app.teardown_request
     def session_cleanup(_):
@@ -56,7 +93,8 @@ def init_app(app):
     return app
 
 
+app = Flask(__name__)
+init_app(app)
+
 if __name__ == "__main__":
-    app = Flask(__name__)
-    init_app(app)
-    app.run()
+    app.run("0.0.0.0")

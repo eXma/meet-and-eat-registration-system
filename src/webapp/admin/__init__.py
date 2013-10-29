@@ -43,13 +43,15 @@ def team_map():
     return render_template("admin/map.html")
 
 
-_color_map = ["blue", "yellow", "green", "red"]
+_color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
 
 
 @bp.route("/map_teams")
 @valid_admin
 def map_teams():
-    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).order_by(Team.id).all()
+    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).all()
+    backup = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=True).order_by(Team.id).all()
+    unconfirmed = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=False).order_by(Team.id).all()
     data = []
 
     max_working = len(teams) - (len(teams) % 3)
@@ -63,13 +65,18 @@ def map_teams():
         return 0
 
     working = teams[:max_working]
-    teams = sorted(working, distance_sort) + teams[max_working:]
+    teams = sorted(working, distance_sort) + teams[max_working:] + backup + unconfirmed
 
     for idx, team in enumerate(teams):
         color_idx = 0
         if (divider > 0):
-            color_idx = int(floor(idx / divider))
+            color_idx = min(int(floor(idx / divider)), 3)
+        if team.backup:
+            color_idx = 4
+        if not team.confirmed:
+            color_idx = 5
         team_data = {"name": team.name,
+                     "id": team.id,
                      "confirmed": team.confirmed,
                      "email": team.email,
                      "members": [member.name for member in team.members],
@@ -102,6 +109,7 @@ def edit_team(team_id):
         team.location.lon = form.lon.data
         team.allergies = form.allergies.data
         team.vegetarians = form.vegetarians.data
+        team.backup = form.backup.data
 
         for idx, member in enumerate([form.member1, form.member2, form.member3]):
             if len(team.members) > idx:
@@ -128,6 +136,7 @@ def edit_team(team_id):
                 member.data = team.members[idx].name
         form.allergies.data = team.allergies
         form.vegetarians.data = team.allergies
+        form.backup.data = team.backup
 
     # ToDo make lat/lon selectable via a map!
     return render_template("admin/team_edit.html", form=form, team=team)

@@ -18,6 +18,8 @@ class Team(Base):
     phone = Column(String)
     email = Column(String)
     deleted = Column(Boolean, default=False)
+    backup = Column(Boolean, default=False)
+    want_information = Column(Boolean, default=False)
 
     @validates("name")
     def validate_name(self, _, value):
@@ -27,7 +29,10 @@ class Team(Base):
 
     def _update_token(self, payload):
         token_hash = hashlib.sha1()
-        token_hash.update(payload)
+        if isinstance(payload, unicode):
+            token_hash.update(payload.encode("utf8"))
+        else:
+            token_hash.update(payload)
         token_hash.update(str(datetime.datetime.now()))
         self.token = token_hash.hexdigest()
 
@@ -59,3 +64,15 @@ class Location(Base):
                         backref=backref("location", cascade="all, delete-orphan", lazy="joined", uselist=False),
                         cascade="all",
                         lazy="joined")
+
+
+class RouteDistance(Base):
+    __tablename__ = "route_distances"
+    id = Column(Integer, primary_key=True)
+    location_from_id = Column(Integer, ForeignKey("locations.id", ondelete="CASCADE"), nullable=False)
+    location_from = relationship(Location, foreign_keys=[location_from_id])
+
+    location_to_id = Column(Integer, ForeignKey("locations.id", ondelete="CASCADE"), nullable=False)
+    location_to = relationship(Location, foreign_keys=[location_to_id])
+
+    distance = Column(Float, nullable=False)

@@ -27,6 +27,7 @@
 	<div class="container">
 		<div class="page-header">
 			<h1><span class="logo"><span class="meet">meet</span> <span class="amp">&amp;</span> <span class="eat">eat</span></span> Anmeldung</h1>
+            {% if backup %}<div class="alert alert-error"><strong>Anmeldezeitraum vorüber:</strong> alle Anmeldungen ab jetzt landen auf der Warteliste.</div>{% endif %}
 		</div>
 		<div class="fuelux">
 			<div id="myWizard" class="wizard">
@@ -186,7 +187,9 @@
 				<div class="step-pane" id="step2">
 					<h3>Bestätige eure meet&amp;eat-Adresse</h3>
 
-					<p>Falls der Marker nicht direkt am Hauseingang ist, zieh ihn an die richtige Stelle.</p>
+					<p>Falls der Marker nicht auf die <strong>korrekte Adresse</strong> und direkt auf euren Hauseingang
+                        zeigt, dann zieh ihn bitte an die richtige Stelle! Dies ist wichtig, um die Routen korrekt
+                        berechnen zu können und eure Gäste richtig zu euch zu führen.</p>
 
 					<div id="map"></div>
 				</div>
@@ -297,7 +300,7 @@
 						Sollte innerhalb von 12 Stunden keine Mail eintreffen, prüft bitte den Spam-Ordner. Wenn dort auch nichts zu finden ist, schreibt eine Mail an
 						<a href="mailto:meetandeat@exmatrikulationsamt.de">meetandeat@exmatrikulationsamt.de</a>.</p>
 
-					<p>Vielen Dank fürs mitmachen wünscht euer Team von eXmatrikulationsamt.de</p>
+					<p>Vielen Dank fürs Anmelden und viel Spaß beim Mitmachen wünscht euer Team von eXmatrikulationsamt.de!</p>
 				</div>
 				<div class="step-pane" id="step6">
 					<h3>Etwas ist schief gegangen</h3>

@@ -19,6 +19,7 @@ class TeamRegisterForm(Form):
     allergies = TextField("Allergien", default="")
     vegetarians = IntegerField("Vegetarier", validators={NumberRange(min=0, max=3)}, default=0)
     legal_accepted = BooleanField("Datenschutzbestimmungen", validators=[Required()])
+    want_information = BooleanField("Informationen", default=False)
 
 
 class AdminLoginForm(Form):
@@ -29,7 +30,7 @@ class AdminLoginForm(Form):
 class TeamEditForm(Form):
     name = TextField("Teamname", validators=[Required()])
     email = EmailField("Email", validators=[Required(), Email()])
-    phone = IntegerField("Telefonnummer", validators=[Required()])
+    phone = TextField("Telefonnummer", validators=[Required()])
     address = TextField("Adresse", validators=[Required()])
     zipno = TextField("Postleitzahl", validators=[Required()])
     address_info = TextField("Adresszusatz", default="")
@@ -40,6 +41,7 @@ class TeamEditForm(Form):
     member3 = TextField("Teammitglied 3", validators=[Required()])
     allergies = TextField("Allergien", default="")
     vegetarians = IntegerField("Vegetarier", validators={NumberRange(min=0, max=3)}, default=0)
+    backup = BooleanField("Warteliste")
 
 
 class ConfirmForm(Form):
