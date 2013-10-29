@@ -102,19 +102,42 @@
 											required>
 								</div>
 							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="inputRemind">Legal</label>
+
+								<div class="controls">
+									<label class="checkbox">
+										<input 	type="checkbox"
+												id="inputRemind"
+												name="inputRemind"
+												>
+										Ich möchte vor dem nächsten meet&amp;eat einen Hinweis per E-Mail bekommen.
+									</label>
+								</div>
+							</div>
+
 						</fieldset>
 						<fieldset>
 							<legend>Eure meet&amp;eat-Adresse</legend>
 							<div class="control-group">
-								<label class="control-label" for="inputStreet">Straße und Hausnummer*</label>
+								<label class="control-label" for="inputStreet">Straße</label>
+								<label class="control-label" for="inputStreetNumber">und Hausnummer*</label>
 
 								<div class="controls">
-									<input 	type="text" 
-											id="inputStreet" 
+									<input 	type="text"
+											id="inputStreet"
 											name="street"
-											placeholder="Straße und Hausnummer*" 
-											data-validation-required-message="Bitte eine Straße und Hausnummer eintragen!"
+											placeholder="Straße*"
+											data-validation-required-message="Bitte eine Straße eintragen!"
                                             value="{{ form.street.data or '' }}"
+											required>
+									<input 	type="text"
+											id="inputStreetNumber"
+											name="streetnumber"
+											placeholder="Nummer*"
+											data-validation-required-message="Bitte eine Hausnummer eintragen!"
+                                            value="{{ form.streetnumber.data or '' }}"
 											required>
 								</div>
 							</div>
@@ -122,10 +145,10 @@
 								<label class="control-label" for="inputBell">Klingeln bei*</label>
 
 								<div class="controls">
-									<input 	type="text" 
-											id="inputBell" 
+									<input 	type="text"
+											id="inputBell"
 											name="bell"
-											placeholder="Klingeln bei*" 
+											placeholder="Klingeln bei*"
 											data-validation-required-message="Bitte den Namen auf dem Klingelschild eintragen!"
                                             value="{{ form.address_info.data or '' }}"
 											required>
@@ -135,11 +158,11 @@
 								<label class="control-label" for="inputZip">Postleitzahl in Dresden*</label>
 
 								<div class="controls">
-									<input 	type="text" 
-											maxlength="5" 
-											id="inputZip" 
+									<input 	type="text"
+											maxlength="5"
+											id="inputZip"
 											name="zip"
-											placeholder="Postleitzahl in Dresden*" 
+											placeholder="Postleitzahl in Dresden*"
 											pattern="01[0-4][0-9]{2}"
 											data-validation-required-message="Bitte eine Postleitzahl eintragen!"
 											data-validation-pattern-message="Die Postleitzahl muss aus Dresden sein!"

@@ -143,6 +143,21 @@ body {
 	font-size: 70%;
 }
 
+.fuelux .form-horizontal .controls {
+	margin-left: 150px;
+}
+
+.fuelux input, .fuelux textarea, .fuelux .uneditable-input {
+	width: 386px;
+}
+.fuelux input #inputStreet {
+	width: 297px;
+}
+
+.fuelux input #inputStreetNumber {
+	width: 70px;
+}
+
 @media (max-width: 767px) {
 
 	.fuelux .wizard ul li {
