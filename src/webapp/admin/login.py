@@ -46,7 +46,7 @@ def valid_admin(fn):
                 set_token()
                 return fn(*args, **kwargs)
             delete_token()
-        session["next"] = request.path
+        session["next"] = request.script_root + request.path
         return redirect(url_for(".login"))
 
     return nufun
