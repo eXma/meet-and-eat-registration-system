@@ -150,6 +150,7 @@ body {
 .fuelux input, .fuelux textarea, .fuelux .uneditable-input {
 	width: 386px;
 }
+
 .fuelux input #inputStreet {
 	width: 297px;
 }
