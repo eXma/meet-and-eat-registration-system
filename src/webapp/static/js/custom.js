@@ -13,7 +13,7 @@ function displayMap() {
 		provider: new L.GeoSearch.Provider.OpenStreetMap(),
 		zoomLevel: 17,
 		messageHideDelay: 9999,
-		notFoundMessage: '<strong>Die Adresse konnte nicht gefunden werden.</strong> Bitte gehe zurück und überprüfe die Eingaben. Sollte die Adresse trotzdem nicht gefunden werden, kontaktiere uns bitte unter <a href="mailto:meetandeat@exma.de">meetandeat@exma.de</a>'
+		notFoundMessage: '<strong>Die Adresse konnte nicht gefunden werden.</strong> Bitte gehe zurück und überprüfe die Eingaben. Manchmal hilft es, eine alternative Schreibweise der Straße zu verwenden (z.B. "Hauptstraße" statt "Hauptstr.". Sollte die Adresse trotzdem nicht gefunden werden, kontaktiere uns bitte unter <a href="mailto:meetandeat@exma.de">meetandeat@exma.de</a>'
 	});
 	searcher.addTo(map);
 
