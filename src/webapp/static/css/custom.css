@@ -147,15 +147,17 @@ body {
 	margin-left: 150px;
 }
 
-.fuelux input, .fuelux textarea, .fuelux .uneditable-input {
+.fuelux .form-horizontal .controls input, 
+.fuelux .form-horizontal .controls textarea,
+.fuelux .form-horizontal .controls .uneditable-input {
 	width: 386px;
 }
 
-.fuelux input #inputStreet {
+.fuelux .form-horizontal .controls input #inputStreet {
 	width: 297px;
 }
 
-.fuelux input #inputStreetNumber {
+.fuelux .form-horizontal .controls input #inputStreetNumber {
 	width: 70px;
 }
 
