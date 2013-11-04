@@ -20,6 +20,7 @@ def get_aqua_distance(args):
         return
 
     target = MapPoint.from_team(team)
-    aqua = MapPoint(51.04485, 13.74011)
+    #aqua = MapPoint(51.04485, 13.74011) # real aqua
+    aqua = MapPoint(51.05299472808838, 13.742453455924988) # hfbk
     team.location.center_distance = simple_distance(target, aqua)
     db.session.commit()
