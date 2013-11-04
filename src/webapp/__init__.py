@@ -9,6 +9,7 @@ import database
 
 from webapp import admin, public, register
 from webapp.dummy_data import make_dummy_data
+from webapp.reverse_proxy_wrapper import ReverseProxied
 
 
 EXAMPLE_CONFIG = "config_example"
@@ -98,3 +99,6 @@ init_app(app)
 
 if __name__ == "__main__":
     app.run("0.0.0.0")
+else:
+    if app.config.get("BEHIND_REVERSE_PROXY") is not None:
+        app = ReverseProxied(app)
