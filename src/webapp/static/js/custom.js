@@ -68,7 +68,7 @@ $(function () {
 						teamname: $('#inputName').val(),
 						email: $('#inputEmail').val(),
 						phone: $('#inputPhone').val(),
-						remind: $('#inputRemind').val(),
+						want_information: $('#inputRemind').val(),
 						street: $('#inputStreet').val() + " " + $('#inputStreetNumber').val(),
 						address_info: $('#inputBell').val(),
 						zipno: $('#inputZip').val(),
@@ -87,7 +87,7 @@ $(function () {
 					tBody += '<tr><td>Teamname</td><td>'+resultData.teamname+'</td></tr>';
 					tBody += '<tr><td>E-Mail-Adresse</td><td>'+resultData.email+'</td></tr>';
 					tBody += '<tr><td>Handynummer</td><td>'+resultData.phone+'</td></tr>';
-					tBody += '<tr><td>Erinnerung</td><td>'+resultData.remind+'</td></tr>';
+					tBody += '<tr><td>Erinnerung</td><td>'+resultData.want_information+'</td></tr>';
 					tBody += '<tr><td>Adresse</td><td>'+resultData.street+', '+resultData.zipno+' Dresden, klingeln bei '+resultData.address_info+'</td></tr>';
 					tBody += '<tr><td>Eure Namen</td><td>'+resultData.member1+', '+resultData.member2+', '+resultData.member3+'</td></tr>';
 					tBody += '<tr><td>Allergien</td><td>'+ ((resultData.allergies == '') ? 'keine' : resultData.allergies )+'</td></tr>';
