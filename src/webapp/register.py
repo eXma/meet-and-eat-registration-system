@@ -39,7 +39,7 @@ def _do_register(form):
         member = Members(name=member_name, team=team)
         db.session.add(member)
 
-    location = Location(street=form.street.data,
+    location = Location(street=u"%s %s" % (form.street.data, form.streetnumber.data),
                         zip_no=form.zipno.data,
                         extra=form.address_info.data,
                         lat=form.lat.data,

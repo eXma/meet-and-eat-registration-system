@@ -9,6 +9,7 @@ class TeamRegisterForm(Form):
     email = EmailField("Email", validators=[Required(), Email()])
     phone = TextField("Telefonnummer", validators=[Required()])
     street = TextField("Adresse", validators=[Required()])
+    streetnumber = TextField("Hausnummer", validators=[Required()])
     zipno = TextField("Postleitzahl", validators=[Required()])
     address_info = TextField("Adresszusatz", default="")
     lat = FloatField("Lat", validators=[Required()])
