@@ -146,7 +146,7 @@ $(function () {
 			if (map == undefined) {
 				displayMap();
 			}
-			var qry = $('#inputStreet').val() + ', Dresden';
+			var qry = $('#inputStreet').val() + " " + $('#inputStreetNumber').val() + ', Dresden';
 			searcher.geosearch(qry);
 		}
 
