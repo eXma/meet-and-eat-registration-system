@@ -75,7 +75,7 @@ def write_planning_data(teams, filename):
 
 def parse_args():
     args = ArgumentParser()
-    args.add_argument("--name", help="Part of the filenames", required=False, action="store_true")
+    args.add_argument("--name", help="Part of the filenames", required=False, type=str)
 
     subs = args.add_subparsers()
     informal = subs.add_parser("distance_data", help="Team and distance data for planning algorithms")
