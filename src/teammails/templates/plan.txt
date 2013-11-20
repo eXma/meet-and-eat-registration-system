@@ -1,6 +1,6 @@
 Liebe Meet & Eat Teilnehmer,
 
-wir freuen uns sehr, dass Ihr am Samstag, dem {{ eventdate }}, beim 7.
+wir freuen uns sehr, dass Ihr am Samstag, dem {{ eventdate }}, beim 8.
 meet&eat in Dresden dabei seid.  In dieser Mail findet Ihr alles
 Wissenswerte zum Ablauf der Veranstaltung auf Euch zugeschnitten.
 
