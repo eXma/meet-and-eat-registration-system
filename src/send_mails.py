@@ -43,7 +43,7 @@ def cmd_send_informal(args):
 
 def cmd_send_planmails(args):
     results = read_plan_file(args)
-    plans_to_teams(results, not args.nodebug)
+    plans_to_teams(results, not args.nodebug, args.separate, args.exclude)
 
 
 def cmd_send_emergency_routes(args):

@@ -2,6 +2,7 @@ from collections import defaultdict
 from contextlib import contextmanager
 import os
 import smtplib
+from sqlalchemy import not_
 import database as db
 
 from email.mime.text import MIMEText
@@ -63,7 +64,7 @@ def informal_to_teams(template_name, subject, debug=True):
         print "Mails sent: %d" % i
 
 
-def plans_to_teams(plan_results, debug=True):
+def plans_to_teams(plan_results, debug=True, include=None, exclude=None):
     guestentry = """
 %(time)s Uhr - %(roundname)s bei "%(host)s"
 %(address)s
@@ -101,7 +102,12 @@ zu Gast sind bei Euch:
 
     print "Fetch data..."
     teams = {}
-    for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True):
+    qry = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True)
+    if include is not None:
+        qry = qry.filter(Team.id.in_(include))
+    if exclude is not None:
+        qry = qry.filter(not_(Team.id.in_(exclude)))
+    for team in qry:
         teams[str(team.id)] = team
 
     i = 0
