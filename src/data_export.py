@@ -36,6 +36,7 @@ def distance_sort(a, b):
 def write_planning_data(teams, filename):
     max_working = len(teams) - (len(teams) % 3)
     divider = max_working / 3.0
+    print "Working on %d teams for %s" % (max_working, filename)
 
     data = []
     round_teams = defaultdict(list)
@@ -68,7 +69,7 @@ def write_planning_data(teams, filename):
     distance_data.append(get_round_distances(round_teams[1], round_teams[2]))
 
     print "write distance data..."
-    with open("distances.json", "w+") as f:
+    with open("distances%s.json" % filename, "w+") as f:
         json.dump(distance_data, f)
 
 
