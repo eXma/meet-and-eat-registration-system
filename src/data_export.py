@@ -97,11 +97,15 @@ def cmd_distance_data(args):
     if args.slice is not None:
         teams = teams.limit(args.slice)
 
+    fname = ""
+    if args.name is not None:
+        fname = "_%s" % args.name
+
     if args.separate is not None:
-        write_planning_data(teams.filter(Team.id.in_(args.seperate)).all(), "_%s_1" % args.name)
-        write_planning_data(teams.filter(not_(Team.id.in_(args.separate))).all(), "_%s_2" % args.name)
+        write_planning_data(teams.filter(Team.id.in_(args.seperate)).all(), "%s_1" % fname)
+        write_planning_data(teams.filter(not_(Team.id.in_(args.separate))).all(), "%s_2" % fname)
     else:
-        write_planning_data(teams.all(), "_%s" % args.name)
+        write_planning_data(teams.all(), fname)
 
     print args
 
