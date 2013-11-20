@@ -19,13 +19,19 @@ def parse_args():
     plan = subs.add_parser("plan", help="send the plan mails")
     plan.add_argument("--inform", required=True, choices=("legacy", "dan_marc_partial"),
                       help="select the input format for the plan")
-    plan.add_argument("in_file", help="The input file with the plan")
+    plan.add_argument("--file", help="The input file with the plan")
+    plan.add_argument("-S", "--separate", type=int, metavar="I", nargs="+",
+                      help="Separate the given ids to a new group",
+                      required=False)
+    plan.add_argument("-E", "--exclude", type=int, metavar="I", nargs="+",
+                      help="Exclude the given ids to a new group",
+                      required=False)
     plan.set_defaults(func=cmd_send_planmails)
 
     emergency_routes = subs.add_parser("emergency_routes", help="send the fixed route links")
     emergency_routes.add_argument("--inform", required=True, choices=("legacy", "dan_marc_partial"),
                                   help="select the input format for the plan")
-    emergency_routes.add_argument("in_file", help="The input file with the plan")
+    emergency_routes.add_argument("--file", help="The input file with the plan")
     emergency_routes.set_defaults(func=cmd_send_emergency_routes)
 
     return args.parse_args()

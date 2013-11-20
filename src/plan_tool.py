@@ -1,10 +1,12 @@
 #!env python
 
 from argparse import ArgumentParser
+import argparse
 from collections import defaultdict
 import json
 import imp
 from math import floor
+from sqlalchemy import not_
 
 import database as db
 from database.model import Team, RouteDistance
@@ -27,7 +29,7 @@ def read_legacy_plan(in_file):
     return result
 
 
-def read_dan_marc_partial(in_file):
+def read_dan_marc_partial(in_file, seperate=None, exclude=None):
     """Debug output prefixed with "data="
 
     :param in_file: The file with the result
@@ -35,7 +37,12 @@ def read_dan_marc_partial(in_file):
     """
     contents = imp.load_source("_dummy", in_file)
 
-    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).all()
+    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id)
+    if seperate is not None:
+        teams = teams.filter(Team.id.in_(seperate))
+    if exclude is not None:
+        teams = teams.filter(not_(Team.id.in_(exclude)))
+    teams = teams.all()
     round_teams = defaultdict(list)
 
     max_working = len(teams) - (len(teams) % 3)
@@ -83,15 +90,15 @@ def read_dan_marc_partial(in_file):
 def read_plan_file(args):
     result = {}
     if args.inform == "legacy":
-        result = read_legacy_plan(args.in_file)
+        result = read_legacy_plan(args.file)
     elif args.inform == "dan_marc_partial":
-        result = read_dan_marc_partial(args.in_file)
+        result = read_dan_marc_partial(args.file, args.separate, args.exclude)
     return result
 
 
 def cmd_convert_plan(args):
     result = read_plan_file(args)
-    with open(args.out_file, "w+") as out_fn:
+    with open(args.result, "w+") as out_fn:
         json.dump(result, out_fn)
 
 
@@ -125,19 +132,25 @@ def cmd_print_plan(args):
 
 def cmd_graph_plan(args):
     result = read_plan_file(args)
-    process_plan(args.out_file, result)
+    process_plan(args.result, result)
 
 
 def parse_args():
     args = ArgumentParser()
 
     subcommands = args.add_subparsers()
-    args.add_argument("--inform", help="Specify the input format", required=True,
+    args.add_argument("-f", "--inform", help="Specify the input format", required=True,
                       choices=("legacy", "dan_marc_partial"))
-    args.add_argument("in_file", help="The file to convert")
+    args.add_argument("-i", "--file", metavar="FILE", help="The file to convert")
+    args.add_argument("-S", "--separate", type=int, metavar="I", nargs="+",
+                      help="Separate the given ids to a new group",
+                      required=False)
+    args.add_argument("-E", "--exclude", type=int, metavar="I", nargs="+",
+                      help="Exclude the given ids to a new group",
+                      required=False)
 
     convert_parser = subcommands.add_parser("convert")
-    convert_parser.add_argument("out_file", help="The output file")
+    convert_parser.add_argument("-o", "--result", help="The output file")
     convert_parser.set_defaults(func=cmd_convert_plan)
 
     print_parser = subcommands.add_parser("print")
@@ -145,7 +158,7 @@ def parse_args():
     print_parser.set_defaults(func=cmd_print_plan)
 
     graph_parser = subcommands.add_parser("graph", help="Build a clustering graph")
-    graph_parser.add_argument("out_file", help="The filename for the output png")
+    graph_parser.add_argument("-o", "--result", help="The filename for the output png")
     graph_parser.set_defaults(func=cmd_graph_plan)
 
     return args.parse_args()
