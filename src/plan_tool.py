@@ -112,7 +112,7 @@ def cmd_print_plan(args):
     for entry in result:
         team = teams[entry]
         plan = result[entry]
-        print "# %s ::" % team.name
+        print "# %s ::" % team.name.encode("utf8")
         station_points = []
         last_station = None
         for station in plan:
@@ -122,7 +122,7 @@ def cmd_print_plan(args):
                 distance = db.session.query(RouteDistance).filter_by(location_from=last_station.location,
                                                                      location_to=station_team.location).first()
                 dist = "[dist=%d]" % distance.distance
-            print "+ %s %s" % (station_team.name, dist)
+            print "+ %s %s" % (station_team.name.encode("utf8"), dist)
             station_points.append(MapPoint.from_team(station_team))
             last_station = station_team
 
