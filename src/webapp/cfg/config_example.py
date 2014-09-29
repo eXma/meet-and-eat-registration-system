@@ -7,10 +7,12 @@ DB_CONNECTION = None
 # Turn this off in production!
 DEBUG = True
 
+# This is useful for deployment behind a reverse proxy
 SERVER_NAME = 'localhost:5000'
 APPLICATION_ROOT = "/"
 BEHIND_REVERSE_PROXY = False
 
+# Register a mapquest app key at http://developer.mapquest.com/web/products/open
 MAPQUEST_KEY=""
 
 # Mail configuration
