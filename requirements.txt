@@ -8,9 +8,6 @@ WTForms==1.0.3
 Werkzeug==0.8.3
 argparse==1.2.1
 blinker==1.2
-nose==1.2.1
 pysqlite==2.6.0
 uWSGI==1.9.6
 wsgiref==0.1.2
-pyparsing==1.5.7
-pydot==1.0.28
