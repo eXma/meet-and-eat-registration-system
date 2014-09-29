@@ -2,6 +2,8 @@ import httplib
 import json
 import urllib
 
+from webapp.cfg import config
+
 
 class MapPoint(object):
     def __init__(self, lat, lng):
@@ -46,7 +48,8 @@ class Router(object):
                       "rivingStyle": 2,
                       "highwayEfficiency": "21.0",
                       "from": from_map_point.as_route_target(),
-                      "to": to_map_point.as_route_target()}
+                      "to": to_map_point.as_route_target(),
+                      "key": config.MAPQUEST_KEY}
 
         params = urllib.urlencode(param_dict)
 

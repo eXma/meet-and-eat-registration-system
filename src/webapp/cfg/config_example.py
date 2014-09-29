@@ -11,6 +11,7 @@ SERVER_NAME = 'localhost:5000'
 APPLICATION_ROOT = "/"
 BEHIND_REVERSE_PROXY = False
 
+MAPQUEST_KEY=""
 
 # Mail configuration
 MAIL_SERVER = "localhost"
