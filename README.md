@@ -3,7 +3,7 @@
 This is the registration system for a event called 
 "[meet&eat](http://www.exmatrikulationsamt.de/meetandeat)".
 
-# Install
+## Install
 
 This is a python Flask application and a set of helper tools
 for retrieving and transforming the data. The easiest way to
@@ -17,7 +17,7 @@ requirements frim the `requirements.txt` file:
     $ pip install -r meet-and-eat-registration-system/requirements.txt
 
 
-# Debug
+## Debug
 
 Then you can chdir into the `src` directory and start the
 debug webserver or call the helper scripts:
@@ -27,7 +27,7 @@ debug webserver or call the helper scripts:
     $ ./debug_webapp.py
 
 
-# Run
+## Run
 
 To deploy this you can use the uwsgi that is installed in the
 virtualenv and put it behind a reverse proxy. The deployment
