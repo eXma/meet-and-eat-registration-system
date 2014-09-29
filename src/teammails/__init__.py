@@ -47,7 +47,7 @@ def informal_to_teams(template_name, subject, debug=True):
     with smtp_session() as session:
         print "Send Mails..."
         i = 0
-        for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True):
+        for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).filter_by(backup=False):
             content = template.render(name=team.name)
             msg = MIMEText(content, "plain", "utf8")
 
