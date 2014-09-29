@@ -26,6 +26,18 @@ debug webserver or call the helper scripts:
     $ cd meet-and-eat-registration-system/src
     $ ./debug_webapp.py
 
+## Configuration
+
+You need a configuration to run the application and many of the
+helpers. A example config is provided. Simply copy the file
+`src/webapp/cfg/config_example.py` to `src/webapp/cfg/config.py`
+and change the values you need.
+
+NOTE: You should at least set the password, SECRET_KEY and the
+MAPQUEST_KEY. The mapquest stuff is needed to get the distances
+between the locations. You can register your own app key at
+http://developer.mapquest.com/web/products/open 
+
 
 ## Run
 
