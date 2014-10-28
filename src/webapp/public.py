@@ -25,6 +25,6 @@ def map_teams():
                                     "name": item.name,
                                     "type": "single"}
             else:
-                data_dict[ident]["name"] += "<br>" + item.name
+                data_dict[ident]["name"] += ",<br>" + item.name
                 data_dict[ident]["type"] = "multi"
     return json.dumps(data_dict.values())
