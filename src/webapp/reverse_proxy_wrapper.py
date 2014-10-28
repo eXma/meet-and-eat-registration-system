@@ -26,13 +26,17 @@ class ReverseProxied(object):
     :param app: the WSGI application
     '''
     def __init__(self, app):
+        """Proxy an application
+
+        :type app: flask.Flask
+        :param app: The app to proxy
+        """
         self.app = app
 
     def __call__(self, environ, start_response):
-        print environ['SCRIPT_NAME']
-        print environ['PATH_INFO']
-        from pprint import pprint
-        pprint(environ)
+        if self.app.debug:
+            from pprint import pprint
+            pprint(environ)
         script_name = environ.get('HTTP_X_SCRIPT_NAME', '')
         if script_name:
             environ['SCRIPT_NAME'] = script_name
