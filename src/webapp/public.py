@@ -20,11 +20,9 @@ def map_teams():
         if item.location is not None:
             ident = "%s%s" % (item.location.lat, item.location.lon)
             if ident not in data_dict:
-                data_dict[ident] = {
-                    "lat": item.location.lat,
-                     "lon": item.location.lon,
-                     "name": item.name
-                }
+                data_dict[ident] = {"lat": item.location.lat,
+                                    "lon": item.location.lon,
+                                    "name": item.name}
             else:
                 data_dict[ident]["name"] += "<br>" + item.name
     data = [entry for entry in data_dict.itervalues()]
