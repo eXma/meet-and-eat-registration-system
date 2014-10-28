@@ -49,10 +49,16 @@
 
 <script type="text/javascript">
     $(function () {
+        var multi_icon = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-darkblue.png"});
+
         $.getJSON("{{ url_for(".map_teams") }}", function (data) {
             var i = 0;
             for (i = 0; i < data.length; i++) {
-                var marker = L.marker([data[i].lat, data[i].lon], {}).bindPopup("<strong>" + data[i].name + "</strong>").addTo(map);
+                var marker = L.marker([data[i].lat, data[i].lon], {}).bindPopup("<strong>" + data[i].name + "</strong>");
+                if (data[i].type == "multi") {
+                    marker.setIcon(multi_icon);
+                }
+                marker.addTo(map);
             }
         });
     })

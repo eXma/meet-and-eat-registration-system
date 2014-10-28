@@ -22,7 +22,9 @@ def map_teams():
             if ident not in data_dict:
                 data_dict[ident] = {"lat": item.location.lat,
                                     "lon": item.location.lon,
-                                    "name": item.name}
+                                    "name": item.name,
+                                    "type": "single"}
             else:
                 data_dict[ident]["name"] += "<br>" + item.name
+                data_dict[ident]["type"] = "multi"
     return json.dumps(data_dict.values())
