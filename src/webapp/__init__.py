@@ -100,5 +100,5 @@ init_app(app)
 if __name__ == "__main__":
     app.run("0.0.0.0")
 else:
-    if app.config.get("BEHIND_REVERSE_PROXY") is not None:
+    if app.config.get("BEHIND_REVERSE_PROXY") is True:
         app = ReverseProxied(app)
