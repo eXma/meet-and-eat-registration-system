@@ -25,5 +25,4 @@ def map_teams():
                                     "name": item.name}
             else:
                 data_dict[ident]["name"] += "<br>" + item.name
-    data = [entry for entry in data_dict.itervalues()]
-    return json.dumps(data)
+    return json.dumps(data_dict.values())
