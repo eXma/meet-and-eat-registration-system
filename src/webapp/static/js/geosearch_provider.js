@@ -24,7 +24,7 @@ L.GeoSearch.Provider.OpenStreetMap = L.Class.extend({
 
     GetServiceUrl: function (qry) {
         var parameters = L.Util.extend({
-            q: qry,
+            q: encodeURIComponent(qry),
             format: 'json'
         }, this.options);
 
