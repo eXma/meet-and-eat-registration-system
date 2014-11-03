@@ -33,7 +33,7 @@ def logout():
 @bp.route("/")
 @valid_admin
 def overview():
-    teams = db.session.query(Team).filter_by(deleted=False).order_by(Team.name)
+    teams = db.session.query(Team).filter_by(deleted=False).order_by(Team.backup, Team.name)
     return render_template("admin/overview.html", teams=teams)
 
 
