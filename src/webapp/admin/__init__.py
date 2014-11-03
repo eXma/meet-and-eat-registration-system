@@ -135,7 +135,7 @@ def edit_team(team_id):
             if len(team.members) > idx:
                 member.data = team.members[idx].name
         form.allergies.data = team.allergies
-        form.vegetarians.data = team.allergies
+        form.vegetarians.data = team.vegetarians
         form.backup.data = team.backup
 
     # ToDo make lat/lon selectable via a map!
