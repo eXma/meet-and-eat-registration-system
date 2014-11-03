@@ -8,6 +8,14 @@
         .unconfirmed {
             color: gray;
         }
+
+	.backup {
+	    color: #0033CC;
+	}
+
+	.backup .unconfirmed {
+	    color: #6699FF;
+	}
     </style>
 {% endblock %}
 {% block content %}
@@ -26,7 +34,7 @@
         </thead>
         <tbody>
         {% for team in teams %}
-            <tr{% if team.backup %} class="muted"{% endif %}>
+            <tr{% if team.backup %} class="backup"{% endif %}>
                 <td>{{ loop.index }}</td>
                 <td class="{% if team.confirmed %}confirmed{% else %}unconfirmed{% endif %}">{{ team.name }}</td>
                 <td>{{ team.location.street }} {% if team.location.extra %}({{ team.location.extra }}){% endif %}</td>
