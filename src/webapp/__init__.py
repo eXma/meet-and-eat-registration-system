@@ -23,10 +23,10 @@ def configure_app(app):
     :param app: The Application to configure.
     """
     filename = EXAMPLE_CONFIG
-    if os.path.isfile(os.path.join(os.path.dirname(__file__), "cfg", "%s.py" % PRODUCTIVE_CONFIG)):
+    if os.path.isfile(os.path.join(os.path.dirname(__file__), "..", "cfg", "%s.py" % PRODUCTIVE_CONFIG)):
         filename = PRODUCTIVE_CONFIG
 
-    app.config.from_object("webapp.cfg.%s" % filename)
+    app.config.from_object("cfg.%s" % filename)
 
 
 def init_logging(app):

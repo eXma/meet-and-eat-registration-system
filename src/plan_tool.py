@@ -1,18 +1,18 @@
 #!env python
 
 from argparse import ArgumentParser
-import argparse
 from collections import defaultdict
 import json
 import imp
 from math import floor
+
 from sqlalchemy import not_
 
 import database as db
 from database.model import Team, RouteDistance
 from geotools import openroute_link
 from geotools.routing import MapPoint
-from webapp.cfg.config import DB_CONNECTION
+from cfg.config import DB_CONNECTION
 from planning.cluster_graph import process_plan
 
 

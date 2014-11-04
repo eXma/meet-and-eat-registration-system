@@ -1,5 +1,6 @@
 *.pyc
 *.pyo
 *.swp
-src/webapp/cfg/config.py
+src/cfg/config.py
+src/database/*.db
 .idea/workspace.xml
