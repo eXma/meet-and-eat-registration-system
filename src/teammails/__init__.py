@@ -1,5 +1,6 @@
 from collections import defaultdict
 from contextlib import contextmanager
+from email.utils import formatdate
 import os
 import smtplib
 from email.mime.text import MIMEText
@@ -57,6 +58,7 @@ def informal_to_teams(template_name, subject, debug=True):
             msg['Subject'] = subject
             msg['From'] = sender
             msg['To'] = rcpt
+            msg['Date'] = formatdate(localtime=True)
 
             session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
             i += 1
