@@ -1,4 +1,5 @@
 import json
+import random
 from math import floor
 from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort
 from database.model import Team, Members
@@ -67,6 +68,7 @@ def map_teams():
     working = teams[:max_working]
     teams = sorted(working, distance_sort) + teams[max_working:] + backup + unconfirmed
 
+    locations = set()
     for idx, team in enumerate(teams):
         color_idx = 0
         if (divider > 0):
@@ -82,8 +84,20 @@ def map_teams():
                      "members": [member.name for member in team.members],
                      "address": team.location.street,
                      "color": _color_map[color_idx]}
-        location = {"lat": team.location.lat,
-                    "lon": team.location.lon}
+
+        lat = team.location.lat
+        lon = team.location.lon
+        while "%s|%s" % (lat, lon) in locations:
+            rand = (random.random() - 0.5) * 2
+            if rand < 0:
+                rand = min(rand, -0.2)
+            else:
+                rand = max(rand, 0.2)
+            lon += rand * 0.0002
+        locations.add("%s|%s" % (lat, lon))
+
+        location = {"lat": lat,
+                    "lon": lon}
         data.append({"location": location,
                      "data": team_data})
 
