@@ -1,7 +1,7 @@
 Hallo liebe meet&eat-Teilnehmer vom Team {{name}},
 
 der meet&eat-Anmeldezeitraum ist seit Sonntag vorbei und es haben sich
-ingesamt 51 Teams angemeldet, was wieder ein neuer Rekord für das
+ingesamt 60 Teams angemeldet, was wieder ein neuer Rekord für das
 Herbst-meet&eat ist. 
 Unsere Server arbeiten momentan auf Hochtouren, um für jedes Team den
 optimalen Abendplan zu erstellen. Sobald das geschehen ist, bekommt Ihr
