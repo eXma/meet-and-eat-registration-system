@@ -2,7 +2,7 @@ import httplib
 import json
 import urllib
 
-from webapp.cfg import config
+from cfg import config
 
 
 class MapPoint(object):

@@ -4,7 +4,7 @@ import database as db
 from database.model import Team, RouteDistance
 from geotools import simple_distance
 from geotools.routing import MapPoint
-from webapp.cfg.config import DB_CONNECTION
+from cfg.config import DB_CONNECTION
 
 print "init db..."
 db.init_session(connection_string=DB_CONNECTION)

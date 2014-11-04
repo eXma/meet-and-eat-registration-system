@@ -2,17 +2,16 @@ from collections import defaultdict
 from contextlib import contextmanager
 import os
 import smtplib
-from sqlalchemy import not_
-import database as db
-
 from email.mime.text import MIMEText
 
+from sqlalchemy import not_
 from jinja2 import Template
+
+from cfg import config
+import database as db
 from database.model import Team
 from geotools import openroute_link
 from geotools.routing import MapPoint
-
-from webapp.cfg import config
 
 
 @contextmanager

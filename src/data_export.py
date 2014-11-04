@@ -5,11 +5,13 @@ import argparse
 from collections import defaultdict
 import json
 from math import floor
+
 from sqlalchemy import not_
+
 from database.model import Team
 from geotools import simple_distance
 from geotools.routing import MapPoint
-from webapp.cfg.config import DB_CONNECTION
+from cfg.config import DB_CONNECTION
 import database as db
 
 
