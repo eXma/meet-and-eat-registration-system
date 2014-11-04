@@ -26,6 +26,7 @@
         <tr>
             <th>Lfd.Nr</th>
             <th>Team</th>
+            <th>DB</th>
             <th>Adresse</th>
             <th>Mitglieder</th>
             <th>Telefon</th>
@@ -37,6 +38,7 @@
             <tr{% if team.backup %} class="backup"{% endif %}>
                 <td>{{ loop.index }}</td>
                 <td class="{% if team.confirmed %}confirmed{% else %}unconfirmed{% endif %}">{{ team.name }}</td>
+                <td class="{% if team.confirmed %}confirmed{% else %}unconfirmed{% endif %}">{{ team.id }}</td>
                 <td>{{ team.location.street }} {% if team.location.extra %}({{ team.location.extra }}){% endif %}</td>
                 <td>{% for member in team.members %}{% if not loop.first %}; {% endif %}
                     {{ member.name }}{% endfor %}</td>
