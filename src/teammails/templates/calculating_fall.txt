@@ -1,4 +1,4 @@
-Hallo liebe meet&eat-Teilnehmer vom Team {{name}},
+Hallo liebe Teilnehmer vom Team {{name}},
 
 der meet&eat-Anmeldezeitraum ist seit Sonntag vorbei und es haben sich
 ingesamt 60 Teams angemeldet, was wieder ein neuer Rekord für das
@@ -9,5 +9,8 @@ eure Abendablaufpläne per Mail zugeschickt.
 Voraussichtlich ist es im Laufe des Donnerstagvormittag so weit, bis dahin
 bitten wir Euch um noch ein wenig Geduld. 
 
-Viele Grüße
+Viele Grüße!
 Euer eXma-Team
+
+PS: Macht fleißig Fotos - unsere Fotografen können ja nicht überall sein.
+    Wir erstellen dann ein meet&eat-Album auf eXmatrikulationsamt.de!
