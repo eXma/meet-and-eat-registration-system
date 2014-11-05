@@ -126,8 +126,10 @@ def cmd_print_plan(args):
             station_points.append(MapPoint.from_team(station_team))
             last_station = station_team
 
-        print "- route (osm): %s" % openroute_link(station_points)
-        print "- route (google): %s" % gmaps_link(station_points)
+        if args.osm:
+            print "- route (osm): %s" % openroute_link(station_points)
+        if args.gmaps:
+            print "- route (google): %s" % gmaps_link(station_points)
         print ""
 
 
