@@ -23,3 +23,28 @@ def openroute_link(map_points):
     return base % {"start": "%s,%s" % (start.lng, start.lat),
                    "end": "%s,%s" % (stop.lng, stop.lat),
                    "via": via}
+
+
+def _gmap_point(point):
+    return "%s,%s" % (point.lat, point.lng)
+
+
+def gmaps_link(map_points):
+    base = "http://google.de/maps/dir/"
+
+    start = map_points[0]
+    stop = map_points[-1]
+    via = map_points[1:-1]
+
+    args = [_gmap_point(start)]
+
+    for point in via:
+        args.append(_gmap_point(point))
+
+    args.append(_gmap_point(stop))
+
+    # walking
+    args.append("data=!4m2!4m1!3e2")
+
+    return base + "/".join(args)
+

@@ -11,7 +11,7 @@ from jinja2 import Template
 from cfg import config
 import database as db
 from database.model import Team
-from geotools import openroute_link
+from geotools import openroute_link, gmaps_link
 from geotools.routing import MapPoint
 
 
@@ -121,7 +121,8 @@ zu Gast sind bei Euch:
             for (round_idx, host) in enumerate(plan_results[team]):
                 round_data = round_datas[round_idx]
                 end_point = MapPoint.from_team(teams[host])
-                route = openroute_link([start_point, end_point])
+                #route = openroute_link([start_point, end_point])
+                route = gmaps_link([start_point, end_point])
                 start_point = end_point
                 if team != host:
                     detail = guestentry % {"time": round_data["time"],
@@ -182,14 +183,19 @@ def emergency_plan_routes(plan_results, debug=True):
             if plan[0] == team:
                 route_data["pre"] = "braucht ihr keine, da diese ja bei euch stattfindet"
             else:
-                route_data["pre"] = openroute_link(
+                #route_data["pre"] = openroute_link(
+                #    [MapPoint.from_team(teams[team]), MapPoint.from_team(teams[plan[0]])])
+                route_data["pre"] = gmaps_link(
                     [MapPoint.from_team(teams[team]), MapPoint.from_team(teams[plan[0]])])
 
             for (idx, name) in enumerate(["main", "dessert"]):
-                route_data[name] = openroute_link(
+                #route_data[name] = openroute_link(
+                #    [MapPoint.from_team(teams[plan[idx]]), MapPoint.from_team(teams[plan[idx + 1]])])
+                route_data[name] = gmaps_link(
                     [MapPoint.from_team(teams[plan[idx]]), MapPoint.from_team(teams[plan[idx + 1]])])
 
-            route_data["aqua"] = openroute_link([MapPoint.from_team(teams[plan[2]]), aqua])
+            #route_data["aqua"] = openroute_link([MapPoint.from_team(teams[plan[2]]), aqua])
+            route_data["aqua"] = gmaps_link([MapPoint.from_team(teams[plan[2]]), aqua])
 
             rcpt = teams[team].email
             if debug:
