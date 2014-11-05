@@ -10,7 +10,7 @@ from sqlalchemy import not_
 
 import database as db
 from database.model import Team, RouteDistance
-from geotools import openroute_link
+from geotools import openroute_link, gmaps_link
 from geotools.routing import MapPoint
 from cfg.config import DB_CONNECTION
 from planning.cluster_graph import process_plan
@@ -126,7 +126,8 @@ def cmd_print_plan(args):
             station_points.append(MapPoint.from_team(station_team))
             last_station = station_team
 
-        print "- route: %s" % openroute_link(station_points)
+        print "- route (osm): %s" % openroute_link(station_points)
+        print "- route (google): %s" % gmaps_link(station_points)
         print ""
 
 
@@ -155,6 +156,7 @@ def parse_args():
 
     print_parser = subcommands.add_parser("print")
     print_parser.add_argument("--osm", action="store_true", help="build osm route links")
+    print_parser.add_argument("--gmaps", action="store_true", help="build google maps route links")
     print_parser.set_defaults(func=cmd_print_plan)
 
     graph_parser = subcommands.add_parser("graph", help="Build a clustering graph")
