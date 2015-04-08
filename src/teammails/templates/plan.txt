@@ -1,6 +1,6 @@
 Hallo liebe Teilnehmer vom Team {{name}},
 
-wir freuen uns sehr, dass Ihr am Samstag, den {{ eventdate }}, beim 10.
+wir freuen uns sehr, dass Ihr am Samstag, den {{ eventdate }}, beim 11.
 meet&eat in Dresden dabei seid. In dieser Mail findet Ihr alles
 Wissenswerte zum Ablauf der Veranstaltung auf Euch zugeschnitten.
 
