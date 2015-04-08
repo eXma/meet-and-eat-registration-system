@@ -3,8 +3,8 @@ Hallo {{ team.name }},
 wir haben eure Anmeldung beim meet&eat erhalten. Hier nochmal eure Angaben:
 
 Eure Namen: {{ team.members[0].name }}, {{ team.members[1].name }} und {{ team.members[2].name }}
-E-Mail-Adresse: {{ team.email }})
-Handynummer: {{ team.phone }})
+E-Mail-Adresse: {{ team.email }}
+Handynummer: {{ team.phone }}
 Adresse: {{ team.location.street }}, {{ team.location.zip_no }} Dresden
 Klingeln bei: {{ team.location.extra }}
 
