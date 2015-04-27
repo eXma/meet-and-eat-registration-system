@@ -46,7 +46,7 @@ def team_map():
 @bp.route("/groups")
 @valid_admin
 def group_map():
-    return render_template("admin/map.html")
+    return render_template("admin/groups.html")
 
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
 
