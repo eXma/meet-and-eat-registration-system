@@ -1,4 +1,4 @@
-Hallo liebe meet&eat-Teilnehmer vom Team {{ name }},
+Hallo liebe meet&eat-Teilnehmer vom Team "{{ name }}",
 
 der Anmeldezeitraum für das {{ volume }}. meet&eat ist vorbei. Diesmal haben sich
 ingesamt {{ num_teams }} Teams angemeldet.
