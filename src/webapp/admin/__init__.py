@@ -46,7 +46,10 @@ def team_map():
 @bp.route("/groups")
 @valid_admin
 def group_map():
-    return render_template("admin/groups.html")
+    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).all()
+    max_working = len(teams) - (len(teams) % 3)
+    teams = teams[:max_working]
+    return render_template("admin/groups.html", teams=teams)
 
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
 

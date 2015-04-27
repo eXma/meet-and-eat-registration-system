@@ -47,6 +47,7 @@
     </div>
 </div>
 
+{% block container %}
 <div class="container">
     {% block content %}
         <h1>Bootstrap starter template</h1>
@@ -56,6 +57,7 @@
             document.</p>
     {% endblock %}
 </div>
+{% endblock %}
 <!-- /container -->
 
 <script type="text/javascript" src="{{ url_for('static', filename='lib/jquery/jquery-1.9.1.min.js') }}"></script>
