@@ -43,6 +43,10 @@ def overview():
 def team_map():
     return render_template("admin/map.html")
 
+@bp.route("/groups")
+@valid_admin
+def group_map():
+    return render_template("admin/map.html")
 
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
 
