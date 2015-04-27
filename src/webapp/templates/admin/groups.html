@@ -14,8 +14,14 @@
             top: 40px;
             bottom: 0;
             right: 80%;
-            left: 10px;
+            left: 0;
             overflow-y: scroll;
+            padding-right: 10px;
+            padding-left: 10px;;
+        }
+
+        .group_team {
+            border-top: 1px solid #ddd;
         }
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css"/>
@@ -27,7 +33,7 @@
 <div id="grouped_teams">
     <h5>Verfügbare Teams</h5>
     {% for team in teams %}
-        <div class="">{{ team.name }}</div>
+        <div class="group_team">{{ team.name }}</div>
     {% endfor %}
 </div>
 {% endblock %}
