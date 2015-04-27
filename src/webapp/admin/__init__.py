@@ -107,6 +107,50 @@ def map_teams():
 
     return json.dumps(data)
 
+_group_colors = ["blue", "yellow", "green", "red",]
+def _group_color(group):
+    if group is None:
+        return "gray"
+    else:
+        return _group_colors[group % len(_group_colors)]
+
+
+@bp.route("/group_map_teams")
+@valid_admin
+def group_map_teams():
+    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).all()
+    data = []
+
+    max_working = len(teams) - (len(teams) % 3)
+    teams = teams[:max_working]
+
+    locations = set()
+    for team in teams:
+        team_data = {"name": team.name,
+                     "id": team.id,
+                     "confirmed": team.confirmed,
+                     "email": team.email,
+                     "members": [member.name for member in team.members],
+                     "address": team.location.street,
+                     "color": _group_color(team.group)}
+
+        lat = team.location.lat
+        lon = team.location.lon
+        while "%s|%s" % (lat, lon) in locations:
+            rand = (random.random() - 0.5) * 2
+            if rand < 0:
+                rand = min(rand, -0.2)
+            else:
+                rand = max(rand, 0.2)
+            lon += rand * 0.0002
+        locations.add("%s|%s" % (lat, lon))
+
+        location = {"lat": lat,
+                    "lon": lon}
+        data.append({"location": location,
+                     "data": team_data})
+
+    return json.dumps(data)
 
 @bp.route("/edit/<int:team_id>", methods=["GET", "POST"])
 def edit_team(team_id):
