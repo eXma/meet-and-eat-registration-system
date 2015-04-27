@@ -1,13 +1,13 @@
 Hallo liebe meet&eat-Teilnehmer vom Team {{name}},
 
-der meet&eat-Anmeldezeitraum ist seit Sonntag vorbei und es haben sich
-ingesamt 55 Teams angemeldet, was wieder ein neuer Rekord für das
-Frühlings-meet&eat ist. 
-Unsere Server arbeiten momentan auf Hochtouren, um für jedes Team den
-optimalen Abendplan zu erstellen. Sobald das geschehen ist, bekommt Ihr
-eure Abendablaufpläne per Mail zugeschickt.  
-Voraussichtlich ist es im Laufe des Donnerstagvormittag so weit, bis dahin
-bitten wir Euch um noch ein wenig Geduld. 
+der Anmeldezeitraum fürs nächste meet&eat ist vorbei. Diesmal haben sich
+ingesamt {{num_teams}} Teams angemeldet.
+
+Unsere Server berechnen jetzt die Routen für die Abendplanung der einzelnen 
+Teams. Durch die immer weiter verbesserten Algorithmen hoffen wir, für jedes
+Team die optimale Route zu erstellen. Sobald das geschehen ist, bekommt Ihr
+eure Abendpläne per Mail zugeschickt. Das ist voraussichtlich im Laufe des
+Donnerstags so weit. Bis dahin bitten wir Euch um noch ein wenig Geduld. 
 
 Viele Grüße
-Euer eXma-Team
+Euer meet&eat-Team von eXmatrikulationsamt.de
