@@ -1,7 +1,7 @@
-Hallo liebe meet&eat-Teilnehmer vom Team {{name}},
+Hallo liebe meet&eat-Teilnehmer vom Team {{ name }},
 
-der Anmeldezeitraum fürs nächste meet&eat ist vorbei. Diesmal haben sich
-ingesamt {{num_teams}} Teams angemeldet.
+der Anmeldezeitraum für das {{ volume }} meet&eat ist vorbei. Diesmal haben sich
+ingesamt {{ num_teams }} Teams angemeldet.
 
 Unsere Server berechnen jetzt die Routen für die Abendplanung der einzelnen 
 Teams. Durch die immer weiter verbesserten Algorithmen hoffen wir, für jedes
