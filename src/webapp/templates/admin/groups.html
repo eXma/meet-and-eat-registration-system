@@ -23,6 +23,10 @@
         .group_team {
             border-top: 1px solid #ddd;
         }
+
+        .group_team.hovered {
+            background-color: #ad8b88;
+        }
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css"/>
 {% endblock %}
@@ -33,7 +37,7 @@
 <div id="grouped_teams">
     <h5>Verfügbare Teams</h5>
     {% for team in teams %}
-        <div class="group_team">{{ team.name }}</div>
+        <div class="group_team" id="side_team_{{ team.id }}">{{ team.name }}</div>
     {% endfor %}
 </div>
 {% endblock %}
@@ -58,6 +62,19 @@
     </script>
 
     <script type="text/javascript">
+
+        function hover_marker(team_id, hover) {
+            console.log("PENG" + team_id + "  " + hover);
+            var elem = $.find("#side_team_" + team_id);
+            if (hover) {
+                $("#grouped_teams").animate({
+                    scrollTop: $(elem).addClass("hovered").offset().top
+                }, 500);
+            } else {
+                $(elem).removeClass("hovered");
+            }
+        }
+
         function transformLoc(lat, lon) {
             return [lat, lon];
             //return  [51.0322627 + ((0.5 - Math.random()) / 10), 13.7071665 + ((0.5 - Math.random()) / 10)]
@@ -72,6 +89,8 @@
                     popup.find("ul").append($("<li>" + data.data.members[i] + "</li>"));
                 }
                 marker.bindPopup(popup.html());
+                marker.on("mouseover", function(e){hover_marker(data.data.id, true)});
+                marker.on("mouseout", function(e){hover_marker(data.data.id, false)});
             }
             marker.addTo(map);
         }
