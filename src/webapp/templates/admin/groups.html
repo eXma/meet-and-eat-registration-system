@@ -81,13 +81,13 @@
             var target_class = (popup ? "selected" : "hovered");
             if (set_on) {
                 elem.addClass(target_class);
-                var pos = elem.position().top;
-                if (pos < 0 || pos > $(elem.parent()).height()) {
-                    $("#grouped_teams").animate({
-                        scrollTop: elem.position().top
-                    }, 100);
-                }
                 if (popup) {
+		    var pos = elem.position().top;
+		    if (pos < 0 || pos > $(elem.parent()).height()) {
+			$("#grouped_teams").animate({
+			    scrollTop: elem.position().top
+			}, 100);
+		    }
                     group_markers[team_id].setIcon(markers["red"]);
                 }
             } else {
