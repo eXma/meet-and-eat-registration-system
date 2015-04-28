@@ -102,7 +102,7 @@ def cmd_distance_data(args):
                                              backup=False).order_by(Team.id)
 
     if args.group is not None:
-        teams.filter_by(groups=args.group)
+        teams = teams.filter_by(groups=args.group)
 
     if args.slice is not None:
         teams = teams.limit(args.slice)
