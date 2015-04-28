@@ -1,7 +1,7 @@
 import json
 import random
 from math import floor
-from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort
+from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort, request
 from database.model import Team, Members
 from webapp.admin.login import delete_token, set_token, valid_admin
 from webapp.forms import AdminLoginForm, ConfirmForm, TeamEditForm
@@ -44,7 +44,7 @@ def team_map():
     return render_template("admin/map.html")
 
 
-_group_colors = ["blue", "yellow", "green"]
+_group_colors = ["gray", "blue", "yellow", "green"]
 def _group_color(group):
     if group is None:
         return "gray"
@@ -139,7 +139,7 @@ def group_map_teams():
                      "email": team.email,
                      "members": [member.name for member in team.members],
                      "address": team.location.street,
-                     "color": _group_color(team.group)}
+                     "color": _group_color(team.groups)}
 
         lat = team.location.lat
         lon = team.location.lon
@@ -158,6 +158,27 @@ def group_map_teams():
                      "data": team_data})
 
     return json.dumps(data)
+
+
+@bp.route("/group_update", methods=["POST"])
+@valid_admin
+def update_group():
+    team_id = int(request.form["team_id"])
+    team = db.session.query(Team).filter_by(id=team_id).first()
+    if team is None:
+        abort(404)
+
+    group = int(request.form["group_id"])
+    print group
+    if group not in range(0, current_app.config["TEAM_GROUPS"] + 1):
+        abort(400)
+
+    team.groups = group
+    db.session.commit()
+
+    return json.dumps(dict(color=_group_color(group)))
+
+
 
 @bp.route("/edit/<int:team_id>", methods=["GET", "POST"])
 def edit_team(team_id):

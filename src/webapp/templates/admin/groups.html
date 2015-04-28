@@ -40,10 +40,10 @@
     <div id="grouped_teams">
         <h5>Verfügbare Teams</h5>
         {% for team in teams %}
-            <div class="team_container" style="clear: both">
+            <div class="team_container" style="clear: both" data-teamid="{{ team.id }}">
                 <div class="btn-group" data-toggle="buttons-radio" style="float: right;">
                     {% for group in groups %}
-                    <button type="button" class="btn btn-mini{% if team.group == group.idx %} active{% endif %}" data-groupid="{{ group.idx }}">{{ group.name }}</button>
+                    <button type="button" class="btn btn-mini{% if team.groups == group.idx %} active{% endif %}" data-groupid="{{ group.idx }}">{{ group.name }}</button>
                     {% endfor %}
                 </div>
                 <div class="group_team" id="side_team_{{ team.id }}">
@@ -77,7 +77,7 @@
         var group_markers = {};
 
         function hover_marker(team_id, set_on, popup) {
-            var elem = $($.find("#side_team_" + team_id));
+            var elem = $("#side_team_" + team_id);
             var target_class = (popup ? "selected" : "hovered");
             if (set_on) {
                 elem.addClass(target_class);
@@ -88,12 +88,12 @@
                     }, 100);
                 }
                 if (popup) {
-                    group_markers["side_team_" + team_id].setIcon(markers["red"]);
+                    group_markers[team_id].setIcon(markers["red"]);
                 }
             } else {
                 elem.removeClass(target_class);
                 if (popup) {
-                    group_markers["side_team_" + team_id].setIcon(markers[group_markers["side_team_" + team_id]._orig_color]);
+                    group_markers[team_id].setIcon(markers[group_markers[team_id]._orig_color]);
                 }
             }
         }
@@ -118,7 +118,21 @@
                 marker.on("mouseout", function(e){hover_marker(data.data.id, false, false)});
             }
             marker.addTo(map);
-            group_markers["side_team_" + data.data.id] = marker;
+            group_markers[data.data.id] = marker;
+        }
+
+        function set_group(team, group) {
+
+            $.post("{{ url_for(".update_group") }}", {group_id: group, team_id: team}, function( data ) {
+                var marker = group_markers[team],
+                        color = data.color,
+                        list_elem = $("#side_team_" + team);
+
+                marker._orig_color=color;
+                if (! list_elem.hasClass("selected")) {
+                    marker.setIcon(markers[color]);
+                }
+            }, "json")
         }
 
         $(function () {
@@ -132,8 +146,9 @@
             map.on("popupopen", function( e ) { hover_marker(e.popup._source._team_id, true, true); });
             map.on("popupclose", function( e ) { hover_marker(e.popup._source._team_id, false, true); });
             $(".group_team").bind("click", function( e ) {
-                var elem = $(e.target);
-                var marker = group_markers[e.target.id];
+                var elem = $(e.target),
+                    id = elem.parents(".team_container").data("teamid"),
+                    marker = group_markers[id];
 
                 if (elem.hasClass("selected")) {
                     marker.closePopup();
@@ -141,6 +156,14 @@
                     marker.openPopup();
                 }
             });
+            $(".team_container").find(">.btn-group>button").bind("click", function( e ) {
+                var elem = $(e.target),
+                        teamid = elem.parents(".team_container").data("teamid"),
+                        groupid = elem.data("groupid");
+                console.log("select " + groupid + " for " + teamid);
+                set_group(teamid, groupid);
+            })
+
         })
     </script>
 {% endblock %}
