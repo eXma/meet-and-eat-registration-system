@@ -85,6 +85,8 @@ def parse_args():
     informal.add_argument("-S", "--separate", type=int, metavar="I", nargs=argparse.REMAINDER,
                           help="Separate the given ids to a new group",
                           required=False)
+    informal.add_argument("-g", "--group", type=int, metavar="G", required=False,
+                          help="Export data for the given group-id")
     informal.set_defaults(func=cmd_distance_data)
 
     return args.parse_args()
@@ -96,6 +98,10 @@ def cmd_distance_data(args):
 
     print "fetch teams..."
     teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id)
+
+    if args.group is not None:
+        teams.filter_by(groups=args.group)
+
     if args.slice is not None:
         teams = teams.limit(args.slice)
 
