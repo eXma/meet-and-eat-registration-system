@@ -71,7 +71,7 @@ def group_map():
                                    func.count(Team.id).label("count")
                                    ).group_by(Team.groups).all())
     for entry in groups:
-        entry["count"] = counts[entry["idx"]]
+        entry["count"] = counts.get(entry["idx"], 0)
 
     return render_template("admin/groups.html", teams=teams, groups=groups)
 
@@ -215,7 +215,6 @@ def update_group():
         abort(404)
 
     group = int(request.form["group_id"])
-    print group
     if group not in range(0, current_app.config["TEAM_GROUPS"] + 1):
         abort(400)
 
@@ -225,6 +224,9 @@ def update_group():
     counts = dict(db.session.query(Team.groups.label("group"),
                                    func.count(Team.id).label("count")
                                    ).group_by(Team.groups).all())
+    for idx in range(0, current_app.config["TEAM_GROUPS"] + 1):
+        if idx not in counts:
+            counts[idx] = 0
 
     return json.dumps(dict(color=_group_color(group),
                            counts=counts))
