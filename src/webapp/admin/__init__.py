@@ -69,7 +69,12 @@ def group_map():
 
     counts = dict(db.session.query(Team.groups.label("group"),
                                    func.count(Team.id).label("count")
-                                   ).group_by(Team.groups).all())
+                                   ).group_by(
+                                       Team.groups
+                                   ).filter_by(deleted=False,
+                                               confirmed=True,
+                                               backup=False,
+                                               groups=group_id).all())
     for entry in groups:
         entry["count"] = counts.get(entry["idx"], 0)
 
@@ -223,7 +228,12 @@ def update_group():
 
     counts = dict(db.session.query(Team.groups.label("group"),
                                    func.count(Team.id).label("count")
-                                   ).group_by(Team.groups).all())
+                                   ).group_by(
+                                       Team.groups
+                                   ).filter_by(deleted=False,
+                                               confirmed=True,
+                                               backup=False,
+                                               groups=group_id).all())
     for idx in range(0, current_app.config["TEAM_GROUPS"] + 1):
         if idx not in counts:
             counts[idx] = 0
