@@ -7,13 +7,13 @@
             top: 40px;
             bottom: 0;
             right: 0;
-            left: 20%;
+            left: 30%;
         }
         #grouped_teams {
             position: fixed;
             top: 40px;
             bottom: 0;
-            right: 80%;
+            right: 70%;
             left: 0;
             overflow-y: scroll;
             padding-right: 10px;
@@ -37,13 +37,21 @@
 
 {% block container %}
 <div id="map"></div>
-
-<div id="grouped_teams">
-    <h5>Verfügbare Teams</h5>
-    {% for team in teams %}
-        <div class="group_team" id="side_team_{{ team.id }}">{{ team.name }}</div>
-    {% endfor %}
-</div>
+    <div id="grouped_teams">
+        <h5>Verfügbare Teams</h5>
+        {% for team in teams %}
+            <div class="team_container" style="clear: both">
+                <div class="btn-group" data-toggle="buttons-radio" style="float: right;">
+                    {% for group in groups %}
+                    <button type="button" class="btn btn-mini{% if team.group == group.idx %} active{% endif %}" data-groupid="{{ group.idx }}">{{ group.name }}</button>
+                    {% endfor %}
+                </div>
+                <div class="group_team" id="side_team_{{ team.id }}">
+                    {{ team.name }}<br>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {% block extra_js %}
@@ -63,27 +71,30 @@
                 icon_transparent = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-transparent.png"}),
                 markers = {red: icon_red, green: icon_green, blue: icon_blue, yellow: icon_yellow, gray: icon_gray, transparent: icon_transparent};
 
-        map.on("popupopen", function( e ) { hover_marker(e.popup._source._team_id, true, true); })
-        map.on("popupclose", function( e ) { hover_marker(e.popup._source._team_id, false, true); })
-
     </script>
 
     <script type="text/javascript">
+        var group_markers = {};
 
         function hover_marker(team_id, set_on, popup) {
             var elem = $($.find("#side_team_" + team_id));
             var target_class = (popup ? "selected" : "hovered");
             if (set_on) {
                 elem.addClass(target_class);
-                console.log(elem.position().top);
                 var pos = elem.position().top;
                 if (pos < 0 || pos > $(elem.parent()).height()) {
                     $("#grouped_teams").animate({
                         scrollTop: elem.position().top
-                    }, 500);
+                    }, 100);
+                }
+                if (popup) {
+                    group_markers["side_team_" + team_id].setIcon(markers["red"]);
                 }
             } else {
                 elem.removeClass(target_class);
+                if (popup) {
+                    group_markers["side_team_" + team_id].setIcon(markers[group_markers["side_team_" + team_id]._orig_color]);
+                }
             }
         }
 
@@ -102,10 +113,12 @@
                 }
                 marker.bindPopup(popup.html());
                 marker._team_id =  data.data.id;
+                marker._orig_color = data.data.color;
                 marker.on("mouseover", function(e){hover_marker(data.data.id, true, false)});
                 marker.on("mouseout", function(e){hover_marker(data.data.id, false, false)});
             }
             marker.addTo(map);
+            group_markers["side_team_" + data.data.id] = marker;
         }
 
         $(function () {
@@ -113,6 +126,19 @@
                 var i = 0;
                 for (i = 0; i < data.length; i++) {
                     setMarker(data[i]);
+                }
+            });
+
+            map.on("popupopen", function( e ) { hover_marker(e.popup._source._team_id, true, true); });
+            map.on("popupclose", function( e ) { hover_marker(e.popup._source._team_id, false, true); });
+            $(".group_team").bind("click", function( e ) {
+                var elem = $(e.target);
+                var marker = group_markers[e.target.id];
+
+                if (elem.hasClass("selected")) {
+                    marker.closePopup();
+                } else {
+                    marker.openPopup();
                 }
             });
         })

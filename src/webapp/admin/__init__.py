@@ -43,13 +43,25 @@ def overview():
 def team_map():
     return render_template("admin/map.html")
 
+
+_group_colors = ["blue", "yellow", "green"]
+def _group_color(group):
+    if group is None:
+        return "gray"
+    else:
+        return _group_colors[group % len(_group_colors)]
+
 @bp.route("/groups")
 @valid_admin
 def group_map():
     teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).all()
     max_working = len(teams) - (len(teams) % 3)
     teams = teams[:max_working]
-    return render_template("admin/groups.html", teams=teams)
+
+    groups = [dict(idx=idx, name=str(idx), color=_group_color(idx)) for idx in range(1, current_app.config["TEAM_GROUPS"] + 1)]
+    groups.append(dict(idx=0, name="n/a", color="gray"))
+
+    return render_template("admin/groups.html", teams=teams, groups=groups)
 
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
 
@@ -109,14 +121,6 @@ def map_teams():
                      "data": team_data})
 
     return json.dumps(data)
-
-_group_colors = ["blue", "yellow", "green", "red",]
-def _group_color(group):
-    if group is None:
-        return "gray"
-    else:
-        return _group_colors[group % len(_group_colors)]
-
 
 @bp.route("/group_map_teams")
 @valid_admin
