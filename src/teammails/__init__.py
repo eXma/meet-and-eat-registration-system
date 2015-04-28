@@ -75,7 +75,7 @@ def informal_to_teams(template_name, subject, debug=True):
         print "Mails sent: %d" % i
 
 
-def plans_to_teams(plan_results, debug=True, include=None, exclude=None):
+def plans_to_teams(plan_results, debug=True, group=None, include=None, exclude=None):
     guestentry = """
 %(time)s Uhr - %(roundname)s bei "%(host)s"
 %(address)s
@@ -120,6 +120,8 @@ zu Gast sind bei Euch:
         qry = qry.filter(Team.id.in_(include))
     if exclude is not None:
         qry = qry.filter(not_(Team.id.in_(exclude)))
+    if group is not None:
+        qry = qry.filter_by(groups=group)
     for team in qry:
         teams[str(team.id)] = team
 

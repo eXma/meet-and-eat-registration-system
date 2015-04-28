@@ -26,6 +26,8 @@ def parse_args():
     plan.add_argument("-E", "--exclude", type=int, metavar="I", nargs="+",
                       help="Exclude the given ids to a new group",
                       required=False)
+    plan.add_argument("-g", "--group", type=int, metavar="G", required=False,
+                      help="Select a group to sent the mails")
     plan.set_defaults(func=cmd_send_planmails)
 
     emergency_routes = subs.add_parser("emergency_routes", help="send the fixed route links")
@@ -43,7 +45,7 @@ def cmd_send_informal(args):
 
 def cmd_send_planmails(args):
     results = read_plan_file(args)
-    plans_to_teams(results, not args.nodebug, args.separate, args.exclude)
+    plans_to_teams(results, not args.nodebug, args.group, args.separate, args.exclude)
 
 
 def cmd_send_emergency_routes(args):
