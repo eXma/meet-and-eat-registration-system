@@ -134,11 +134,15 @@
             $.post("{{ url_for(".update_group") }}", {group_id: group, team_id: team}, function( data ) {
                 var marker = group_markers[team],
                         color = data.color,
-                        list_elem = $("#side_team_" + team);
+                        list_elem = $("#side_team_" + team),
+                        stats = data.counts;
 
                 marker._orig_color=color;
                 if (! list_elem.hasClass("selected")) {
                     marker.setIcon(markers[color]);
+                }
+                for (idx in stats) {
+                    $("#group_stat_" + idx).html(stats[idx] + " Teams");
                 }
             }, "json")
         }
