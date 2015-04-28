@@ -25,7 +25,11 @@
         }
 
         .group_team.hovered {
-            background-color: #ad8b88;
+            background-color: #e8b8b5;
+        }
+
+        .group_team.selected {
+            background-color: #df7a53;
         }
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css"/>
@@ -59,19 +63,27 @@
                 icon_transparent = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-transparent.png"}),
                 markers = {red: icon_red, green: icon_green, blue: icon_blue, yellow: icon_yellow, gray: icon_gray, transparent: icon_transparent};
 
+        map.on("popupopen", function( e ) { hover_marker(e.popup._source._team_id, true, true); })
+        map.on("popupclose", function( e ) { hover_marker(e.popup._source._team_id, false, true); })
+
     </script>
 
     <script type="text/javascript">
 
-        function hover_marker(team_id, hover) {
-            console.log("PENG" + team_id + "  " + hover);
-            var elem = $.find("#side_team_" + team_id);
-            if (hover) {
-                $("#grouped_teams").animate({
-                    scrollTop: $(elem).addClass("hovered").offset().top
-                }, 500);
+        function hover_marker(team_id, set_on, popup) {
+            var elem = $($.find("#side_team_" + team_id));
+            var target_class = (popup ? "selected" : "hovered");
+            if (set_on) {
+                elem.addClass(target_class);
+                console.log(elem.position().top);
+                var pos = elem.position().top;
+                if (pos < 0 || pos > $(elem.parent()).height()) {
+                    $("#grouped_teams").animate({
+                        scrollTop: elem.position().top
+                    }, 500);
+                }
             } else {
-                $(elem).removeClass("hovered");
+                elem.removeClass(target_class);
             }
         }
 
@@ -89,8 +101,9 @@
                     popup.find("ul").append($("<li>" + data.data.members[i] + "</li>"));
                 }
                 marker.bindPopup(popup.html());
-                marker.on("mouseover", function(e){hover_marker(data.data.id, true)});
-                marker.on("mouseout", function(e){hover_marker(data.data.id, false)});
+                marker._team_id =  data.data.id;
+                marker.on("mouseover", function(e){hover_marker(data.data.id, true, false)});
+                marker.on("mouseout", function(e){hover_marker(data.data.id, false, false)});
             }
             marker.addTo(map);
         }
