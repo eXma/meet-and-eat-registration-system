@@ -20,7 +20,7 @@
             padding-left: 10px;;
         }
 
-        .group_team {
+        .group_team, .group_stats {
             border-top: 1px solid #ddd;
         }
 
@@ -31,6 +31,8 @@
         .group_team.selected {
             background-color: #df7a53;
         }
+
+        .group_stats { clear: both; }
     </style>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css"/>
 {% endblock %}
@@ -49,6 +51,12 @@
                 <div class="group_team" id="side_team_{{ team.id }}">
                     {{ team.name }}<br>
                 </div>
+            </div>
+        {% endfor %}
+        <h5>Satistik</h5>
+        {% for group in groups %}
+            <div class="group_stats">
+            Gruppe {{ group.name }}: <div style="float: right;" id="group_stat_{{ group.idx }}">{{ group.count }} Teams</div>
             </div>
         {% endfor %}
     </div>
