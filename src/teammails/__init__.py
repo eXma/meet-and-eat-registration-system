@@ -44,8 +44,9 @@ def informal_to_teams(template_name, subject, debug=True):
     envelope = config.MAIL_DEFAULT_SENDER
 
     data = dict(
-        num_teams=db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).filter_by(
-            backup=False).count(),
+        num_teams=db.session.query(Team).filter_by(deleted=False,
+                                                   confirmed=True,
+                                                   backup=False).count(),
         volume=config.VOLUME
     )
 
@@ -53,7 +54,9 @@ def informal_to_teams(template_name, subject, debug=True):
     with smtp_session() as session:
         print "Send Mails..."
         i = 0
-        for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).filter_by(backup=False):
+        for team in db.session.query(Team).filter_by(deleted=False,
+                                                     confirmed=True,
+                                                     backup=False):
             data["name"] = team.name
             content = template.render(**data)
             msg = MIMEText(content, "plain", "utf8")
@@ -110,7 +113,9 @@ zu Gast sind bei Euch:
 
     print "Fetch data..."
     teams = {}
-    qry = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True)
+    qry = db.session.query(Team).filter_by(deleted=False,
+                                           confirmed=True,
+                                           backup=False)
     if include is not None:
         qry = qry.filter(Team.id.in_(include))
     if exclude is not None:
@@ -178,7 +183,9 @@ def emergency_plan_routes(plan_results, debug=True):
     aqua = MapPoint(51.04485, 13.74011)
 
     teams = {}
-    for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True):
+    for team in db.session.query(Team).filter_by(deleted=False,
+                                                 confirmed=True,
+                                                 backup=False):
         teams[str(team.id)] = team
 
     i = 0
