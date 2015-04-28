@@ -97,7 +97,9 @@ def cmd_distance_data(args):
     db.init_session(connection_string=DB_CONNECTION)
 
     print "fetch teams..."
-    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id)
+    teams = db.session.query(Team).filter_by(deleted=False,
+                                             confirmed=True,
+                                             backup=False).order_by(Team.id)
 
     if args.group is not None:
         teams.filter_by(groups=args.group)
