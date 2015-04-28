@@ -158,7 +158,7 @@ def parse_args():
     args.add_argument("-E", "--exclude", type=int, metavar="I", nargs="+",
                       help="Exclude the given ids to a new group",
                       required=False)
-    args.add_argument("-g", "--group", type=int, metavar="g",
+    args.add_argument("-g", "--group", type=int, metavar="g", required=False,
                       help="Import data for a given group")
 
     convert_parser = subcommands.add_parser("convert")
