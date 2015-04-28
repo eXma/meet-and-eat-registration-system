@@ -113,8 +113,11 @@ def _colored_teams(group_id):
 @bp.route("/map_teams")
 @valid_admin
 def map_teams():
-    backup = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=True).order_by(Team.id).all()
-    unconfirmed = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=False).order_by(Team.id).all()
+    backup = db.session.query(Team).filter_by(deleted=False,
+                                              confirmed=True,
+                                              backup=True).order_by(Team.id).all()
+    unconfirmed = db.session.query(Team).filter_by(deleted=False,
+                                                   confirmed=False).order_by(Team.id).all()
     data = []
 
     for group in range(0, current_app.config["TEAM_GROUPS"] + 1):
@@ -159,7 +162,9 @@ def map_teams():
 @bp.route("/group_map_teams")
 @valid_admin
 def group_map_teams():
-    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).all()
+    teams = db.session.query(Team).filter_by(deleted=False,
+                                             confirmed=True,
+                                             backup=False).order_by(Team.id).all()
     data = []
 
     max_working = len(teams) - (len(teams) % 3)
