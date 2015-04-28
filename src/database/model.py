@@ -20,6 +20,7 @@ class Team(Base):
     deleted = Column(Boolean, default=False)
     backup = Column(Boolean, default=False)
     want_information = Column(Boolean, default=False)
+    groups = Column(Integer, default=0)
 
     @validates("name")
     def validate_name(self, _, value):

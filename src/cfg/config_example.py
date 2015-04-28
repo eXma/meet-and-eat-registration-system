@@ -49,6 +49,7 @@ ADMIN_PASSWORD = "test"
 # Format: "yyyy-mm-dd HH:MM"
 REGISTER_END = "2020-05-01 22:30"
 MAX_TEAMS = 51
+VOLUME = 11
 
 # Date of the event (for plan mails)
 # Format: human readeable

@@ -1,7 +1,7 @@
 import json
 import random
 from math import floor
-from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort
+from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort, request
 from database.model import Team, Members
 from webapp.admin.login import delete_token, set_token, valid_admin
 from webapp.forms import AdminLoginForm, ConfirmForm, TeamEditForm
@@ -44,39 +44,56 @@ def team_map():
     return render_template("admin/map.html")
 
 
+_group_colors = ["gray", "blue", "yellow", "green"]
+def _group_color(group):
+    if group is None:
+        return "gray"
+    else:
+        return _group_colors[group % len(_group_colors)]
+
+@bp.route("/groups")
+@valid_admin
+def group_map():
+    teams = db.session.query(Team).filter_by(deleted=False,
+                                             confirmed=True,
+                                             backup=False).order_by(Team.id).all()
+    max_working = len(teams) - (len(teams) % 3)
+    teams = teams[:max_working]
+
+    groups = [dict(idx=idx,
+                   name=str(idx),
+                   color=_group_color(idx))
+              for idx in range(1, current_app.config["TEAM_GROUPS"] + 1)]
+    groups.append(dict(idx=0, name="n/a", color="gray"))
+
+    return render_template("admin/groups.html", teams=teams, groups=groups)
+
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
 
+def _distance_sort(a, b):
+    if a.location.center_distance > b.location.center_distance:
+        return -1
+    if a.location.center_distance < b.location.center_distance:
+        return 1
+    return 0
 
-@bp.route("/map_teams")
-@valid_admin
-def map_teams():
-    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).all()
-    backup = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=True).order_by(Team.id).all()
-    unconfirmed = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=False).order_by(Team.id).all()
-    data = []
+def _colored_teams(group_id):
+    teams = db.session.query(Team).filter_by(deleted=False,
+                                             confirmed=True,
+                                             backup=False,
+                                             groups=group_id).order_by(Team.id).all()
 
     max_working = len(teams) - (len(teams) % 3)
     divider = max_working / 3.0
 
-    def distance_sort(a, b):
-        if a.location.center_distance > b.location.center_distance:
-            return -1
-        if a.location.center_distance < b.location.center_distance:
-            return 1
-        return 0
-
     working = teams[:max_working]
-    teams = sorted(working, distance_sort) + teams[max_working:] + backup + unconfirmed
+    teams = sorted(working, _distance_sort) + teams[max_working:]
 
-    locations = set()
+    data = []
     for idx, team in enumerate(teams):
         color_idx = 0
         if (divider > 0):
             color_idx = min(int(floor(idx / divider)), 3)
-        if team.backup:
-            color_idx = 4
-        if not team.confirmed:
-            color_idx = 5
         team_data = {"name": team.name,
                      "id": team.id,
                      "confirmed": team.confirmed,
@@ -84,6 +101,84 @@ def map_teams():
                      "members": [member.name for member in team.members],
                      "address": team.location.street,
                      "color": _color_map[color_idx]}
+
+        location = {"lat": team.location.lat,
+                    "lon": team.location.lon}
+        data.append({"location": location,
+                     "data": team_data})
+
+    return data
+
+
+@bp.route("/map_teams")
+@valid_admin
+def map_teams():
+    backup = db.session.query(Team).filter_by(deleted=False,
+                                              confirmed=True,
+                                              backup=True).order_by(Team.id).all()
+    unconfirmed = db.session.query(Team).filter_by(deleted=False,
+                                                   confirmed=False).order_by(Team.id).all()
+    data = []
+
+    for group in range(0, current_app.config["TEAM_GROUPS"] + 1):
+        data.extend(_colored_teams(group))
+
+    for idx, collection in [(4, backup), (5, unconfirmed)]:
+        for team in collection:
+            team_data = {"name": team.name,
+                         "id": team.id,
+                         "confirmed": team.confirmed,
+                         "email": team.email,
+                         "members": [member.name for member in team.members],
+                         "address": team.location.street,
+                         "color": _color_map[4]}
+
+            location = {"lat": team.location.lat,
+                        "lon": team.location.lon}
+            data.append({"location": location,
+                         "data": team_data})
+
+    locations = set()
+    for entry in data:
+        lat = entry["location"]["lat"]
+        lon = entry["location"]["lon"]
+        key = "%s|%s" % (lat, lon)
+
+        while key in locations:
+            rand = (random.random() - 0.5) * 2
+            if rand < 0:
+                rand = min(rand, -0.2)
+            else:
+                rand = max(rand, 0.2)
+            lon += rand * 0.0002
+            key = "%s|%s" % (lat, lon)
+
+        entry["location"]["lon"] = lon
+        locations.add(key)
+
+    return json.dumps(data)
+
+
+@bp.route("/group_map_teams")
+@valid_admin
+def group_map_teams():
+    teams = db.session.query(Team).filter_by(deleted=False,
+                                             confirmed=True,
+                                             backup=False).order_by(Team.id).all()
+    data = []
+
+    max_working = len(teams) - (len(teams) % 3)
+    teams = teams[:max_working]
+
+    locations = set()
+    for team in teams:
+        team_data = {"name": team.name,
+                     "id": team.id,
+                     "confirmed": team.confirmed,
+                     "email": team.email,
+                     "members": [member.name for member in team.members],
+                     "address": team.location.street,
+                     "color": _group_color(team.groups)}
 
         lat = team.location.lat
         lon = team.location.lon
@@ -102,6 +197,26 @@ def map_teams():
                      "data": team_data})
 
     return json.dumps(data)
+
+
+@bp.route("/group_update", methods=["POST"])
+@valid_admin
+def update_group():
+    team_id = int(request.form["team_id"])
+    team = db.session.query(Team).filter_by(id=team_id).first()
+    if team is None:
+        abort(404)
+
+    group = int(request.form["group_id"])
+    print group
+    if group not in range(0, current_app.config["TEAM_GROUPS"] + 1):
+        abort(400)
+
+    team.groups = group
+    db.session.commit()
+
+    return json.dumps(dict(color=_group_color(group)))
+
 
 
 @bp.route("/edit/<int:team_id>", methods=["GET", "POST"])

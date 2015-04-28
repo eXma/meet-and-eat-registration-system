@@ -29,7 +29,7 @@ def read_legacy_plan(in_file):
     return result
 
 
-def read_dan_marc_partial(in_file, seperate=None, exclude=None):
+def read_dan_marc_partial(in_file, group=None, seperate=None, exclude=None):
     """Debug output prefixed with "data="
 
     :param in_file: The file with the result
@@ -37,11 +37,16 @@ def read_dan_marc_partial(in_file, seperate=None, exclude=None):
     """
     contents = imp.load_source("_dummy", in_file)
 
-    teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id)
+    teams = db.session.query(Team).filter_by(deleted=False,
+                                             confirmed=True,
+                                             backup=False).order_by(Team.id)
     if seperate is not None:
         teams = teams.filter(Team.id.in_(seperate))
     if exclude is not None:
         teams = teams.filter(not_(Team.id.in_(exclude)))
+    if group:
+        teams = teams.filter_by(groups=group)
+
     teams = teams.all()
     round_teams = defaultdict(list)
 
@@ -92,7 +97,7 @@ def read_plan_file(args):
     if args.inform == "legacy":
         result = read_legacy_plan(args.file)
     elif args.inform == "dan_marc_partial":
-        result = read_dan_marc_partial(args.file, args.separate, args.exclude)
+        result = read_dan_marc_partial(args.file, args.group, args.separate, args.exclude)
     return result
 
 
@@ -106,7 +111,9 @@ def cmd_print_plan(args):
     result = read_plan_file(args)
     teams = {}
 
-    for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).filter_by(backup=False):
+    for team in db.session.query(Team).filter_by(deleted=False,
+                                                 confirmed=True,
+                                                 backup=False):
         teams[str(team.id)] = team
 
     for entry in result:
@@ -151,6 +158,8 @@ def parse_args():
     args.add_argument("-E", "--exclude", type=int, metavar="I", nargs="+",
                       help="Exclude the given ids to a new group",
                       required=False)
+    args.add_argument("-g", "--group", type=int, metavar="g", required=False,
+                      help="Import data for a given group")
 
     convert_parser = subcommands.add_parser("convert")
     convert_parser.add_argument("-o", "--result", help="The output file")

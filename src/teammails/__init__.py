@@ -43,12 +43,22 @@ def informal_to_teams(template_name, subject, debug=True):
     sender = "meet&eat Orga <%s>" % config.MAIL_DEFAULT_SENDER
     envelope = config.MAIL_DEFAULT_SENDER
 
+    data = dict(
+        num_teams=db.session.query(Team).filter_by(deleted=False,
+                                                   confirmed=True,
+                                                   backup=False).count(),
+        volume=config.VOLUME
+    )
+
     print "connect to SMTP...."
     with smtp_session() as session:
         print "Send Mails..."
         i = 0
-        for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True).filter_by(backup=False):
-            content = template.render(name=team.name)
+        for team in db.session.query(Team).filter_by(deleted=False,
+                                                     confirmed=True,
+                                                     backup=False):
+            data["name"] = team.name
+            content = template.render(**data)
             msg = MIMEText(content, "plain", "utf8")
 
             rcpt = team.email
@@ -65,7 +75,7 @@ def informal_to_teams(template_name, subject, debug=True):
         print "Mails sent: %d" % i
 
 
-def plans_to_teams(plan_results, debug=True, include=None, exclude=None):
+def plans_to_teams(plan_results, debug=True, group=None, include=None, exclude=None):
     guestentry = """
 %(time)s Uhr - %(roundname)s bei "%(host)s"
 %(address)s
@@ -103,11 +113,15 @@ zu Gast sind bei Euch:
 
     print "Fetch data..."
     teams = {}
-    qry = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True)
+    qry = db.session.query(Team).filter_by(deleted=False,
+                                           confirmed=True,
+                                           backup=False)
     if include is not None:
         qry = qry.filter(Team.id.in_(include))
     if exclude is not None:
         qry = qry.filter(not_(Team.id.in_(exclude)))
+    if group is not None:
+        qry = qry.filter_by(groups=group)
     for team in qry:
         teams[str(team.id)] = team
 
@@ -121,7 +135,7 @@ zu Gast sind bei Euch:
             for (round_idx, host) in enumerate(plan_results[team]):
                 round_data = round_datas[round_idx]
                 end_point = MapPoint.from_team(teams[host])
-                #route = openroute_link([start_point, end_point])
+                # route = openroute_link([start_point, end_point])
                 route = gmaps_link([start_point, end_point])
                 start_point = end_point
                 if team != host:
@@ -171,7 +185,9 @@ def emergency_plan_routes(plan_results, debug=True):
     aqua = MapPoint(51.04485, 13.74011)
 
     teams = {}
-    for team in db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True):
+    for team in db.session.query(Team).filter_by(deleted=False,
+                                                 confirmed=True,
+                                                 backup=False):
         teams[str(team.id)] = team
 
     i = 0
@@ -183,18 +199,18 @@ def emergency_plan_routes(plan_results, debug=True):
             if plan[0] == team:
                 route_data["pre"] = "braucht ihr keine, da diese ja bei euch stattfindet"
             else:
-                #route_data["pre"] = openroute_link(
+                # route_data["pre"] = openroute_link(
                 #    [MapPoint.from_team(teams[team]), MapPoint.from_team(teams[plan[0]])])
                 route_data["pre"] = gmaps_link(
                     [MapPoint.from_team(teams[team]), MapPoint.from_team(teams[plan[0]])])
 
             for (idx, name) in enumerate(["main", "dessert"]):
-                #route_data[name] = openroute_link(
+                # route_data[name] = openroute_link(
                 #    [MapPoint.from_team(teams[plan[idx]]), MapPoint.from_team(teams[plan[idx + 1]])])
                 route_data[name] = gmaps_link(
                     [MapPoint.from_team(teams[plan[idx]]), MapPoint.from_team(teams[plan[idx + 1]])])
 
-            #route_data["aqua"] = openroute_link([MapPoint.from_team(teams[plan[2]]), aqua])
+            # route_data["aqua"] = openroute_link([MapPoint.from_team(teams[plan[2]]), aqua])
             route_data["aqua"] = gmaps_link([MapPoint.from_team(teams[plan[2]]), aqua])
 
             rcpt = teams[team].email
