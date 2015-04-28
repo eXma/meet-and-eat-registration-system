@@ -73,8 +73,7 @@ def group_map():
                                        Team.groups
                                    ).filter_by(deleted=False,
                                                confirmed=True,
-                                               backup=False,
-                                               groups=group_id).all())
+                                               backup=False).all())
     for entry in groups:
         entry["count"] = counts.get(entry["idx"], 0)
 
@@ -232,8 +231,7 @@ def update_group():
                                        Team.groups
                                    ).filter_by(deleted=False,
                                                confirmed=True,
-                                               backup=False,
-                                               groups=group_id).all())
+                                               backup=False).all())
     for idx in range(0, current_app.config["TEAM_GROUPS"] + 1):
         if idx not in counts:
             counts[idx] = 0
