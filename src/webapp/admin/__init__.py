@@ -2,6 +2,7 @@ import json
 import random
 from math import floor
 from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort, request
+from sqlalchemy import func
 from database.model import Team, Members
 from webapp.admin.login import delete_token, set_token, valid_admin
 from webapp.forms import AdminLoginForm, ConfirmForm, TeamEditForm
@@ -65,6 +66,12 @@ def group_map():
                    color=_group_color(idx))
               for idx in range(1, current_app.config["TEAM_GROUPS"] + 1)]
     groups.append(dict(idx=0, name="n/a", color="gray"))
+
+    counts = dict(db.session.query(Team.groups.label("group"),
+                                   func.count(Team.id).label("count")
+                                   ).group_by(Team.groups).all())
+    for entry in groups:
+        entry["count"] = counts[entry["idx"]]
 
     return render_template("admin/groups.html", teams=teams, groups=groups)
 
@@ -215,7 +222,12 @@ def update_group():
     team.groups = group
     db.session.commit()
 
-    return json.dumps(dict(color=_group_color(group)))
+    counts = dict(db.session.query(Team.groups.label("group"),
+                                   func.count(Team.id).label("count")
+                                   ).group_by(Team.groups).all())
+
+    return json.dumps(dict(color=_group_color(group),
+                           counts=counts))
 
 
 
