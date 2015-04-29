@@ -1,6 +1,6 @@
 Hallo liebe Teilnehmer vom Team {{teamname}},
 
-wir freuen uns sehr, dass Ihr am Samstag, den {{ eventdate }}, beim 11.
+wir freuen uns sehr, dass Ihr am Samstag, den {{ eventdate }}, beim {{ volume }}.
 meet&eat in Dresden dabei seid. In dieser Mail findet Ihr alles
 Wissenswerte zum Ablauf der Veranstaltung auf Euch zugeschnitten.
 
@@ -9,15 +9,15 @@ Wir freuen uns darauf, Euch gut gesättigt auf der "After-Dinner-Party" ab
 Der Eintritt ist für Euch und alle Freunde, die Ihr gerne mitbringen
 wollt, frei! Um 23.30 Uhr findet dann die Verlosung der Preise statt.
 
-Unter 0176-70859627 erreicht ihr das eXma-Notfalltelefon.
+Unter {{ contact_phone }} erreicht ihr das eXma-Notfalltelefon.
 
 
 Abendplan Team {{ teamname }}
 
 {{ plan }}
 
-Rückfragen beantworten wir gerne per Email an redaktion@exmatrikulationsamt.de
-oder telefonisch unter 0176-70859627.
+Rückfragen beantworten wir gerne per Email an {{ contact_email }}
+oder telefonisch unter {{ contact_phone }}.
 
 Viele Grüße!
 Euer eXma-Team
