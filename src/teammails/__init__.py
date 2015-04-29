@@ -161,7 +161,12 @@ zu Gast sind bei Euch:
                                           "guests": "\n".join(guest_details)}
                     plan_detail.append(detail)
             plan = "\n\n".join(plan_detail)
-            text = template.render(eventdate=config.EVENT_DATE, teamname=teams[team].name, plan=plan)
+            text = template.render(eventdate=config.EVENT_DATE,
+                                   teamname=teams[team].name,
+                                   volume=config.VOLUME,
+                                   contact_email=config.CONTACT_EMAIL,
+                                   contact_phone=config.CONTACT_PHONE,
+                                   plan=plan)
             msg = MIMEText(text, "plain", "utf8")
 
             rcpt = teams[team].email
