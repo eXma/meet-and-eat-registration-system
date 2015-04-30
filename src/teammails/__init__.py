@@ -92,7 +92,7 @@ zu Gast sind bei Euch:
     hostguests = """
   Team "%(guestname)s"
   (Allergien: %(allergies)s)
-  (Vegeratier dabei: %(vegetarians)s)
+  (Vegetarier dabei: %(vegetarians)s)
   Telefon: %(guestphone)s
 """
     subject = "Meet&Eat - Abendplanung Team %s"
