@@ -38,11 +38,14 @@ types = {0: "Vorspeise",
          2: "Nachspeise"}
 
 
-def make_nodes(plan, teams):
+def make_nodes(plan, teams, names=True):
     nodes = {}
     for team in plan:
         team_part = plan[team].index(team)
-        teamname = escape(teams[team].name.encode("latin1"))
+        if names:
+            teamname = escape(teams[team].name.encode("latin1"))
+        else:
+            teamname = "Team %s" % team
         nodes[team] = Node(team,
                            label=u"%s\\n%s" % (teamname, types[team_part]),
                            style="filled",
@@ -65,11 +68,11 @@ def fetch_teams():
     return teams
 
 
-def process_plan(filename, plan):
+def process_plan(filename, plan, names=True):
     graph = Dot()
     teams = fetch_teams()
 
-    nodes = make_nodes(plan, teams)
+    nodes = make_nodes(plan, teams, names)
 
     for team_node in nodes:
         graph.add_node(nodes[team_node])

@@ -142,7 +142,7 @@ def cmd_print_plan(args):
 
 def cmd_graph_plan(args):
     result = read_plan_file(args)
-    process_plan(args.result, result)
+    process_plan(args.result, result, not args.annonymize)
 
 
 def parse_args():
@@ -172,6 +172,7 @@ def parse_args():
 
     graph_parser = subcommands.add_parser("graph", help="Build a clustering graph")
     graph_parser.add_argument("-o", "--result", help="The filename for the output png")
+    graph_parser.add_argument("-a", "--annonymize", help="Use numbers instead of names", action="store_true")
     graph_parser.set_defaults(func=cmd_graph_plan)
 
     return args.parse_args()
