@@ -54,6 +54,9 @@ VOLUME = 11
 # Date of the event (for plan mails)
 # Format: human readeable
 EVENT_DATE = "01.05.2013"
+EVENT_DATE_PRETTY = "7. November"
 
 CONTACT_PHONE = "000 00000"
 CONTACT_EMAIL = "redaktion@exmatrikulationsamt.de"
+
+TEAM_GROUPS = 2
