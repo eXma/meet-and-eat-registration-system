@@ -1,7 +1,6 @@
 from contextlib import contextmanager
-
 from email.mime.text import MIMEText
-from email.utils import formatdate
+from email.utils import formatdate, make_msgid
 
 from cfg import config, parse_end_date
 
@@ -11,16 +10,15 @@ import re
 from teammails import base_path, get_template, smtp_session
 
 
-@contextmanager
 def address_set(filename):
     if not os.path.isfile(filename):
         raise Exception("File not found: %s!" % filename)
 
     splitter = re.compile(r"\s*[,; ]\s*")
     with open(filename, "r") as fn:
-        yield set([addr for part in
-               (splitter.split(line.strip()) for line in fn)
-               for addr in part])
+        return set([addr for part in
+                    (splitter.split(line.strip()) for line in fn)
+                    for addr in part])
 
 
 def send_spam(address_file, debug=True):
@@ -43,6 +41,7 @@ def send_spam(address_file, debug=True):
 
         i = 0
         for address in address_set(address_file):
+            i += 1
             data["address"] = address
             content = template.render(**data)
 
@@ -55,9 +54,9 @@ def send_spam(address_file, debug=True):
             msg["From"] = sender
             msg["To"] = recpt
             msg["Date"] = formatdate(localtime=True)
+            msg['Message-ID'] = make_msgid("promo-%d" % i)
 
             session.sendmail(envelope, [recpt], msg.as_string())
-            i += 1
             print ".",
 
         print " Done - %d Mails sent" % i
