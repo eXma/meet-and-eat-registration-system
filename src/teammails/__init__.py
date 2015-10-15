@@ -1,6 +1,6 @@
 from collections import defaultdict
 from contextlib import contextmanager
-from email.utils import formatdate
+from email.utils import formatdate, make_msgid
 import os
 import smtplib
 from email.mime.text import MIMEText
@@ -28,9 +28,19 @@ def smtp_session():
         session.quit()
 
 
-def get_template(name):
+def base_path(file):
+    return os.path.dirname(
+        os.path.abspath(
+            os.path.expanduser(file)))
+
+
+def get_template(name, path=None):
     filename = "%s.txt" % name
-    filepath = os.path.join(os.path.dirname(__file__), "templates", filename)
+
+    if path is None:
+        path = base_path(__file__)
+
+    filepath = os.path.join(path, "templates", filename)
     if not os.path.isfile(filepath):
         raise Exception("File not found: %s!" % filepath)
 
@@ -69,6 +79,7 @@ def informal_to_teams(template_name, subject, debug=True):
             msg['From'] = sender
             msg['To'] = rcpt
             msg['Date'] = formatdate(localtime=True)
+            msg['Message-ID'] = make_msgid()
 
             session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
             i += 1
@@ -176,6 +187,8 @@ zu Gast sind bei Euch:
             msg['Subject'] = subject % teams[team].name
             msg['From'] = sender
             msg['To'] = rcpt
+            msg['Date'] = formatdate(localtime=True)
+            msg['Message-ID'] = make_msgid()
 
             session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
             i += 1
@@ -227,6 +240,8 @@ def emergency_plan_routes(plan_results, debug=True):
             msg['Subject'] = "Betreff: Korrektur der Routenlinks zum meet&eat"
             msg['From'] = sender
             msg['To'] = rcpt
+            msg['Date'] = formatdate(localtime=True)
+            msg['Message-ID'] = make_msgid()
 
             session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
             i += 1
