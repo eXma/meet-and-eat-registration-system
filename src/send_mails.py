@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser
 from plan_tool import read_plan_file
+from promo import send_spam
 from teammails import informal_to_teams, plans_to_teams, emergency_plan_routes
 
 
@@ -36,6 +37,12 @@ def parse_args():
     emergency_routes.add_argument("--file", help="The input file with the plan")
     emergency_routes.set_defaults(func=cmd_send_emergency_routes)
 
+    spam = subs.add_parser("spam", help="Send event information to a list of former teams")
+    spam.add_argument("-a", "--addresses", required=True,
+                      help="A file with a list of space, comma or semicolon separated recipients")
+    spam.set_defaults(func=cmd_send_spam)
+
+
     return args.parse_args()
 
 
@@ -51,6 +58,10 @@ def cmd_send_planmails(args):
 def cmd_send_emergency_routes(args):
     results = read_plan_file(args)
     emergency_plan_routes(results, not args.nodebug)
+
+
+def cmd_send_spam(args):
+    send_spam(args.addresses, not args.nodebug)
 
 
 if __name__ == "__main__":
