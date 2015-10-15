@@ -12,15 +12,15 @@ from teammails import base_path, get_template, smtp_session
 
 
 @contextmanager
-def address_iterator(filename):
+def address_set(filename):
     if not os.path.isfile(filename):
         raise Exception("File not found: %s!" % filename)
 
     splitter = re.compile(r"\s*[,; ]\s*")
     with open(filename, "r") as fn:
-        yield (addr for part in
+        yield set([addr for part in
                (splitter.split(line.strip()) for line in fn)
-               for addr in part)
+               for addr in part])
 
 
 def send_spam(address_file, debug=True):
@@ -42,7 +42,7 @@ def send_spam(address_file, debug=True):
         print "Send Mails ",
 
         i = 0
-        for address in address_iterator(address_file):
+        for address in address_set(address_file):
             data["address"] = address
             content = template.render(**data)
 
