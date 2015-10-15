@@ -16,6 +16,7 @@ def _is_backup():
     teams_qry = db.session.query(func.count(Team.id).label("num")).filter_by(deleted=False).first()
     return current_app.config["MAX_TEAMS"] <= teams_qry.num
 
+
 def _do_register(form):
     """Actually perform the registration request
 
