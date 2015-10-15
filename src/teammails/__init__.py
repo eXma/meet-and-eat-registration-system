@@ -28,9 +28,19 @@ def smtp_session():
         session.quit()
 
 
-def get_template(name):
+def base_path(file):
+    return os.path.dirname(
+        os.path.abspath(
+            os.path.expanduser(file)))
+
+
+def get_template(name, path=None):
     filename = "%s.txt" % name
-    filepath = os.path.join(os.path.dirname(__file__), "templates", filename)
+
+    if path is None:
+        path = base_path(__file__)
+
+    filepath = os.path.join(path, "templates", filename)
     if not os.path.isfile(filepath):
         raise Exception("File not found: %s!" % filepath)
 
