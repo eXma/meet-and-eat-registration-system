@@ -6,7 +6,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask.ext.mail import Mail
 
 import database
-
+from cfg import parse_end_date
 from webapp import admin, public, register
 from webapp.dummy_data import make_dummy_data
 from webapp.reverse_proxy_wrapper import ReverseProxied
@@ -81,7 +81,7 @@ def init_app(app):
     app.mail = Mail(app)
     #make_dummy_data(30)
 
-    app.config["REGISTER_END"] = datetime.strptime(app.config["REGISTER_END"], "%Y-%m-%d %H:%M")
+    app.config["REGISTER_END"] = parse_end_date(app.config["REGISTER_END"])
 
     @app.teardown_request
     def session_cleanup(_):
