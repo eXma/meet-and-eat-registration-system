@@ -1,6 +1,6 @@
 from collections import defaultdict
 from contextlib import contextmanager
-from email.utils import formatdate
+from email.utils import formatdate, make_msgid
 import os
 import smtplib
 from email.mime.text import MIMEText
@@ -79,6 +79,7 @@ def informal_to_teams(template_name, subject, debug=True):
             msg['From'] = sender
             msg['To'] = rcpt
             msg['Date'] = formatdate(localtime=True)
+            msg['Message-ID'] = make_msgid()
 
             session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
             i += 1
@@ -186,6 +187,8 @@ zu Gast sind bei Euch:
             msg['Subject'] = subject % teams[team].name
             msg['From'] = sender
             msg['To'] = rcpt
+            msg['Date'] = formatdate(localtime=True)
+            msg['Message-ID'] = make_msgid()
 
             session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
             i += 1
@@ -237,6 +240,8 @@ def emergency_plan_routes(plan_results, debug=True):
             msg['Subject'] = "Betreff: Korrektur der Routenlinks zum meet&eat"
             msg['From'] = sender
             msg['To'] = rcpt
+            msg['Date'] = formatdate(localtime=True)
+            msg['Message-ID'] = make_msgid()
 
             session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
             i += 1
