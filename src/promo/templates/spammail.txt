@@ -4,8 +4,8 @@ am {{ event_date }} ist es endlich wieder so weit! Wir laden Euch alle recht
 herzlich dazu ein, am {{ volume }} meet&eat teilzunehmen.
 
 Unter http://www.exmatrikulationsamt.de/meet&eat könnt Ihr Euch noch bis
-zum {{ register_end_date }} online anmelden, falls Ihr das nicht schon längst gemacht
-habt. :) Wir würden uns sehr freuen, wenn Ihr wieder dabei seid.
+{{ register_end_date }}, online anmelden, falls Ihr das nicht schon
+längst gemacht habt. Wir würden uns sehr freuen, wenn Ihr wieder dabei seid.
 
 Viele Grüße und hoffentlich bis zum {{ pretty_event_date }}!
 
