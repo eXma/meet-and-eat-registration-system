@@ -17,7 +17,7 @@ def address_set(filename):
     with open(filename, "r") as fn:
         return set([addr for part in
                     (splitter.split(line.strip()) for line in fn)
-                    for addr in part])
+                    for addr in part if len(addr) > 0])
 
 
 def send_spam(address_file, debug=True):
