@@ -28,9 +28,11 @@ def send_spam(address_file, debug=True):
     register_end = parse_cfg_date(config.REGISTER_END)
     event_date = parse_cfg_date(config.EVENT_DATE)
 
-    data = dict(event_date=pretty_date(event_date, month_name=True, show_year=True),
+    data = dict(event_date=pretty_date(event_date, month_name=True,
+                                       show_year=True, with_weekday=True),
                 volume=config.VOLUME,
-                register_end_date=pretty_date(register_end, month_name=True, show_year=True),
+                register_end_date=pretty_date(register_end, month_name=True,
+                                              show_year=True),
                 pretty_event_date=pretty_date(event_date, month_name=True),
                 address=None)
 
