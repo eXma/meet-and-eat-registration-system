@@ -11,11 +11,20 @@
     <orderEntry type="library" name="leaflet-src" level="application" />
   </component>
   <component name="TemplatesService">
+    <option name="templateFileTypes">
+      <list>
+        <option value="XHTML" />
+        <option value="HTML" />
+        <option value="XML" />
+        <option value="PLAIN_TEXT" />
+      </list>
+    </option>
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/src/webapp/templates" />
         <option value="$MODULE_DIR$/src/teammails/templates" />
+        <option value="$MODULE_DIR$/src/promo/templates" />
       </list>
     </option>
   </component>
