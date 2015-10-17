@@ -8,7 +8,7 @@ from email.mime.text import MIMEText
 from sqlalchemy import not_
 from jinja2 import Template
 
-from cfg import config
+from cfg import config, parse_cfg_date, pretty_date
 import database as db
 from database.model import Team
 from geotools import openroute_link, gmaps_link
@@ -136,6 +136,8 @@ zu Gast sind bei Euch:
     for team in qry:
         teams[str(team.id)] = team
 
+    event_date = pretty_date(parse_cfg_date(config.EVENT_DATE), show_year=True)
+
     i = 0
     print "Connect to smtp..."
     with smtp_session() as session:
@@ -172,7 +174,7 @@ zu Gast sind bei Euch:
                                           "guests": "\n".join(guest_details)}
                     plan_detail.append(detail)
             plan = "\n\n".join(plan_detail)
-            text = template.render(eventdate=config.EVENT_DATE,
+            text = template.render(eventdate=event_date,
                                    teamname=teams[team].name,
                                    volume=config.VOLUME,
                                    contact_email=config.CONTACT_EMAIL,

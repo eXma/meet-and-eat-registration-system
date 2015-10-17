@@ -103,7 +103,9 @@ def confirm(token):
     team.confirmed = True
     db.session.commit()
 
-    return render_template("register/confirmed.html", team=team, pretty_date=current_app.config["EVENT_DATE_PRETTY"])
+    return render_template("register/confirmed.html",
+                           team=team,
+                           pretty_date=current_app.config["EVENT_DATE_PRETTY"])
 
 
 @bp.route("/terms")
