@@ -7,8 +7,8 @@ Unter http://www.exmatrikulationsamt.de/meet&eat könnt Ihr Euch noch bis
 {{ register_end_date }}, online anmelden, falls Ihr das nicht schon
 längst gemacht habt. Wir würden uns sehr freuen, wenn Ihr wieder dabei seid.
 
-Viele Grüße und hoffentlich bis zum {{ pretty_event_date }}!
 
+Viele Grüße und hoffentlich bis zum {{ pretty_event_date }}!
 
 Euer Orgateam von
 eXma.de
