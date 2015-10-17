@@ -1,7 +1,7 @@
 Hallo liebe meet&eat Freunde,
 
 am {{ event_date }} ist es endlich wieder so weit! Wir laden
-Euch alle recht herzlich dazu ein, am {{ volume }} meet&eat teilzunehmen.
+Euch alle recht herzlich dazu ein, am {{ volume }}. meet&eat teilzunehmen.
 
 Unter http://www.exmatrikulationsamt.de/meet&eat könnt Ihr Euch noch bis
 {{ register_end_date }}, online anmelden, falls Ihr das nicht schon längst
