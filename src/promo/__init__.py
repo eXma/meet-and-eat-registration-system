@@ -32,7 +32,7 @@ def send_spam(address_file, debug=True):
                                        show_year=True, with_weekday=True),
                 volume=config.VOLUME,
                 register_end_date=pretty_date(register_end, month_name=True,
-                                              show_year=True),
+                                              show_year=True, with_weekday=True),
                 pretty_event_date=pretty_date(event_date, month_name=True),
                 address=None)
 
