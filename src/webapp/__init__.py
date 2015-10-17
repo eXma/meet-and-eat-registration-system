@@ -1,3 +1,4 @@
+import locale
 from datetime import datetime
 import os
 from logging import Formatter, getLogger
@@ -6,7 +7,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask.ext.mail import Mail
 
 import database
-from cfg import parse_end_date
+from cfg import parse_cfg_date, pretty_date
 from webapp import admin, public, register
 from webapp.dummy_data import make_dummy_data
 from webapp.reverse_proxy_wrapper import ReverseProxied
@@ -62,6 +63,11 @@ def init_logging(app):
     for log in (getLogger('sqlalchemy'), app.logger):
         log.addHandler(mail_handler)
 
+    event_date = parse_cfg_date(app.config["EVENT_DATE"])
+    app.config["EVENT_DATE"] = pretty_date(event_date, show_year=True)
+    app.config["EVENT_DATE_PRETTY"] = pretty_date(event_date, month_name=True)
+    app.config["REGISTER_END"] = parse_cfg_date(app.config["REGISTER_END"])
+
 
 def init_app(app):
     """Initialize the given Flask application.
@@ -80,8 +86,6 @@ def init_app(app):
 
     app.mail = Mail(app)
     #make_dummy_data(30)
-
-    app.config["REGISTER_END"] = parse_end_date(app.config["REGISTER_END"])
 
     @app.teardown_request
     def session_cleanup(_):

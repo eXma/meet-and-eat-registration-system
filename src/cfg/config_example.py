@@ -52,8 +52,8 @@ MAX_TEAMS = 51
 VOLUME = 11
 
 # Date of the event (for plan mails)
-# Format: human readeable
-EVENT_DATE = "01.05.2013"
+# Format: "yyyy-mm-dd HH:MM"
+EVENT_DATE = "2015-11-07 18:00"
 EVENT_DATE_PRETTY = "7. November"
 
 CONTACT_PHONE = "000 00000"

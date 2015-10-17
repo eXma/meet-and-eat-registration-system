@@ -2,8 +2,7 @@ from contextlib import contextmanager
 from email.mime.text import MIMEText
 from email.utils import formatdate, make_msgid
 
-from cfg import config, parse_end_date
-
+from cfg import config, parse_cfg_date, pretty_date
 import os
 import re
 
@@ -18,7 +17,7 @@ def address_set(filename):
     with open(filename, "r") as fn:
         return set([addr for part in
                     (splitter.split(line.strip()) for line in fn)
-                    for addr in part])
+                    for addr in part if len(addr) > 0])
 
 
 def send_spam(address_file, debug=True):
@@ -26,15 +25,18 @@ def send_spam(address_file, debug=True):
     sender = "meet&eat Orga <%s>" % config.MAIL_DEFAULT_SENDER
     envelope = config.MAIL_DEFAULT_SENDER
 
-    register_end = parse_end_date(config.REGISTER_END)
+    register_end = parse_cfg_date(config.REGISTER_END)
+    event_date = parse_cfg_date(config.EVENT_DATE)
 
-    data = dict(event_date=config.EVENT_DATE,
+    data = dict(event_date=pretty_date(event_date, month_name=True,
+                                       show_year=True, with_weekday=True),
                 volume=config.VOLUME,
-                register_end_date=register_end.strftime("%d.%m.%Y"),
-                pretty_event_date=config.EVENT_DATE_PRETTY,
+                register_end_date=pretty_date(register_end, month_name=True,
+                                              show_year=True, with_weekday=True),
+                pretty_event_date=pretty_date(event_date, month_name=True),
                 address=None)
 
-    subject = "Einladung zum %d. meet&eat am %s" % (config.VOLUME, config.EVENT_DATE_PRETTY)
+    subject = "Einladung zum %d. meet&eat am %s" % (config.VOLUME, pretty_date(event_date, month_name=True))
 
     with smtp_session() as session:
         print "Send Mails ",
