@@ -110,7 +110,8 @@ def confirm(token):
 
 @bp.route("/terms")
 def terms():
-    return render_template("register/terms.html")
+    return render_template("register/terms.html",
+                           event_date=current_app.config["EVENT_DATE_PRETTY_LONG"])
 
 
 @bp.route("/late")
