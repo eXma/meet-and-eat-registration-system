@@ -64,7 +64,7 @@ def init_logging(app):
         log.addHandler(mail_handler)
 
     event_date = parse_cfg_date(app.config["EVENT_DATE"])
-    app.config["EVENT_DATE"] = pretty_date(event_date, show_year=True)
+    app.config["EVENT_DATE"] = event_date
     app.config["EVENT_DATE_PRETTY"] = pretty_date(event_date, month_name=True)
     app.config["EVENT_DATE_PRETTY_LONG"] = pretty_date(event_date,
                                                        month_name=True,
