@@ -45,7 +45,6 @@ def init_logging(app):
     if app.debug:
         return
 
-    ADMINS = ['meetandeat@exmatrikulationsamt.de']
     import logging
     from logging.handlers import SMTPHandler
 
