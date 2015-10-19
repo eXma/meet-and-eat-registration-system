@@ -1,9 +1,5 @@
-import locale
-from datetime import datetime
 import os
-from logging import Formatter, getLogger
-
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, redirect, url_for
 from flask.ext.mail import Mail
 
 import database
@@ -11,7 +7,6 @@ from cfg import parse_cfg_date, pretty_date
 from webapp import admin, public, register
 from webapp.dummy_data import make_dummy_data
 from webapp.reverse_proxy_wrapper import ReverseProxied
-
 
 EXAMPLE_CONFIG = "config_example"
 PRODUCTIVE_CONFIG = "config"
@@ -29,6 +24,15 @@ def configure_app(app):
 
     app.config.from_object("cfg.%s" % filename)
 
+    event_date = parse_cfg_date(app.config["EVENT_DATE"])
+    app.config["EVENT_DATE"] = event_date
+    app.config["EVENT_DATE_PRETTY"] = pretty_date(event_date, month_name=True)
+    app.config["EVENT_DATE_PRETTY_LONG"] = pretty_date(event_date,
+                                                       month_name=True,
+                                                       show_year=True,
+                                                       with_weekday=True)
+    app.config["REGISTER_END"] = parse_cfg_date(app.config["REGISTER_END"])
+
 
 def init_logging(app):
     """Initialize app error logging
@@ -39,9 +43,9 @@ def init_logging(app):
     if app.debug:
         return
 
-    ADMINS = ['meetandeat@exmatrikulationsamt.de']
     import logging
     from logging.handlers import SMTPHandler
+    from logging import Formatter, getLogger
 
     credentials = None
     secure = None
@@ -63,15 +67,6 @@ def init_logging(app):
     for log in (getLogger('sqlalchemy'), app.logger):
         log.addHandler(mail_handler)
 
-    event_date = parse_cfg_date(app.config["EVENT_DATE"])
-    app.config["EVENT_DATE"] = pretty_date(event_date, show_year=True)
-    app.config["EVENT_DATE_PRETTY"] = pretty_date(event_date, month_name=True)
-    app.config["EVENT_DATE_PRETTY_LONG"] = pretty_date(event_date,
-                                                       month_name=True,
-                                                       show_year=True,
-                                                       with_weekday=True)
-    app.config["REGISTER_END"] = parse_cfg_date(app.config["REGISTER_END"])
-
 
 def init_app(app):
     """Initialize the given Flask application.
@@ -84,6 +79,7 @@ def init_app(app):
     configure_app(app)
     init_logging(app)
     database.init_session(connection_string=app.config["DB_CONNECTION"])
+
     app.register_blueprint(register.bp, url_prefix='/register')
     app.register_blueprint(admin.bp, url_prefix='/admin')
     app.register_blueprint(public.bp, url_prefix='/public')

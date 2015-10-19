@@ -64,14 +64,14 @@ def _do_register(form):
     return team
 
 
-@bp.route('/', methods=("GET", "POST"))
+@bp.route('/', methods=("GET",))
 def form():
     if current_app.config["REGISTER_END"] < datetime.now():
         return redirect(url_for(".late"))
     form = TeamRegisterForm()
     if form.validate_on_submit():
-        team = _do_register(form)
-        return "Submitted"
+        abort(400)
+
     return render_template('register/index.html', form=form, backup=_is_backup())
 
 
@@ -100,8 +100,9 @@ def confirm(token):
     if team is None:
         abort(401)
 
-    team.confirmed = True
-    db.session.commit()
+    if not team.confirmed:
+        team.confirmed = True
+        db.session.commit()
 
     return render_template("register/confirmed.html",
                            team=team,
