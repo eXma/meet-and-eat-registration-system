@@ -1,9 +1,7 @@
-import locale
-from datetime import datetime
-import os
 from logging import Formatter, getLogger
 
-from flask import Flask, render_template, redirect, url_for
+import os
+from flask import Flask, redirect, url_for
 from flask.ext.mail import Mail
 
 import database
@@ -11,7 +9,6 @@ from cfg import parse_cfg_date, pretty_date
 from webapp import admin, public, register
 from webapp.dummy_data import make_dummy_data
 from webapp.reverse_proxy_wrapper import ReverseProxied
-
 
 EXAMPLE_CONFIG = "config_example"
 PRODUCTIVE_CONFIG = "config"
