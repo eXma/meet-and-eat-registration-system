@@ -1,5 +1,3 @@
-from logging import Formatter, getLogger
-
 import os
 from flask import Flask, redirect, url_for
 from flask.ext.mail import Mail
@@ -47,6 +45,7 @@ def init_logging(app):
 
     import logging
     from logging.handlers import SMTPHandler
+    from logging import Formatter, getLogger
 
     credentials = None
     secure = None
@@ -80,6 +79,7 @@ def init_app(app):
     configure_app(app)
     init_logging(app)
     database.init_session(connection_string=app.config["DB_CONNECTION"])
+
     app.register_blueprint(register.bp, url_prefix='/register')
     app.register_blueprint(admin.bp, url_prefix='/admin')
     app.register_blueprint(public.bp, url_prefix='/public')
