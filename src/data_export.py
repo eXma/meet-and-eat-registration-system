@@ -4,7 +4,6 @@ from argparse import ArgumentParser
 import argparse
 from collections import defaultdict
 import json
-from math import floor
 
 from sqlalchemy import not_
 
@@ -13,6 +12,7 @@ from geotools import simple_distance
 from geotools.routing import MapPoint
 from cfg.config import DB_CONNECTION
 import database as db
+from planning.rounds import split_rounds
 
 
 def get_round_distances(from_teams, to_teams):
@@ -27,29 +27,14 @@ def get_round_distances(from_teams, to_teams):
     return distances
 
 
-def distance_sort(a, b):
-    if a.location.center_distance > b.location.center_distance:
-        return -1
-    if a.location.center_distance < b.location.center_distance:
-        return 1
-    return 0
-
-
 def write_planning_data(teams, filename):
     max_working = len(teams) - (len(teams) % 3)
-    divider = max_working / 3.0
     print "Working on %d teams for %s" % (max_working, filename)
 
     data = []
     round_teams = defaultdict(list)
 
-    working = teams[:max_working]
-    teams = sorted(working, distance_sort) + teams[max_working:]
-
-    for idx, team in enumerate(teams):
-        round_idx = 0
-        if divider > 0:
-            round_idx = min(int(floor(idx / divider)), 3)
+    for (team, round_idx) in split_rounds(teams):
         team_data = {"name": team.name,
                      "id": team.id,
                      "location": {"lat": team.location.lat,

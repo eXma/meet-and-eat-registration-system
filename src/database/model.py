@@ -111,3 +111,14 @@ class MeetingEntry(Base):
         return "MeetingEntry(host=%d, round=%d, participant=%d)" % (self.host_team_id,
                                                                     self.plan_round,
                                                                     self.participant_team_id)
+
+
+class RoundAssignment(Base):
+    __tablename__ = "round_assignment"
+
+    id = Column(Integer, primary_key=True)
+    team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"),
+                     nullable=False, unique=True)
+    team = relationship(Team, lazy="joined")
+
+    round = Column(Integer)
