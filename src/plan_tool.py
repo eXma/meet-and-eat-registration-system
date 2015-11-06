@@ -1,95 +1,18 @@
 #!env python
 
-from argparse import ArgumentParser
-from collections import defaultdict
 import json
-import imp
-from math import floor
-
-from sqlalchemy import not_
+import sys
+from argparse import ArgumentParser
 
 import database as db
+from cfg.config import DB_CONNECTION
 from database.model import Team, RouteDistance
 from geotools import openroute_link, gmaps_link
 from geotools.routing import MapPoint
-from cfg.config import DB_CONNECTION
 from planning.cluster_graph import process_plan
-
+from planning.plan_build import read_dan_marc_partial, read_legacy_plan, read_database_plan
 
 db.init_session(connection_string=DB_CONNECTION)
-
-
-def read_legacy_plan(in_file):
-    with open(in_file, "r") as in_fn:
-        data = json.load(in_fn)
-
-    result = {}
-    for entry in data:
-        result[entry["team_id"][0]] = [station[0] for station in entry["plan"]]
-    return result
-
-
-def read_dan_marc_partial(in_file, group=None, seperate=None, exclude=None):
-    """Debug output prefixed with "data="
-
-    :param in_file: The file with the result
-    :return: The processed data
-    """
-    contents = imp.load_source("_dummy", in_file)
-
-    teams = db.session.query(Team).filter_by(deleted=False,
-                                             confirmed=True,
-                                             backup=False).order_by(Team.id)
-    if seperate is not None:
-        teams = teams.filter(Team.id.in_(seperate))
-    if exclude is not None:
-        teams = teams.filter(not_(Team.id.in_(exclude)))
-    if group:
-        teams = teams.filter_by(groups=group)
-
-    teams = teams.all()
-    round_teams = defaultdict(list)
-
-    max_working = len(teams) - (len(teams) % 3)
-    divider = max_working / 3.0
-
-    def distance_sort(a, b):
-        if a.location.center_distance > b.location.center_distance:
-            return -1
-        if a.location.center_distance < b.location.center_distance:
-            return 1
-        return 0
-
-    working = teams[:max_working]
-    teams = sorted(working, distance_sort) + teams[max_working:]
-
-    for idx, team in enumerate(teams):
-        round_idx = 0
-        if (divider > 0):
-            round_idx = min(int(floor(idx / divider)), 3)
-        round_teams[round_idx].append(idx)
-
-    plans_idx = defaultdict(list)
-    for (round_idx, round_entry) in enumerate(contents.data):
-        for meeting in round_entry:
-            host = None
-            for team_idx in meeting:
-                if team_idx in round_teams[round_idx]:
-                    host = team_idx
-                    break
-            for team_idx in meeting:
-                plans_idx[team_idx].append(host)
-
-    def map_team(idx):
-        return str(teams[idx].id)
-
-    result = defaultdict(list)
-    for team_idx in plans_idx:
-        team_id = map_team(team_idx)
-        for station in plans_idx[team_idx]:
-            result[team_id].append(map_team(station))
-
-    return result
 
 
 def read_plan_file(args):
@@ -98,6 +21,8 @@ def read_plan_file(args):
         result = read_legacy_plan(args.file)
     elif args.inform == "dan_marc_partial":
         result = read_dan_marc_partial(args.file, args.group, args.separate, args.exclude)
+    elif args.inform == "database":
+        result = read_database_plan()
     return result
 
 
@@ -145,12 +70,20 @@ def cmd_graph_plan(args):
     process_plan(args.result, result, not args.annonymize, args.distance, args.labels)
 
 
+def cmd_import_plan(args):
+    if args.inform == "database":
+        print "Cannot import from database as the database is the target!"
+        sys.exit(255)
+
+    result = read_plan_file(args)
+
+
 def parse_args():
     args = ArgumentParser()
 
     subcommands = args.add_subparsers()
     args.add_argument("-f", "--inform", help="Specify the input format", required=True,
-                      choices=("legacy", "dan_marc_partial"))
+                      choices=("legacy", "dan_marc_partial", "database"))
     args.add_argument("-i", "--file", metavar="FILE", help="The file to convert")
     args.add_argument("-S", "--separate", type=int, metavar="I", nargs="+",
                       help="Separate the given ids to a new group",
@@ -176,6 +109,9 @@ def parse_args():
     graph_parser.add_argument("-d", "--distance", help="Use distances for graph lenghths", action="store_true")
     graph_parser.add_argument("-l", "--labels", help="Use distances for graph lenghths", action="store_true")
     graph_parser.set_defaults(func=cmd_graph_plan)
+
+    import_parser = subcommands.add_parser("import")
+    import_parser.set_defaults(func=cmd_import_plan)
 
     return args.parse_args()
 
