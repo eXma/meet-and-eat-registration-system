@@ -1,5 +1,6 @@
 from math import floor
 import database as db
+
 from database.model import RoundAssignment
 
 
@@ -33,3 +34,14 @@ def assign_default_rounds(teams):
     db.session.query(RoundAssignment).delete()
     db.session.add_all(assignments)
     db.session.commit()
+
+
+def round_data(teams):
+    assignments = dict([(assign.team, assign.round) for assign in db.session.query(RoundAssignment)])
+    unassigned = [team for team in teams if team not in assignments]
+
+    for team in assignments:
+        yield (team, assignments[team])
+
+    for (team, round_idx) in unassigned:
+        yield (team, round_idx)

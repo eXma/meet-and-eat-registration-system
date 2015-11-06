@@ -1,14 +1,14 @@
 import json
 import random
-from math import floor
+
 from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort, request
 from sqlalchemy import func
-from database.model import Team, Members
-from planning.rounds import split_rounds
-from webapp.admin.login import delete_token, set_token, valid_admin
-from webapp.forms import AdminLoginForm, ConfirmForm, TeamEditForm
 
 import database as db
+from database.model import Team, Members
+from planning.rounds import round_data
+from webapp.admin.login import delete_token, set_token, valid_admin
+from webapp.forms import AdminLoginForm, ConfirmForm, TeamEditForm
 
 bp = Blueprint('admin', __name__)
 
@@ -96,7 +96,7 @@ def _colored_teams(group_id):
                                              groups=group_id).order_by(Team.id).all()
 
     data = []
-    for (team, round_idx) in split_rounds(teams):
+    for (team, round_idx) in round_data(teams):
         team_data = {"name": team.name,
                      "id": team.id,
                      "confirmed": team.confirmed,

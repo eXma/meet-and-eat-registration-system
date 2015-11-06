@@ -1,18 +1,18 @@
 #!env python
 
-from argparse import ArgumentParser
 import argparse
-from collections import defaultdict
 import json
+from argparse import ArgumentParser
+from collections import defaultdict
 
 from sqlalchemy import not_
 
+import database as db
+from cfg.config import DB_CONNECTION
 from database.model import Team
 from geotools import simple_distance
 from geotools.routing import MapPoint
-from cfg.config import DB_CONNECTION
-import database as db
-from planning.rounds import split_rounds
+from planning.rounds import round_data
 
 
 def get_round_distances(from_teams, to_teams):
@@ -34,7 +34,7 @@ def write_planning_data(teams, filename):
     data = []
     round_teams = defaultdict(list)
 
-    for (team, round_idx) in split_rounds(teams):
+    for (team, round_idx) in round_data(teams):
         team_data = {"name": team.name,
                      "id": team.id,
                      "location": {"lat": team.location.lat,
