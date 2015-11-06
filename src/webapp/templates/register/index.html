@@ -30,8 +30,16 @@
 			{% if backup %}<div class="alert alert-error" style="margin-top: 20px; margin-bottom:-30px;"><strong>Achtung:</strong>
 			    Wir haben jetzt schon so viele Anmeldungen, dass wir theoretisch "voll" sind. Wer sich also jetzt noch anmeldet, 
 			    landet auf unserer Warteliste. Wir versuchen aber, noch möglichst viele Teams mit aufzunehmen und ihr habt ziemlich 
-			    gute Chancen, eventuell noch dabei zu sein! Außerdem können wir euch so rechtzeitig vor dem nächsten meet&amp;eat in einem halben Jahr 
-			    informieren.</div>{% endif %}
+			    gute Chancen, eventuell noch dabei zu sein! Außerdem können wir euch so rechtzeitig vor dem nächsten meet&amp;eat in
+                einem halben Jahr informieren.</div>{% endif %}
+            {% if soft_end %}<div class="alert alert-error" style="margin-top: 20px; margin-bottom:-30px;"><strong>Achtung:</strong>
+                Der Meldezeitraum ist eigentlich vorbei. Wer sich also jetzt noch anmeldet,
+                landet auf unserer Warteliste. Wir kommen dann auf euch zurück, wenn ein Team
+                fehlt um die notwendige Teilbarkeit durch drei herzustellen oder falls ein Team
+                abspringt. Erfahrungsgemäß habt ihr also noch gute Chancen dabei zu sein!
+                Außerdem können wir euch so rechtzeitig vor dem nächsten meet&amp;eat in einem
+                halben Jahr informieren.</div>
+            {% endif %}
 		</div>
 		<div class="fuelux">
 			<div id="myWizard" class="wizard">
