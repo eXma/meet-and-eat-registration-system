@@ -86,7 +86,8 @@ def form():
         abort(400)
 
     return render_template('register/index.html', form=form,
-                           backup=_is_backup(), soft_end=_is_soft_end())
+                           backup=_is_backup() and not _is_soft_end(),
+                           soft_end=_is_soft_end())
 
 
 @bp.route('/doit', methods=("POST",))
