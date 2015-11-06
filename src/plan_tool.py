@@ -10,7 +10,7 @@ from database.model import Team, RouteDistance
 from geotools import openroute_link, gmaps_link
 from geotools.routing import MapPoint
 from planning.cluster_graph import process_plan
-from planning.plan_build import read_dan_marc_partial, read_legacy_plan, read_database_plan
+from planning.plan_build import read_dan_marc_partial, read_legacy_plan, read_database_plan, import_database
 
 db.init_session(connection_string=DB_CONNECTION)
 
@@ -76,6 +76,7 @@ def cmd_import_plan(args):
         sys.exit(255)
 
     result = read_plan_file(args)
+    import_database(result)
 
 
 def parse_args():
