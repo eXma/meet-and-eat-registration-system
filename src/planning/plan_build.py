@@ -3,7 +3,7 @@ import json
 from collections import defaultdict
 from math import floor
 import database as db
-from database.model import Team
+from database.model import Team, MeetingEntry
 from sqlalchemy import not_
 
 
@@ -81,4 +81,8 @@ def read_dan_marc_partial(in_file, group=None, seperate=None, exclude=None):
 
 
 def read_database_plan():
-    pass
+    plans = defaultdict(list)
+    for entry in db.session.query(MeetingEntry).order_by(MeetingEntry.plan_round):
+        plans[str(entry.participant)].append(str(entry.host))
+
+    return plans
