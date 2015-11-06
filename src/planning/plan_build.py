@@ -86,3 +86,21 @@ def read_database_plan():
         plans[str(entry.participant)].append(str(entry.host))
 
     return plans
+
+
+def build_meeting_entries(plans):
+    meeting_parts = set()
+    for entry in plans:
+        round = 0
+        for station in plans[entry]:
+            part = MeetingEntry(host_team_id=int(station),
+                                plan_round=round,
+                                participant_team_id=int(entry))
+            meeting_parts.add(part)
+            round += 1
+
+    return meeting_parts
+
+def import_database(plans):
+    db.session.add_all(build_meeting_entries(plans))
+    db.session.commit()

@@ -88,3 +88,26 @@ class MeetingEntry(Base):
     plan_round = Column(Integer, nullable=False)
     participant_team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=False)
     participant = relationship(Team, foreign_keys=[participant_team_id])
+
+
+    def __cmp__(self, other):
+        assert isinstance(other, MeetingEntry)
+
+        if self.__eq__(other):
+            return 0
+
+        return (self.host_team_id - other.host_team_id << 16) + \
+               (self.plan_round - other.plan_round << 8) + \
+               (self.participant_team_id - other.participant_team_id)
+
+    def __eq__(self, other):
+        if not isinstance(other, MeetingEntry):
+            return False
+        return (self.plan_round == other.plan_round and
+                self.host_team_id == other.host_team_id and
+                self.participant_team_id == other.participant_team_id)
+
+    def __repr__(self):
+        return "MeetingEntry(host=%d, round=%d, participant=%d)" % (self.host_team_id,
+                                                                    self.plan_round,
+                                                                    self.participant_team_id)
