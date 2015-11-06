@@ -1,5 +1,6 @@
-from collections import defaultdict
 from math import floor
+import database as db
+from database.model import RoundAssignment
 
 
 def distance_sort(a, b):
@@ -25,3 +26,10 @@ def split_rounds(teams):
         yield (team, round_idx)
 
 
+def assign_default_rounds(teams):
+    assignments = [RoundAssignment(team_id=team.id, round=round_idx)
+                   for (team, round_idx) in split_rounds(teams)]
+
+    db.session.query(RoundAssignment).delete()
+    db.session.add_all(assignments)
+    db.session.commit()
