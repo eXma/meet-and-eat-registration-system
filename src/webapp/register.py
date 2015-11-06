@@ -12,9 +12,21 @@ import tasks
 bp = Blueprint('register', __name__)
 
 
-def _is_backup():
+def _is_soft_end():
+    return current_app.config["REGISTER_END"] < datetime.now()
+
+
+def _is_full():
     teams_qry = db.session.query(func.count(Team.id).label("num")).filter_by(deleted=False).first()
     return current_app.config["MAX_TEAMS"] <= teams_qry.num
+
+
+def _is_backup():
+    return _is_soft_end() or _is_full()
+
+
+def _is_hard_end():
+    return current_app.config["EVENT_DATE"] < datetime.now()
 
 
 def _do_register(form):
@@ -66,18 +78,20 @@ def _do_register(form):
 
 @bp.route('/', methods=("GET",))
 def form():
-    if current_app.config["REGISTER_END"] < datetime.now():
+    if _is_hard_end():
         return redirect(url_for(".late"))
+
     form = TeamRegisterForm()
     if form.validate_on_submit():
         abort(400)
 
-    return render_template('register/index.html', form=form, backup=_is_backup())
+    return render_template('register/index.html', form=form,
+                           backup=_is_backup(), soft_end=_is_soft_end())
 
 
 @bp.route('/doit', methods=("POST",))
 def register_async():
-    if current_app.config["REGISTER_END"] < datetime.now():
+    if _is_hard_end():
         return json.dumps({"state": "error", "errors": "too late"})
 
     if not request.is_xhr:
@@ -117,6 +131,6 @@ def terms():
 
 @bp.route("/late")
 def late():
-    if current_app.config["REGISTER_END"] > datetime.now():
+    if not _is_hard_end():
         return redirect(url_for(".form"))
     return render_template("register/end.html")
