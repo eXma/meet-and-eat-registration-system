@@ -4,6 +4,7 @@ from math import floor
 from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort, request
 from sqlalchemy import func
 from database.model import Team, Members
+from planning.rounds import split_rounds
 from webapp.admin.login import delete_token, set_token, valid_admin
 from webapp.forms import AdminLoginForm, ConfirmForm, TeamEditForm
 
@@ -94,24 +95,15 @@ def _colored_teams(group_id):
                                              backup=False,
                                              groups=group_id).order_by(Team.id).all()
 
-    max_working = len(teams) - (len(teams) % 3)
-    divider = max_working / 3.0
-
-    working = teams[:max_working]
-    teams = sorted(working, _distance_sort) + teams[max_working:]
-
     data = []
-    for idx, team in enumerate(teams):
-        color_idx = 0
-        if (divider > 0):
-            color_idx = min(int(floor(idx / divider)), 3)
+    for (team, round_idx) in split_rounds(teams):
         team_data = {"name": team.name,
                      "id": team.id,
                      "confirmed": team.confirmed,
                      "email": team.email,
                      "members": [member.name for member in team.members],
                      "address": team.location.street,
-                     "color": _color_map[color_idx]}
+                     "color": _color_map[round_idx]}
 
         location = {"lat": team.location.lat,
                     "lon": team.location.lon}
