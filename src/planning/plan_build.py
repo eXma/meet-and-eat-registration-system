@@ -101,6 +101,7 @@ def build_meeting_entries(plans):
 
     return meeting_parts
 
+
 def import_database(plans):
     db.session.add_all(build_meeting_entries(plans))
     db.session.commit()
