@@ -77,3 +77,14 @@ class RouteDistance(Base):
     location_to = relationship(Location, foreign_keys=[location_to_id])
 
     distance = Column(Float, nullable=False)
+
+
+class MeetingEntry(Base):
+    __tablename__ = "meeting_entry"
+    id = Column(Integer, primary_key=True)
+    host_team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=False)
+    host = relationship(Team, foreign_keys=[host_team_id])
+
+    plan_round = Column(Integer, nullable=False)
+    participant_team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=False)
+    participant = relationship(Team, foreign_keys=[participant_team_id])
