@@ -18,7 +18,7 @@ def parse_args():
     informal.set_defaults(func=cmd_send_informal)
 
     plan = subs.add_parser("plan", help="send the plan mails")
-    plan.add_argument("--inform", required=True, choices=("legacy", "dan_marc_partial"),
+    plan.add_argument("--inform", required=True, choices=("legacy", "dan_marc_partial, database"),
                       help="select the input format for the plan")
     plan.add_argument("--file", help="The input file with the plan")
     plan.add_argument("-S", "--separate", type=int, metavar="I", nargs="+",
