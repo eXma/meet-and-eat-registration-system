@@ -43,5 +43,5 @@ def round_data(teams):
     for team in assignments:
         yield (team, assignments[team])
 
-    for (team, round_idx) in unassigned:
+    for (team, round_idx) in split_rounds(unassigned):
         yield (team, round_idx)
