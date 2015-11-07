@@ -31,7 +31,9 @@ def assign_default_rounds(teams):
     assignments = [RoundAssignment(team_id=team.id, round=round_idx)
                    for (team, round_idx) in split_rounds(teams)]
 
-    db.session.query(RoundAssignment).delete()
+    db.session.query(RoundAssignment)\
+        .filter(RoundAssignment.team_id.in_([t.id for t in teams]))\
+        .delete()
     db.session.add_all(assignments)
     db.session.commit()
 
