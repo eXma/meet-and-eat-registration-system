@@ -9,7 +9,7 @@ from sqlalchemy import not_
 
 import database as db
 from cfg.config import DB_CONNECTION
-from database.model import Team
+from database.model import Team, RouteDistance
 from geotools import simple_distance
 from geotools.routing import MapPoint
 from planning.rounds import round_data
@@ -21,9 +21,14 @@ def get_round_distances(from_teams, to_teams):
     for team_from in from_teams:
         location_from = MapPoint.from_team(team_from)
         for team_to in to_teams:
-            location_to = MapPoint.from_team(team_to)
+            route = db.session.query(RouteDistance).filter_by(location_from=team_from.location,
+                                                      location_to=team_to).first()
+            if route is None:
+                location_to = MapPoint.from_team(team_to)
+                distances[team_from.id][team_to.id] = simple_distance(location_from, location_to)
+            else:
+                distances[team_from.id][team_to.id] = route.distance
 
-            distances[team_from.id][team_to.id] = simple_distance(location_from, location_to)
     return distances
 
 
