@@ -27,30 +27,6 @@
 
     <script type="text/javascript">
 
-        function hover_marker(team_id, set_on, popup) {
-            var elem = $("#side_team_" + team_id);
-            var target_class = (popup ? "selected" : "hovered");
-            if (set_on) {
-                elem.addClass(target_class);
-                if (popup) {
-		    var pos = elem.position().top;
-		    if (pos < 0 || pos > $(elem.parent()).height()) {
-			$("#grouped_teams").animate({
-			    scrollTop: elem.position().top
-			}, 100);
-		    }
-                    group_markers[team_id].setIcon(markers["red"]);
-                }
-            } else {
-                elem.removeClass(target_class);
-                if (popup) {
-                    group_markers[team_id].setIcon(markers[group_markers[team_id]._orig_color]);
-                }
-            }
-        }
-
-
-
         function set_group(team, group) {
 
             $.post("{{ url_for(".update_group") }}", {group_id: group, team_id: team}, function( data ) {
@@ -77,19 +53,6 @@
                 }
             });
 
-            map.on("popupopen", function( e ) { hover_marker(e.popup._source._team_id, true, true); });
-            map.on("popupclose", function( e ) { hover_marker(e.popup._source._team_id, false, true); });
-            $(".group_team").bind("click", function( e ) {
-                var elem = $(e.target),
-                    id = elem.parents(".team_container").data("teamid"),
-                    marker = group_markers[id];
-
-                if (elem.hasClass("selected")) {
-                    marker.closePopup();
-                } else {
-                    marker.openPopup();
-                }
-            });
             $(".team_container").find(">.btn-group>button").bind("click", function( e ) {
                 var elem = $(e.target),
                         teamid = elem.parents(".team_container").data("teamid"),
