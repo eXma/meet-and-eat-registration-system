@@ -1,6 +1,8 @@
 {% extends "admin/map_sidebar.html" %}
 
 {% block sidebar %}
+    <div class="alert alert-danger" role="alert" id="balanced_warning" style="visibility: hidden">...</div>
+
     <h5>Gruppenauswahl</h5>
     <div class="btn-group" data-toggle="buttons-radio">
     {% for group in groups %}
@@ -22,6 +24,9 @@
             </div>
         </div>
     {% endfor %}
+
+
+    <h5>Allgemein</h5>
     <form method="POST" action="{{ url_for(".reassign_group", selected_group=selected_group) }}">
         <input type="hidden" name="selected_group" value="{{ selected_group }}">
         <button type="submit" class="btn" id="reassign_rounds">Gänge neu zuweisen</button>
@@ -38,13 +43,25 @@
 {% block extra_js %}
     {{ super() }}
     <script type="application/javascript">
+    function check_balanced() {
+        $.getJSON("{{ url_for(".balanced_group_rounds", selected_group=selected_group) }}", function (data) {
+            if (data.ok) {
+                $("#balanced_warning").hide();
+            } else {
+                var warn = $("#balanced_warning");
+                warn.show().html(data.message);
+            }
+        });
+    }
     $(function () {
+
+
         $.getJSON("{{ url_for(".round_map_teams", selected_group=selected_group) }}", function (data) {
-            var i = 0;
-            for (i = 0; i < data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
                 setMarker(data[i]);
             }
         });
+        check_balanced();
     });
     </script>
 {% endblock %}

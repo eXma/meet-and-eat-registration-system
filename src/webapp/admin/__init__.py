@@ -1,6 +1,6 @@
 import json
 import random
-from collections import namedtuple
+from collections import defaultdict
 
 from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort, request
 from sqlalchemy import func
@@ -149,6 +149,16 @@ def round_map(selected_group=None):
         .outerjoin(RoundAssignment) \
         .order_by(Team.id).all()
 
+    round_count = defaultdict(int)
+    for team in teams:
+        if team.round is not None:
+            round_count[team.round.round] += 1
+        else:
+            round_count[rounds[-1].idx] += 1
+
+    for rnd in rounds:
+        rnd.count = round_count[rnd.idx]
+
     return render_template("admin/rounds.html",
                            teams=[(t, t.round.round) if t.round is not None else
                                   (t, rounds[-1].idx) for t in teams],
@@ -156,18 +166,55 @@ def round_map(selected_group=None):
                            groups=groups,
                            selected_group=selected_group)
 
+def _check_group(selected_group):
+    groups = _build_groups(with_na=False)
+
+    if selected_group not in [g.idx for g in groups]:
+        abort(404)
+
+@bp.route("/rounds/<int:selected_group>/balanced")
+@valid_admin
+def balanced_group_rounds(selected_group):
+    _check_group(selected_group)
+
+    rounds = [_Round(idx, name, name[:n]) for idx, (name, n) in enumerate(_round_names)]
+
+    teams = db.session.query(Team) \
+        .filter_by(deleted=False,
+                   confirmed=True,
+                   backup=False,
+                   groups=selected_group) \
+        .outerjoin(RoundAssignment) \
+        .order_by(Team.id).all()
+
+    round_count = defaultdict(int)
+    for team in teams:
+        if team.round is not None:
+            round_count[team.round.round] += 1
+        else:
+            round_count[rounds[-1].idx] += 1
+
+    for rnd in rounds:
+        rnd.count = round_count[rnd.idx]
+
+    balanced = None
+    if len(teams) != sum([round_count[rnd.idx] for rnd in rounds[:-1]]):
+        balanced = u"Noch nicht alles zugewiesen!"
+    elif not all([rnd.count % 3 == 0 for rnd in rounds[:-1]]):
+        balanced = u"Nicht alle Zuweisungen durch drei teilbar"
+    elif not all(rnd.count == rounds[0].count for rnd in rounds[:-1]):
+        balanced = u"G&auml;nge haben unterschiedliche Teilnehmerzahlen"
+
+    return json.dumps(dict(ok=balanced is None, message=balanced))
+
 
 @bp.route("/rounds/reassign", methods=["POST"])
 @valid_admin
 def reassign_group():
     if "selected_group" not in request.form:
         abort(400)
-
-    groups = _build_groups(with_na=False)
-
     selected_group = int(request.form["selected_group"])
-    if selected_group not in [g.idx for g in groups]:
-        abort(404)
+    _check_group(selected_group)
 
     teams = db.session.query(Team) \
         .filter_by(deleted=False,
