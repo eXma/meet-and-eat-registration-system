@@ -18,8 +18,8 @@ bp = Blueprint('admin', __name__)
 def login():
     form = AdminLoginForm()
     if form.validate_on_submit():
-        if current_app.config["ADMIN_USER"] == form.login.data and current_app.config[
-            "ADMIN_PASSWORD"] == form.password.data:
+        if current_app.config["ADMIN_USER"] == form.login.data and \
+                        current_app.config["ADMIN_PASSWORD"] == form.password.data:
             set_token()
 
             return redirect(session.get("next") or url_for(".overview"))
@@ -85,43 +85,71 @@ def group_map():
     return render_template("admin/groups.html", teams=teams, groups=groups)
 
 
-_Round = namedtuple("Round", ("idx", "name", "count"))
-_round_names = ["Vor", "Haupt", "Nach", "n/a"]
+_Round = namedtuple("Round", ("idx", "name", "short", "count"))
+_round_names = [("Vorspeise", 3),
+                ("Hauptspeise", 5),
+                ("Nach", 4),
+                ("n/a", 3)]
+
+
+def _team_data(team, color, round_idx):
+    team_data = {"name": team.name,
+                 "id": team.id,
+                 "confirmed": team.confirmed,
+                 "email": team.email,
+                 "members": [member.name for member in team.members],
+                 "address": team.location.street,
+                 "color": color,
+                 "round": round_idx}
+
+    location = {"lat": team.location.lat,
+                "lon": team.location.lon}
+    return {"location": location,
+            "data": team_data}
 
 
 @bp.route("/rounds")
 @valid_admin
 def round_map():
-    groups = [_Round(idx, name, 0) for idx, name in enumerate(_round_names)]
+    rounds = [_Round(idx, name, name[:n], 0) for idx, (name, n) in enumerate(_round_names)]
 
-
-    return render_template("admin/rounds.html", teams=[], groups=groups)
+    return render_template("admin/rounds.html", teams=[], rounds=rounds)
 
 
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
 
 
-def _colored_teams(group_id):
+def _colored_teams(group_id, team_iter=round_data):
     teams = db.session.query(Team).filter_by(deleted=False,
                                              confirmed=True,
                                              backup=False,
                                              groups=group_id).order_by(Team.id).all()
 
     data = []
-    for (team, round_idx) in round_data(teams):
-        team_data = {"name": team.name,
-                     "id": team.id,
-                     "confirmed": team.confirmed,
-                     "email": team.email,
-                     "members": [member.name for member in team.members],
-                     "address": team.location.street,
-                     "color": _color_map[round_idx]}
+    for (team, round_idx) in team_iter(teams):
+        data.append(_team_data(team, _color_map[round_idx], round_idx))
 
-        location = {"lat": team.location.lat,
-                    "lon": team.location.lon}
-        data.append({"location": location,
-                     "data": team_data})
+    return data
 
+
+def _fix_locations(data):
+    locations = set()
+    for entry in data:
+        lat = entry["location"]["lat"]
+        lon = entry["location"]["lon"]
+        key = "%s|%s" % (lat, lon)
+
+        while key in locations:
+            rand = (random.random() - 0.5) * 2
+            if rand < 0:
+                rand = min(rand, -0.2)
+            else:
+                rand = max(rand, 0.2)
+            lon += rand * 0.0002
+            key = "%s|%s" % (lat, lon)
+
+        entry["location"]["lon"] = lon
+        locations.add(key)
     return data
 
 
@@ -140,36 +168,9 @@ def map_teams():
 
     for idx, collection in [(4, backup), (5, unconfirmed)]:
         for team in collection:
-            team_data = {"name": team.name,
-                         "id": team.id,
-                         "confirmed": team.confirmed,
-                         "email": team.email,
-                         "members": [member.name for member in team.members],
-                         "address": team.location.street,
-                         "color": _color_map[4]}
+            data.append(_team_data(team, _color_map[4], 4))
 
-            location = {"lat": team.location.lat,
-                        "lon": team.location.lon}
-            data.append({"location": location,
-                         "data": team_data})
-
-    locations = set()
-    for entry in data:
-        lat = entry["location"]["lat"]
-        lon = entry["location"]["lon"]
-        key = "%s|%s" % (lat, lon)
-
-        while key in locations:
-            rand = (random.random() - 0.5) * 2
-            if rand < 0:
-                rand = min(rand, -0.2)
-            else:
-                rand = max(rand, 0.2)
-            lon += rand * 0.0002
-            key = "%s|%s" % (lat, lon)
-
-        entry["location"]["lon"] = lon
-        locations.add(key)
+    data = _fix_locations(data)
 
     return json.dumps(data)
 
@@ -185,31 +186,10 @@ def group_map_teams():
     max_working = len(teams) - (len(teams) % 3)
     teams = teams[:max_working]
 
-    locations = set()
     for team in teams:
-        team_data = {"name": team.name,
-                     "id": team.id,
-                     "confirmed": team.confirmed,
-                     "email": team.email,
-                     "members": [member.name for member in team.members],
-                     "address": team.location.street,
-                     "color": _group_color(team.groups)}
+        data.append(_team_data(team, _group_color(team.groups), 0))
 
-        lat = team.location.lat
-        lon = team.location.lon
-        while "%s|%s" % (lat, lon) in locations:
-            rand = (random.random() - 0.5) * 2
-            if rand < 0:
-                rand = min(rand, -0.2)
-            else:
-                rand = max(rand, 0.2)
-            lon += rand * 0.0002
-        locations.add("%s|%s" % (lat, lon))
-
-        location = {"lat": lat,
-                    "lon": lon}
-        data.append({"location": location,
-                     "data": team_data})
+    data = _fix_locations(data)
 
     return json.dumps(data)
 
