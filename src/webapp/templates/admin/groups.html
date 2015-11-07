@@ -1,45 +1,6 @@
-{% extends "admin/base.html" %}
+{% extends "admin/map_sidebar.html" %}
 
-{% block styles %}
-    <style type="text/css">
-        #map {
-            position: fixed;
-            top: 40px;
-            bottom: 0;
-            right: 0;
-            left: 30%;
-        }
-        #grouped_teams {
-            position: fixed;
-            top: 40px;
-            bottom: 0;
-            right: 70%;
-            left: 0;
-            overflow-y: scroll;
-            padding-right: 10px;
-            padding-left: 10px;;
-        }
-
-        .group_team, .group_stats {
-            border-top: 1px solid #ddd;
-        }
-
-        .group_team.hovered {
-            background-color: #e8b8b5;
-        }
-
-        .group_team.selected {
-            background-color: #df7a53;
-        }
-
-        .group_stats { clear: both; }
-    </style>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css"/>
-{% endblock %}
-
-{% block container %}
-<div id="map"></div>
-    <div id="grouped_teams">
+{% block sidebar %}
         <h5>Verfügbare Teams</h5>
         {% for team in teams %}
             <div class="team_container" style="clear: both" data-teamid="{{ team.id }}">
@@ -59,75 +20,12 @@
             Gruppe {{ group.name }}: <div style="float: right;" id="group_stat_{{ group.idx }}">{{ group.count }} Teams</div>
             </div>
         {% endfor %}
-    </div>
 {% endblock %}
 
 {% block extra_js %}
-    <script src="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet-src.js"></script>
-    <script type="text/javascript">
-        var map = L.map('map').setView([51.050399, 13.737246], 13);
-        var osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                osm = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg', {maxZoom: 19, subdomains: "1234",
-                    attribution: osmAttrib
-                }).addTo(map);
-
-        var icon_red = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-red.png"}),
-                icon_green = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-green.png"}),
-                icon_blue = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-blue.png"}),
-                icon_gray = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-gray.png"}),
-                icon_yellow = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-yellow.png"}),
-                icon_transparent = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-transparent.png"}),
-                markers = {red: icon_red, green: icon_green, blue: icon_blue, yellow: icon_yellow, gray: icon_gray, transparent: icon_transparent};
-
-    </script>
+    {{ super() }}
 
     <script type="text/javascript">
-        var group_markers = {};
-
-        function hover_marker(team_id, set_on, popup) {
-            var elem = $("#side_team_" + team_id);
-            var target_class = (popup ? "selected" : "hovered");
-            if (set_on) {
-                elem.addClass(target_class);
-                if (popup) {
-		    var pos = elem.position().top;
-		    if (pos < 0 || pos > $(elem.parent()).height()) {
-			$("#grouped_teams").animate({
-			    scrollTop: elem.position().top
-			}, 100);
-		    }
-                    group_markers[team_id].setIcon(markers["red"]);
-                }
-            } else {
-                elem.removeClass(target_class);
-                if (popup) {
-                    group_markers[team_id].setIcon(markers[group_markers[team_id]._orig_color]);
-                }
-            }
-        }
-
-        function transformLoc(lat, lon) {
-            return [lat, lon];
-            //return  [51.0322627 + ((0.5 - Math.random()) / 10), 13.7071665 + ((0.5 - Math.random()) / 10)]
-        }
-
-        function setMarker(data) {
-            var marker = L.marker(transformLoc(data.location.lat, data.location.lon), {icon: icon_red});
-            if (data.data !== undefined) {
-                marker.setIcon(markers[data.data.color]);
-                var popup = $("<span><h4>Team: " + data.data.name + " ("+ data.data.id +")<br><small>" + data.data.address + "</small></h4><br><strong>Members:</strong><ul></ul></span>");
-                for (var i = 0; i < data.data.members.length; i++) {
-                    popup.find("ul").append($("<li>" + data.data.members[i] + "</li>"));
-                }
-                marker.bindPopup(popup.html());
-                marker._team_id =  data.data.id;
-                marker._orig_color = data.data.color;
-                marker.on("mouseover", function(e){hover_marker(data.data.id, true, false)});
-                marker.on("mouseout", function(e){hover_marker(data.data.id, false, false)});
-            }
-            marker.addTo(map);
-            group_markers[data.data.id] = marker;
-        }
 
         function set_group(team, group) {
 
@@ -155,19 +53,6 @@
                 }
             });
 
-            map.on("popupopen", function( e ) { hover_marker(e.popup._source._team_id, true, true); });
-            map.on("popupclose", function( e ) { hover_marker(e.popup._source._team_id, false, true); });
-            $(".group_team").bind("click", function( e ) {
-                var elem = $(e.target),
-                    id = elem.parents(".team_container").data("teamid"),
-                    marker = group_markers[id];
-
-                if (elem.hasClass("selected")) {
-                    marker.closePopup();
-                } else {
-                    marker.openPopup();
-                }
-            });
             $(".team_container").find(">.btn-group>button").bind("click", function( e ) {
                 var elem = $(e.target),
                         teamid = elem.parents(".team_container").data("teamid"),

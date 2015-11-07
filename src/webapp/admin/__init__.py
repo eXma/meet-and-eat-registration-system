@@ -1,12 +1,11 @@
 import json
 import random
-
+from collections import defaultdict
 from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort, request
 from sqlalchemy import func
-
 import database as db
-from database.model import Team, Members
-from planning.rounds import round_data
+from database.model import Team, Members, RoundAssignment
+from planning.rounds import round_data, assign_default_rounds
 from webapp.admin.login import delete_token, set_token, valid_admin
 from webapp.forms import AdminLoginForm, ConfirmForm, TeamEditForm
 
@@ -17,8 +16,8 @@ bp = Blueprint('admin', __name__)
 def login():
     form = AdminLoginForm()
     if form.validate_on_submit():
-        if current_app.config["ADMIN_USER"] == form.login.data and current_app.config[
-            "ADMIN_PASSWORD"] == form.password.data:
+        if current_app.config["ADMIN_USER"] == form.login.data and \
+                        current_app.config["ADMIN_PASSWORD"] == form.password.data:
             set_token()
 
             return redirect(session.get("next") or url_for(".overview"))
@@ -47,11 +46,33 @@ def team_map():
 
 
 _group_colors = ["gray", "blue", "yellow", "green"]
+
+
 def _group_color(group):
     if group is None:
         return "gray"
     else:
         return _group_colors[group % len(_group_colors)]
+
+
+class _Group(object):
+    def __init__(self, idx, name, color):
+        self.color = color
+        self.name = name
+        self.idx = idx
+        self._count = 0
+
+
+def _build_groups(with_na=True):
+    groups = [_Group(idx=idx,
+                     name=str(idx),
+                     color=_group_color(idx))
+              for idx in range(1, current_app.config["TEAM_GROUPS"] + 1)]
+    if with_na:
+        groups.append(_Group(idx=0, name="n/a", color="gray"))
+
+    return groups
+
 
 @bp.route("/groups")
 @valid_admin
@@ -62,32 +83,154 @@ def group_map():
     max_working = len(teams) - (len(teams) % 3)
     teams = teams[:max_working]
 
-    groups = [dict(idx=idx,
-                   name=str(idx),
-                   color=_group_color(idx))
-              for idx in range(1, current_app.config["TEAM_GROUPS"] + 1)]
-    groups.append(dict(idx=0, name="n/a", color="gray"))
+    groups = _build_groups()
 
     counts = dict(db.session.query(Team.groups.label("group"),
                                    func.count(Team.id).label("count")
                                    ).group_by(
-                                       Team.groups
-                                   ).filter_by(deleted=False,
-                                               confirmed=True,
-                                               backup=False).all())
+        Team.groups
+    ).filter_by(deleted=False,
+                confirmed=True,
+                backup=False).all())
     for entry in groups:
-        entry["count"] = counts.get(entry["idx"], 0)
+        entry.count = counts.get(entry.idx, 0)
 
     return render_template("admin/groups.html", teams=teams, groups=groups)
 
+
+class _Round(object):
+    def __init__(self, idx, name, short):
+        self.idx = idx
+        self.name = name
+        self.short = short
+        self.count = 0
+
+
+_round_names = [("Vorspeise", 3),
+                ("Hauptspeise", 5),
+                ("Nach", 4),
+                ("n/a", 3)]
+
+
+def _build_rounds():
+    return [_Round(idx, name, name[:n])
+            for idx, (name, n)
+            in enumerate(_round_names)]
+
+
+def _team_data(team, color, round_idx):
+    team_data = {"name": team.name,
+                 "id": team.id,
+                 "confirmed": team.confirmed,
+                 "email": team.email,
+                 "members": [member.name for member in team.members],
+                 "address": team.location.street,
+                 "color": color,
+                 "round": round_idx}
+
+    location = {"lat": team.location.lat,
+                "lon": team.location.lon}
+    return {"location": location,
+            "data": team_data}
+
+
+@bp.route("/rounds/", defaults={"selected_group": None})
+@bp.route("/rounds/<int:selected_group>")
+@valid_admin
+def round_map(selected_group=None):
+    groups = _build_groups(with_na=False)
+
+    if selected_group is None or selected_group not in [g.idx for g in groups]:
+        selected_group = groups[0].idx
+
+    rounds = _build_rounds()
+
+    teams = db.session.query(Team) \
+        .filter_by(deleted=False,
+                   confirmed=True,
+                   backup=False,
+                   groups=selected_group) \
+        .outerjoin(RoundAssignment) \
+        .order_by(Team.id).all()
+
+    _update_round_counts(teams, rounds)
+
+    return render_template("admin/rounds.html",
+                           teams=[(t, t.round.round) if t.round is not None else
+                                  (t, rounds[-1].idx) for t in teams],
+                           rounds=rounds,
+                           groups=groups,
+                           selected_group=selected_group)
+
+
+def _check_group(selected_group):
+    groups = _build_groups(with_na=False)
+
+    if selected_group not in [g.idx for g in groups]:
+        abort(404)
+
+
+def _update_round_counts(teams, rounds):
+    round_count = defaultdict(int)
+    for team in teams:
+        if team.round is not None:
+            round_count[team.round.round] += 1
+        else:
+            round_count[rounds[-1].idx] += 1
+
+    for rnd in rounds:
+        rnd.count = round_count[rnd.idx]
+
+
+@bp.route("/rounds/<int:selected_group>/balanced")
+@valid_admin
+def balanced_group_rounds(selected_group):
+    _check_group(selected_group)
+
+    rounds = _build_rounds()
+
+    teams = db.session.query(Team) \
+        .filter_by(deleted=False,
+                   confirmed=True,
+                   backup=False,
+                   groups=selected_group) \
+        .outerjoin(RoundAssignment) \
+        .order_by(Team.id).all()
+
+    _update_round_counts(teams, rounds)
+
+    balanced = None
+    if len(teams) != sum([rnd.count for rnd in rounds[:-1]]):
+        balanced = u"Noch nicht alles zugewiesen!"
+    elif not all([rnd.count % 3 == 0 for rnd in rounds[:-1]]):
+        balanced = u"Nicht alle Zuweisungen durch drei teilbar"
+    elif not all(rnd.count == rounds[0].count for rnd in rounds[:-1]):
+        balanced = u"G&auml;nge haben unterschiedliche Teilnehmerzahlen"
+
+    return json.dumps(dict(ok=balanced is None, message=balanced))
+
+
+@bp.route("/rounds/reassign", methods=["POST"])
+@valid_admin
+def reassign_group():
+    if "selected_group" not in request.form:
+        abort(400)
+    selected_group = int(request.form["selected_group"])
+    _check_group(selected_group)
+
+    teams = db.session.query(Team) \
+        .filter_by(deleted=False,
+                   confirmed=True,
+                   backup=False,
+                   groups=selected_group).all()
+
+    assign_default_rounds(teams)
+
+    return redirect(url_for(".round_map", selected_group=selected_group))
+
+
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
 
-def _distance_sort(a, b):
-    if a.location.center_distance > b.location.center_distance:
-        return -1
-    if a.location.center_distance < b.location.center_distance:
-        return 1
-    return 0
 
 def _colored_teams(group_id):
     teams = db.session.query(Team).filter_by(deleted=False,
@@ -97,19 +240,29 @@ def _colored_teams(group_id):
 
     data = []
     for (team, round_idx) in round_data(teams):
-        team_data = {"name": team.name,
-                     "id": team.id,
-                     "confirmed": team.confirmed,
-                     "email": team.email,
-                     "members": [member.name for member in team.members],
-                     "address": team.location.street,
-                     "color": _color_map[round_idx]}
+        data.append(_team_data(team, _color_map[round_idx], round_idx))
 
-        location = {"lat": team.location.lat,
-                    "lon": team.location.lon}
-        data.append({"location": location,
-                     "data": team_data})
+    return data
 
+
+def _fix_locations(data):
+    locations = set()
+    for entry in data:
+        lat = entry["location"]["lat"]
+        lon = entry["location"]["lon"]
+        key = "%s|%s" % (lat, lon)
+
+        while key in locations:
+            rand = (random.random() - 0.5) * 2
+            if rand < 0:
+                rand = min(rand, -0.2)
+            else:
+                rand = max(rand, 0.2)
+            lon += rand * 0.0002
+            key = "%s|%s" % (lat, lon)
+
+        entry["location"]["lon"] = lon
+        locations.add(key)
     return data
 
 
@@ -128,36 +281,9 @@ def map_teams():
 
     for idx, collection in [(4, backup), (5, unconfirmed)]:
         for team in collection:
-            team_data = {"name": team.name,
-                         "id": team.id,
-                         "confirmed": team.confirmed,
-                         "email": team.email,
-                         "members": [member.name for member in team.members],
-                         "address": team.location.street,
-                         "color": _color_map[4]}
+            data.append(_team_data(team, _color_map[4], 4))
 
-            location = {"lat": team.location.lat,
-                        "lon": team.location.lon}
-            data.append({"location": location,
-                         "data": team_data})
-
-    locations = set()
-    for entry in data:
-        lat = entry["location"]["lat"]
-        lon = entry["location"]["lon"]
-        key = "%s|%s" % (lat, lon)
-
-        while key in locations:
-            rand = (random.random() - 0.5) * 2
-            if rand < 0:
-                rand = min(rand, -0.2)
-            else:
-                rand = max(rand, 0.2)
-            lon += rand * 0.0002
-            key = "%s|%s" % (lat, lon)
-
-        entry["location"]["lon"] = lon
-        locations.add(key)
+    data = _fix_locations(data)
 
     return json.dumps(data)
 
@@ -173,32 +299,39 @@ def group_map_teams():
     max_working = len(teams) - (len(teams) % 3)
     teams = teams[:max_working]
 
-    locations = set()
     for team in teams:
-        team_data = {"name": team.name,
-                     "id": team.id,
-                     "confirmed": team.confirmed,
-                     "email": team.email,
-                     "members": [member.name for member in team.members],
-                     "address": team.location.street,
-                     "color": _group_color(team.groups)}
+        data.append(_team_data(team, _group_color(team.groups), 0))
 
-        lat = team.location.lat
-        lon = team.location.lon
-        while "%s|%s" % (lat, lon) in locations:
-            rand = (random.random() - 0.5) * 2
-            if rand < 0:
-                rand = min(rand, -0.2)
-            else:
-                rand = max(rand, 0.2)
-            lon += rand * 0.0002
-        locations.add("%s|%s" % (lat, lon))
+    data = _fix_locations(data)
 
-        location = {"lat": lat,
-                    "lon": lon}
-        data.append({"location": location,
-                     "data": team_data})
+    return json.dumps(data)
 
+
+@bp.route("/round_map_teams/<int:selected_group>")
+@valid_admin
+def round_map_teams(selected_group):
+    groups = _build_groups(with_na=False)
+    if selected_group not in [g.idx for g in groups]:
+        abort(404)
+
+    teams = db.session.query(Team) \
+        .filter_by(deleted=False,
+                   confirmed=True,
+                   backup=False,
+                   groups=selected_group) \
+        .outerjoin(RoundAssignment)
+
+    rounds = _build_rounds()
+
+    data = []
+    for team in teams:
+        if team.round is not None:
+            idx = team.round.round
+        else:
+            idx = rounds[-1].idx
+        data.append(_team_data(team, _color_map[idx], idx))
+
+    data = _fix_locations(data)
     return json.dumps(data)
 
 
@@ -220,10 +353,10 @@ def update_group():
     counts = dict(db.session.query(Team.groups.label("group"),
                                    func.count(Team.id).label("count")
                                    ).group_by(
-                                       Team.groups
-                                   ).filter_by(deleted=False,
-                                               confirmed=True,
-                                               backup=False).all())
+        Team.groups
+    ).filter_by(deleted=False,
+                confirmed=True,
+                backup=False).all())
     for idx in range(0, current_app.config["TEAM_GROUPS"] + 1):
         if idx not in counts:
             counts[idx] = 0
@@ -231,6 +364,48 @@ def update_group():
     return json.dumps(dict(color=_group_color(group),
                            counts=counts))
 
+
+@bp.route("/round_update", methods=["POST"])
+@valid_admin
+def update_round():
+    if "round_id" not in request.form or "team_id" not in request.form:
+        abort(400)
+
+    rounds = _build_rounds()
+    round_id = int(request.form["round_id"])
+    team_id = int(request.form["team_id"])
+
+    if round_id not in [rnd.idx for rnd in rounds]:
+        abort(400)
+
+    team = db.session.query(Team) \
+        .filter_by(id=team_id) \
+        .outerjoin(RoundAssignment) \
+        .first()
+
+    if team is None:
+        abort(404)
+
+    if team.round is not None:
+        team.round.round = round_id
+    else:
+        item = RoundAssignment(team=team, round=round_id)
+        db.session.add(item)
+
+    db.session.commit()
+
+    teams = db.session.query(Team) \
+        .filter_by(deleted=False,
+                   confirmed=True,
+                   backup=False,
+                   groups=team.groups) \
+        .outerjoin(RoundAssignment) \
+        .order_by(Team.id).all()
+
+    _update_round_counts(teams, rounds)
+    counts = dict([(rnd.idx, rnd.count) for rnd in rounds])
+
+    return json.dumps(dict(counts=counts, color=_color_map[round_id]))
 
 
 @bp.route("/edit/<int:team_id>", methods=["GET", "POST"])

@@ -9,7 +9,7 @@ from sqlalchemy import not_
 
 import database as db
 from cfg.config import DB_CONNECTION
-from database.model import Team
+from database.model import Team, RouteDistance
 from geotools import simple_distance
 from geotools.routing import MapPoint
 from planning.rounds import round_data
@@ -21,9 +21,14 @@ def get_round_distances(from_teams, to_teams):
     for team_from in from_teams:
         location_from = MapPoint.from_team(team_from)
         for team_to in to_teams:
-            location_to = MapPoint.from_team(team_to)
+            route = db.session.query(RouteDistance).filter_by(location_from=team_from.location,
+                                                      location_to=team_to).first()
+            if route is None:
+                location_to = MapPoint.from_team(team_to)
+                distances[team_from.id][team_to.id] = simple_distance(location_from, location_to)
+            else:
+                distances[team_from.id][team_to.id] = route.distance
 
-            distances[team_from.id][team_to.id] = simple_distance(location_from, location_to)
     return distances
 
 
@@ -34,14 +39,17 @@ def write_planning_data(teams, filename):
     data = []
     round_teams = defaultdict(list)
 
+    idx = 0
     for (team, round_idx) in round_data(teams):
         team_data = {"name": team.name,
                      "id": team.id,
+                     "idx": idx,
                      "location": {"lat": team.location.lat,
                                   "lon": team.location.lon},
                      "round_host": round_idx}
         round_teams[round_idx].append(team)
         data.append(team_data)
+        idx += 1
 
     print "write team data..."
 

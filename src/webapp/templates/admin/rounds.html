@@ -1,0 +1,95 @@
+{% extends "admin/map_sidebar.html" %}
+
+{% block sidebar %}
+    <h5>Gruppenauswahl</h5>
+    <div class="btn-group" data-toggle="buttons-radio">
+    {% for group in groups %}
+        <a class="btn {% if selected_group == group.idx %} active{% endif %}" href="{{ url_for(".round_map", selected_group=group.idx) }}">{{ group.name }}</a>
+    {% endfor %}
+    </div>
+
+
+    <h5>Zubereitete Gänge</h5>
+    {% for (team, round_idx) in teams %}
+        <div class="team_container" style="clear: both" data-teamid="{{ team.id }}">
+            <div class="btn-group" data-toggle="buttons-radio" style="float: right;">
+                {% for round in rounds %}
+                    <button type="button" class="btn btn-mini{% if round_idx == round.idx %} active{% endif %}" data-roundid="{{ round.idx }}">{{ round.short }}</button>
+                {% endfor %}
+            </div>
+            <div class="group_team" id="side_team_{{ team.id }}">
+                {{ team.name }}<br>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="alert alert-danger" role="alert" id="balanced_warning"></div>
+
+
+    <h5>Allgemein</h5>
+    <form method="POST" action="{{ url_for(".reassign_group", selected_group=selected_group) }}">
+        <input type="hidden" name="selected_group" value="{{ selected_group }}">
+        <button type="submit" class="btn" id="reassign_rounds">Gänge initial neu zuweisen</button>
+    </form>
+
+    <h5>Satistik</h5>
+    {% for round in rounds %}
+        <div class="group_stats">
+            {{ round.name }}: <div style="float: right;" id="round_stat_{{ round.idx }}">{{ round.count }} Teams</div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+    {{ super() }}
+    <script type="application/javascript">
+    function check_balanced() {
+        $.getJSON("{{ url_for(".balanced_group_rounds", selected_group=selected_group) }}", function (data) {
+            if (data.ok) {
+                $("#balanced_warning").hide();
+            } else {
+                var warn = $("#balanced_warning");
+                warn.show().html("<b>Achtung: </b>" + data.message);
+            }
+        });
+    }
+
+    function set_round(team_id, round_id) {
+        $.post("{{ url_for(".update_round") }}", {round_id: round_id, team_id: team_id}, function( data ) {
+            var marker = group_markers[team_id],
+                    color = data.color,
+                    list_elem = $("#side_team_" + team_id),
+                    stats = data.counts;
+
+            marker._orig_color=color;
+            if (! list_elem.hasClass("selected")) {
+                marker.setIcon(markers[color]);
+            }
+            for (var idx in stats) {
+                $("#round_stat_" + idx).html(stats[idx] + " Teams");
+            }
+            check_balanced();
+        }, "json")
+    }
+
+    $(function () {
+
+        check_balanced();
+
+        $.getJSON("{{ url_for(".round_map_teams", selected_group=selected_group) }}", function (data) {
+            for (var i = 0; i < data.length; i++) {
+                setMarker(data[i]);
+            }
+        });
+
+        $(".team_container").find(">.btn-group>button").bind("click", function( e ) {
+            var elem = $(e.target),
+                    teamid = elem.parents(".team_container").data("teamid"),
+                    roundid = elem.data("roundid");
+            console.log("select " + roundid + " for " + teamid);
+            set_round(teamid, roundid);
+        })
+
+    });
+    </script>
+{% endblock %}
