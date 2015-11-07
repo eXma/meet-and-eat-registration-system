@@ -1,45 +1,6 @@
-{% extends "admin/base.html" %}
+{% extends "admin/map_sidebar.html" %}
 
-{% block styles %}
-    <style type="text/css">
-        #map {
-            position: fixed;
-            top: 40px;
-            bottom: 0;
-            right: 0;
-            left: 30%;
-        }
-        #grouped_teams {
-            position: fixed;
-            top: 40px;
-            bottom: 0;
-            right: 70%;
-            left: 0;
-            overflow-y: scroll;
-            padding-right: 10px;
-            padding-left: 10px;;
-        }
-
-        .group_team, .group_stats {
-            border-top: 1px solid #ddd;
-        }
-
-        .group_team.hovered {
-            background-color: #e8b8b5;
-        }
-
-        .group_team.selected {
-            background-color: #df7a53;
-        }
-
-        .group_stats { clear: both; }
-    </style>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css"/>
-{% endblock %}
-
-{% block container %}
-<div id="map"></div>
-    <div id="grouped_teams">
+{% block sidebar %}
         <h5>Verfügbare Teams</h5>
         {% for team in teams %}
             <div class="team_container" style="clear: both" data-teamid="{{ team.id }}">
@@ -59,27 +20,10 @@
             Gruppe {{ group.name }}: <div style="float: right;" id="group_stat_{{ group.idx }}">{{ group.count }} Teams</div>
             </div>
         {% endfor %}
-    </div>
 {% endblock %}
 
 {% block extra_js %}
-    <script src="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet-src.js"></script>
-    <script type="text/javascript">
-        var map = L.map('map').setView([51.050399, 13.737246], 13);
-        var osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                osm = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg', {maxZoom: 19, subdomains: "1234",
-                    attribution: osmAttrib
-                }).addTo(map);
-
-        var icon_red = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-red.png"}),
-                icon_green = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-green.png"}),
-                icon_blue = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-blue.png"}),
-                icon_gray = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-gray.png"}),
-                icon_yellow = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-yellow.png"}),
-                icon_transparent = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-transparent.png"}),
-                markers = {red: icon_red, green: icon_green, blue: icon_blue, yellow: icon_yellow, gray: icon_gray, transparent: icon_transparent};
-
-    </script>
+    {{ super() }}
 
     <script type="text/javascript">
         var group_markers = {};

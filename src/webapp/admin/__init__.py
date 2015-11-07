@@ -1,5 +1,6 @@
 import json
 import random
+from collections import namedtuple
 
 from flask import current_app, session, redirect, url_for, render_template, Blueprint, abort, request
 from sqlalchemy import func
@@ -82,6 +83,19 @@ def group_map():
         entry["count"] = counts.get(entry["idx"], 0)
 
     return render_template("admin/groups.html", teams=teams, groups=groups)
+
+
+_Round = namedtuple("Round", ("idx", "name", "count"))
+_round_names = ["Vor", "Haupt", "Nach", "n/a"]
+
+
+@bp.route("/rounds")
+@valid_admin
+def round_map():
+    groups = [_Round(idx, name, 0) for idx, name in enumerate(_round_names)]
+
+
+    return render_template("admin/rounds.html", teams=[], groups=groups)
 
 
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
