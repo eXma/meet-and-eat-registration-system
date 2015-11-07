@@ -87,14 +87,6 @@ def group_map():
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
 
 
-def _distance_sort(a, b):
-    if a.location.center_distance > b.location.center_distance:
-        return -1
-    if a.location.center_distance < b.location.center_distance:
-        return 1
-    return 0
-
-
 def _colored_teams(group_id):
     teams = db.session.query(Team).filter_by(deleted=False,
                                              confirmed=True,
