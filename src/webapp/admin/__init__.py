@@ -47,11 +47,14 @@ def team_map():
 
 
 _group_colors = ["gray", "blue", "yellow", "green"]
+
+
 def _group_color(group):
     if group is None:
         return "gray"
     else:
         return _group_colors[group % len(_group_colors)]
+
 
 @bp.route("/groups")
 @valid_admin
@@ -71,16 +74,18 @@ def group_map():
     counts = dict(db.session.query(Team.groups.label("group"),
                                    func.count(Team.id).label("count")
                                    ).group_by(
-                                       Team.groups
-                                   ).filter_by(deleted=False,
-                                               confirmed=True,
-                                               backup=False).all())
+        Team.groups
+    ).filter_by(deleted=False,
+                confirmed=True,
+                backup=False).all())
     for entry in groups:
         entry["count"] = counts.get(entry["idx"], 0)
 
     return render_template("admin/groups.html", teams=teams, groups=groups)
 
+
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
+
 
 def _distance_sort(a, b):
     if a.location.center_distance > b.location.center_distance:
@@ -88,6 +93,7 @@ def _distance_sort(a, b):
     if a.location.center_distance < b.location.center_distance:
         return 1
     return 0
+
 
 def _colored_teams(group_id):
     teams = db.session.query(Team).filter_by(deleted=False,
@@ -220,17 +226,16 @@ def update_group():
     counts = dict(db.session.query(Team.groups.label("group"),
                                    func.count(Team.id).label("count")
                                    ).group_by(
-                                       Team.groups
-                                   ).filter_by(deleted=False,
-                                               confirmed=True,
-                                               backup=False).all())
+        Team.groups
+    ).filter_by(deleted=False,
+                confirmed=True,
+                backup=False).all())
     for idx in range(0, current_app.config["TEAM_GROUPS"] + 1):
         if idx not in counts:
             counts[idx] = 0
 
     return json.dumps(dict(color=_group_color(group),
                            counts=counts))
-
 
 
 @bp.route("/edit/<int:team_id>", methods=["GET", "POST"])
