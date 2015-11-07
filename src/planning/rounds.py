@@ -39,7 +39,8 @@ def assign_default_rounds(teams):
 def round_data(teams):
     assignments = dict([(assign.team, assign.round)
                         for assign
-                        in db.session.query(RoundAssignment).order_by(RoundAssignment.round)])
+                        in db.session.query(RoundAssignment).order_by(RoundAssignment.round)
+                        if assign.team in teams])
     unassigned = [team for team in teams if team not in assignments]
 
     for (team, round_idx) in split_rounds(unassigned):
