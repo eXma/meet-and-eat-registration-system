@@ -6,8 +6,8 @@ from flask import current_app, session, redirect, url_for, render_template, Blue
 from sqlalchemy import func
 
 import database as db
-from database.model import Team, Members
-from planning.rounds import round_data
+from database.model import Team, Members, RoundAssignment
+from planning.rounds import round_data, assign_default_rounds
 from webapp.admin.login import delete_token, set_token, valid_admin
 from webapp.forms import AdminLoginForm, ConfirmForm, TeamEditForm
 
@@ -57,6 +57,25 @@ def _group_color(group):
         return _group_colors[group % len(_group_colors)]
 
 
+class _Group(object):
+    def __init__(self, idx, name, color):
+        self.color = color
+        self.name = name
+        self.idx = idx
+        self._count = 0
+
+
+def _build_groups(with_na=True):
+    groups = [_Group(idx=idx,
+                     name=str(idx),
+                     color=_group_color(idx))
+              for idx in range(1, current_app.config["TEAM_GROUPS"] + 1)]
+    if with_na:
+        groups.append(_Group(idx=0, name="n/a", color="gray"))
+
+    return groups
+
+
 @bp.route("/groups")
 @valid_admin
 def group_map():
@@ -66,11 +85,7 @@ def group_map():
     max_working = len(teams) - (len(teams) % 3)
     teams = teams[:max_working]
 
-    groups = [dict(idx=idx,
-                   name=str(idx),
-                   color=_group_color(idx))
-              for idx in range(1, current_app.config["TEAM_GROUPS"] + 1)]
-    groups.append(dict(idx=0, name="n/a", color="gray"))
+    groups = _build_groups()
 
     counts = dict(db.session.query(Team.groups.label("group"),
                                    func.count(Team.id).label("count")
@@ -80,12 +95,19 @@ def group_map():
                 confirmed=True,
                 backup=False).all())
     for entry in groups:
-        entry["count"] = counts.get(entry["idx"], 0)
+        entry.count = counts.get(entry.idx, 0)
 
     return render_template("admin/groups.html", teams=teams, groups=groups)
 
 
-_Round = namedtuple("Round", ("idx", "name", "short", "count"))
+class _Round(object):
+    def __init__(self, idx, name, short):
+        self.idx = idx
+        self.name = name
+        self.short = short
+        self.count = 0
+
+
 _round_names = [("Vorspeise", 3),
                 ("Hauptspeise", 5),
                 ("Nach", 4),
@@ -108,25 +130,67 @@ def _team_data(team, color, round_idx):
             "data": team_data}
 
 
-@bp.route("/rounds")
+@bp.route("/rounds/", defaults={"selected_group": None})
+@bp.route("/rounds/<int:selected_group>")
 @valid_admin
-def round_map():
-    rounds = [_Round(idx, name, name[:n], 0) for idx, (name, n) in enumerate(_round_names)]
+def round_map(selected_group=None):
+    groups = _build_groups(with_na=False)
 
-    return render_template("admin/rounds.html", teams=[], rounds=rounds)
+    if selected_group is None or selected_group not in [g.idx for g in groups]:
+        selected_group = groups[0].idx
+
+    rounds = [_Round(idx, name, name[:n]) for idx, (name, n) in enumerate(_round_names)]
+
+    teams = db.session.query(Team) \
+        .filter_by(deleted=False,
+                   confirmed=True,
+                   backup=False,
+                   groups=selected_group) \
+        .outerjoin(RoundAssignment) \
+        .order_by(Team.id).all()
+
+    return render_template("admin/rounds.html",
+                           teams=[(t, t.round.round) if t.round is not None else
+                                  (t, rounds[-1].idx) for t in teams],
+                           rounds=rounds,
+                           groups=groups,
+                           selected_group=selected_group)
+
+
+@bp.route("/rounds/reassign", methods=["POST"])
+@valid_admin
+def reassign_group():
+    if "selected_group" not in request.form:
+        abort(400)
+
+    groups = _build_groups(with_na=False)
+
+    selected_group = int(request.form["selected_group"])
+    if selected_group not in [g.idx for g in groups]:
+        abort(404)
+
+    teams = db.session.query(Team) \
+        .filter_by(deleted=False,
+                   confirmed=True,
+                   backup=False,
+                   groups=selected_group).all()
+
+    assign_default_rounds(teams)
+
+    return redirect(url_for(".round_map", selected_group=selected_group))
 
 
 _color_map = ["blue", "yellow", "green", "red", "gray", "transparent"]
 
 
-def _colored_teams(group_id, team_iter=round_data):
+def _colored_teams(group_id):
     teams = db.session.query(Team).filter_by(deleted=False,
                                              confirmed=True,
                                              backup=False,
                                              groups=group_id).order_by(Team.id).all()
 
     data = []
-    for (team, round_idx) in team_iter(teams):
+    for (team, round_idx) in round_data(teams):
         data.append(_team_data(team, _color_map[round_idx], round_idx))
 
     return data
@@ -191,6 +255,18 @@ def group_map_teams():
 
     data = _fix_locations(data)
 
+    return json.dumps(data)
+
+
+@bp.route("/round_map_teams/<int:selected_group>")
+@valid_admin
+def round_map_teams(selected_group):
+    groups = _build_groups(with_na=False)
+    if selected_group not in [g.idx for g in groups]:
+        abort(404)
+
+    data = _colored_teams(selected_group)
+    data = _fix_locations(data)
     return json.dumps(data)
 
 

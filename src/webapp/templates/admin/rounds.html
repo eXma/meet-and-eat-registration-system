@@ -1,12 +1,20 @@
 {% extends "admin/map_sidebar.html" %}
 
 {% block sidebar %}
+    <h5>Gruppenauswahl</h5>
+    <div class="btn-group" data-toggle="buttons-radio">
+    {% for group in groups %}
+        <a class="btn {% if selected_group == group.idx %} active{% endif %}" href="{{ url_for(".round_map", selected_group=group.idx) }}">{{ group.name }}</a>
+    {% endfor %}
+    </div>
+
+
     <h5>Zubereitete Gänge</h5>
     {% for (team, round_idx) in teams %}
         <div class="team_container" style="clear: both" data-teamid="{{ team.id }}">
             <div class="btn-group" data-toggle="buttons-radio" style="float: right;">
                 {% for round in rounds %}
-                    <button type="button" class="btn btn-mini{% if round_idx == round.idx %} active{% endif %}" data-roundid="{{ round.idx }}">{{ group.name }}</button>
+                    <button type="button" class="btn btn-mini{% if round_idx == round.idx %} active{% endif %}" data-roundid="{{ round.idx }}">{{ round.short }}</button>
                 {% endfor %}
             </div>
             <div class="group_team" id="side_team_{{ team.id }}">
@@ -14,10 +22,29 @@
             </div>
         </div>
     {% endfor %}
+    <form method="POST" action="{{ url_for(".reassign_group", selected_group=selected_group) }}">
+        <input type="hidden" name="selected_group" value="{{ selected_group }}">
+        <button type="submit" class="btn" id="reassign_rounds">Gänge neu zuweisen</button>
+    </form>
+
     <h5>Satistik</h5>
     {% for round in rounds %}
         <div class="group_stats">
-            {{ group.name }}speise: <div style="float: right;" id="group_stat_{{ round.idx }}">{{ round.count }} Teams</div>
+            {{ round.name }}: <div style="float: right;" id="group_stat_{{ round.idx }}">{{ round.count }} Teams</div>
         </div>
     {% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+    {{ super() }}
+    <script type="application/javascript">
+    $(function () {
+        $.getJSON("{{ url_for(".round_map_teams", selected_group=selected_group) }}", function (data) {
+            var i = 0;
+            for (i = 0; i < data.length; i++) {
+                setMarker(data[i]);
+            }
+        });
+    });
+    </script>
 {% endblock %}

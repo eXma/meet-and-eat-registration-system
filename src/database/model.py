@@ -119,6 +119,6 @@ class RoundAssignment(Base):
     id = Column(Integer, primary_key=True)
     team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"),
                      nullable=False, unique=True)
-    team = relationship(Team, lazy="joined")
+    team = relationship(Team, lazy="joined", backref=backref("round", uselist=False))
 
     round = Column(Integer)

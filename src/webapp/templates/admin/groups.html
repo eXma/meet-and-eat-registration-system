@@ -26,7 +26,6 @@
     {{ super() }}
 
     <script type="text/javascript">
-        var group_markers = {};
 
         function hover_marker(team_id, set_on, popup) {
             var elem = $("#side_team_" + team_id);
@@ -50,28 +49,7 @@
             }
         }
 
-        function transformLoc(lat, lon) {
-            return [lat, lon];
-            //return  [51.0322627 + ((0.5 - Math.random()) / 10), 13.7071665 + ((0.5 - Math.random()) / 10)]
-        }
 
-        function setMarker(data) {
-            var marker = L.marker(transformLoc(data.location.lat, data.location.lon), {icon: icon_red});
-            if (data.data !== undefined) {
-                marker.setIcon(markers[data.data.color]);
-                var popup = $("<span><h4>Team: " + data.data.name + " ("+ data.data.id +")<br><small>" + data.data.address + "</small></h4><br><strong>Members:</strong><ul></ul></span>");
-                for (var i = 0; i < data.data.members.length; i++) {
-                    popup.find("ul").append($("<li>" + data.data.members[i] + "</li>"));
-                }
-                marker.bindPopup(popup.html());
-                marker._team_id =  data.data.id;
-                marker._orig_color = data.data.color;
-                marker.on("mouseover", function(e){hover_marker(data.data.id, true, false)});
-                marker.on("mouseout", function(e){hover_marker(data.data.id, false, false)});
-            }
-            marker.addTo(map);
-            group_markers[data.data.id] = marker;
-        }
 
         function set_group(team, group) {
 

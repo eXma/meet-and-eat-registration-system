@@ -61,5 +61,29 @@
             icon_transparent = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-transparent.png"}),
             markers = {red: icon_red, green: icon_green, blue: icon_blue, yellow: icon_yellow, gray: icon_gray, transparent: icon_transparent};
 
+    var group_markers = {};
+
+    function setMarker(data) {
+        var marker = L.marker(transformLoc(data.location.lat, data.location.lon), {icon: icon_red});
+        if (data.data !== undefined) {
+            marker.setIcon(markers[data.data.color]);
+            var popup = $("<span><h4>Team: " + data.data.name + " ("+ data.data.id +")<br><small>" + data.data.address + "</small></h4><br><strong>Members:</strong><ul></ul></span>");
+            for (var i = 0; i < data.data.members.length; i++) {
+                popup.find("ul").append($("<li>" + data.data.members[i] + "</li>"));
+            }
+            marker.bindPopup(popup.html());
+            marker._team_id =  data.data.id;
+            marker._orig_color = data.data.color;
+            marker.on("mouseover", function(e){hover_marker(data.data.id, true, false)});
+            marker.on("mouseout", function(e){hover_marker(data.data.id, false, false)});
+        }
+        marker.addTo(map);
+        group_markers[data.data.id] = marker;
+    }
+
+    function transformLoc(lat, lon) {
+        return [lat, lon];
+        //return  [51.0322627 + ((0.5 - Math.random()) / 10), 13.7071665 + ((0.5 - Math.random()) / 10)]
+    }
 </script>
 {% endblock %}
