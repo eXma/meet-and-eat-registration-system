@@ -34,14 +34,17 @@ def write_planning_data(teams, filename):
     data = []
     round_teams = defaultdict(list)
 
+    idx = 0
     for (team, round_idx) in round_data(teams):
         team_data = {"name": team.name,
                      "id": team.id,
+                     "idx": idx,
                      "location": {"lat": team.location.lat,
                                   "lon": team.location.lon},
                      "round_host": round_idx}
         round_teams[round_idx].append(team)
         data.append(team_data)
+        idx += 1
 
     print "write team data..."
 
