@@ -314,7 +314,23 @@ def round_map_teams(selected_group):
     if selected_group not in [g.idx for g in groups]:
         abort(404)
 
-    data = _colored_teams(selected_group)
+    teams = db.session.query(Team) \
+        .filter_by(deleted=False,
+                   confirmed=True,
+                   backup=False,
+                   groups=selected_group) \
+        .outerjoin(RoundAssignment)
+
+    rounds = _build_rounds()
+
+    data = []
+    for team in teams:
+        if team.round is not None:
+            idx = team.round.round
+        else:
+            idx = rounds[-1].idx
+        data.append(_team_data(team, _color_map[idx], idx))
+
     data = _fix_locations(data)
     return json.dumps(data)
 
