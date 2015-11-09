@@ -57,7 +57,12 @@ def informal_to_teams(template_name, subject, debug=True):
         num_teams=db.session.query(Team).filter_by(deleted=False,
                                                    confirmed=True,
                                                    backup=False).count(),
-        volume=config.VOLUME
+        volume=config.VOLUME,
+        next_volume=config.VOLUME + 1,
+        photo_url=config.PHOTO_URL,
+        photo_upload_url=config.PHOTO_UPLOAD,
+        photo_upload_user=config.PHOTO_UPLOAD_USER,
+        photo_upload_passwd=config.PHOTO_UPLOAD_PASS,
     )
 
     print "connect to SMTP...."

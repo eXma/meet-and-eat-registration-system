@@ -1,25 +1,19 @@
 Hallo liebe Teilnehmer vom Team {{name}},
 
 wir vom meet&eat-Organisationsteam möchten uns ganz herzlich bei Euch für Eure
-Teilnahme am meet&eat Vol. 11 bedanken! Wir hoffen, Ihr hattet genauso viel
+Teilnahme am meet&eat Vol. {{ volume }} bedanken! Wir hoffen, Ihr hattet genauso viel
 Spaß wie wir und würden uns freuen, Euch im nächsten Semester zum
-meet&eat Vol. 12 wiederzusehen.
-
-In diesem Zusammenhang möchten wir noch einmal nachfragen, ob jemand von Euch 
-Lust hat uns bei der Organisation des nächsten meet&eat zu unterstützen, da 
-wir auf Grund des Umzugs von Markus und Roman pesonell an unsere Grenzen stoßen.
-Wir würden uns freuen, wenn sich der eine oder ander findet und uns eine Mail 
-schreibt.
+meet&eat Vol. {{ next_volume }} wiederzusehen.
 
 Bis dahin möchten wir Euch noch auf die Fotos von der Veranstaltung hinweisen:
-http://www.eXmatrikulationsamt.de/piXma
+{{ photo_url }}
 
 Falls Ihr auch Bilder gemacht habt, wäre es großartig, wenn Ihr uns diese für
 die Galerie zur Verfügung stellt:
-https://www.eXmatrikulationsamt.de/upload/
+{{ photo_upload_url }}
 Die Zugangsdaten lauten:
-Benutzername: meet
-Passwort: eat
+Benutzername: {{ photo_upload_user }}
+Passwort: {{ photo_upload_passwd }}
 
 Bis bald und viele Grüße!
 Euer eXma-Team

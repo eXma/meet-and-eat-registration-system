@@ -60,3 +60,8 @@ CONTACT_PHONE = "000 00000"
 CONTACT_EMAIL = "redaktion@exmatrikulationsamt.de"
 
 TEAM_GROUPS = 2
+
+PHOTO_URL = "http://foo.bar"
+PHOTO_UPLOAD = "http://foo.bar"
+PHOTO_UPLOAD_USER = "user"
+PHOTO_UPLOAD_PASS = "pass"
