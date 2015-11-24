@@ -27,7 +27,7 @@ def get_round_distances(from_teams, to_teams):
                 location_to = MapPoint.from_team(team_to)
                 distances[team_from.id][team_to.id] = simple_distance(location_from, location_to)
             else:
-                distances[team_from.id][team_to.id] = route.distance
+                distances[team_from.id][team_to.id] = route.distance / 1000.0
 
     return distances
 
