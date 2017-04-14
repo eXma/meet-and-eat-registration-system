@@ -30,8 +30,7 @@ debug webserver or call the helper scripts:
 
 You need a configuration to run the application and many of the
 helpers. A example config is provided. Simply copy the file
-`src/webapp/cfg/config_example.py` to `src/webapp/cfg/config.py`
-and change the values you need.
+`config_example.py`i and change the values you need.
 
 NOTE: You should at least set the password, SECRET_KEY and the
 MAPQUEST_KEY. The mapquest stuff is needed to get the distances
@@ -67,3 +66,12 @@ And a apache config:
             RequestHeader           set X_SCRIPT_NAME /meetandeat
     </Location>
 
+
+## Docker
+
+There is a dockerfile provided that can be used for easy running.
+It needs a working configuratiin and a data directory.
+The data directory is mounted to /data within the container. So make
+sure that your database is within that path.
+
+    $ docker run -v <my-cfg>:/config.yaml -v <data-dir>:/data <image-name>
