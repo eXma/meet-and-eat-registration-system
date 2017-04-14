@@ -1,5 +1,7 @@
+import os
 from contextlib import contextmanager
 
+import yaml
 import locale
 from datetime import datetime
 
@@ -51,3 +53,37 @@ def pretty_date(date, month_name=False, show_year=False, with_weekday=False):
         pretty = date.strftime("".join(format).strip())
 
     return pretty
+
+
+class GlobalConfig(object):
+    def __init__(self):
+        self.data = None
+
+    def initialize(self, data):
+        self.data = data
+
+    def clear(self):
+        self.data = None
+
+    def loaded(self):
+        return self.data is not None
+
+    def __getattr__(self, item):
+        assert self.data is not None, "No configuration loaded!"
+        assert item in self.data, "No configuration for %s" % item
+
+        return self.data[item]
+
+
+config = GlobalConfig()
+
+
+def load_config(fname=None):
+    if fname is None:
+        fname = os.getenv("CONFIG_FILE_PATH", None)
+    assert fname is not None, "No config file set!"
+    assert os.path.exists(fname), "Config file %s does not exist" % fname
+
+    with open(fname, "r") as fn:
+        data = yaml.load(fn)
+        config.initialize(data)

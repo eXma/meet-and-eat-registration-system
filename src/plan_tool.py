@@ -5,14 +5,13 @@ import sys
 from argparse import ArgumentParser
 
 import database as db
-from cfg.config import DB_CONNECTION
+import cfg
+from cfg import config
 from database.model import Team, RouteDistance
 from geotools import openroute_link, gmaps_link
 from geotools.routing import MapPoint
 from planning.cluster_graph import process_plan
 from planning.plan_build import read_dan_marc_partial, read_legacy_plan, read_database_plan, import_database
-
-db.init_session(connection_string=DB_CONNECTION)
 
 
 def read_plan_file(args):
@@ -83,6 +82,8 @@ def parse_args():
     args = ArgumentParser()
 
     subcommands = args.add_subparsers()
+    args.add_argument("-c", "--config", help="set the configfile",
+                      default="config.yaml")
     args.add_argument("-f", "--inform", help="Specify the input format", required=True,
                       choices=("legacy", "dan_marc_partial", "database"))
     args.add_argument("-i", "--file", metavar="FILE", help="The file to convert")
@@ -119,4 +120,6 @@ def parse_args():
 
 if __name__ == "__main__":
     args = parse_args()
+    cfg.load_config(args.config)
+    db.init_session(connection_string=config.B_CONNECTION)
     args.func(args)

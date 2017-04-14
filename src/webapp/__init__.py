@@ -1,15 +1,14 @@
-import os
 from flask import Flask, redirect, url_for
 from flask.ext.mail import Mail
 
+import cfg
 import database
 from cfg import parse_cfg_date, pretty_date
 from webapp import admin, public, register
 from webapp.dummy_data import make_dummy_data
 from webapp.reverse_proxy_wrapper import ReverseProxied
 
-EXAMPLE_CONFIG = "config_example"
-PRODUCTIVE_CONFIG = "config"
+EXAMPLE_CONFIG = "config_example.yaml"
 
 
 def configure_app(app):
@@ -18,11 +17,13 @@ def configure_app(app):
     :type app: flask.Flask
     :param app: The Application to configure.
     """
-    filename = EXAMPLE_CONFIG
-    if os.path.isfile(os.path.join(os.path.dirname(__file__), "..", "cfg", "%s.py" % PRODUCTIVE_CONFIG)):
-        filename = PRODUCTIVE_CONFIG
+    if not cfg.config.initialize():
+        try:
+            cfg.load_config()
+        except AssertionError:
+            cfg.load_config(EXAMPLE_CONFIG)
 
-    app.config.from_object("cfg.%s" % filename)
+    app.config.update(cfg.config.data)
 
     event_date = parse_cfg_date(app.config["EVENT_DATE"])
     app.config["EVENT_DATE"] = event_date

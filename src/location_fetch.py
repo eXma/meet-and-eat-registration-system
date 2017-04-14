@@ -1,25 +1,38 @@
 #!env python
 
+import argparse
 import time
-from contextlib import contextmanager
+
 import database as db
+from cfg import config
+import cfg
 from database.model import Team, RouteDistance
-from geotools import simple_distance, routing
+from geotools import routing
 from geotools.routing import MapPoint
-from cfg.config import DB_CONNECTION
 
 
 def fetch_dist():
     pass
 
 
+arguments = argparse.ArgumentParser()
+arguments.add_argument("-c", "--config", help="set the configfile",
+                       default="config.yaml")
+
+arguments.add_argument("max_teams", help="Max. number of teams to export")
+
+args = arguments.parse_args()
+
+print "load cfg..."
+cfg.load_config(args.config)
+
 print "init db..."
-db.init_session(connection_string=DB_CONNECTION)
+db.init_session(connection_string=config.DB_CONNECTION)
 
 print "fetch teams..."
-teams = db.session.query(Team).filter_by(deleted=False)\
-                              .filter_by(confirmed=True)\
-                              .order_by(Team.name).all()
+teams = db.session.query(Team).filter_by(deleted=False) \
+    .filter_by(confirmed=True) \
+    .order_by(Team.name).all()
 
 distances = []
 
