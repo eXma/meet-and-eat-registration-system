@@ -17,7 +17,7 @@ def configure_app(app):
     :type app: flask.Flask
     :param app: The Application to configure.
     """
-    if not cfg.config.initialize():
+    if not cfg.config.loaded():
         try:
             cfg.load_config()
         except AssertionError:
