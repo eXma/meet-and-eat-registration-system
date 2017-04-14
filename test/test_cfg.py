@@ -1,7 +1,11 @@
+import os
+
 import locale
 import unittest
+import mock
 from datetime import datetime
-from cfg import parse_cfg_date, _fix_locale, pretty_date
+import cfg
+from cfg import parse_cfg_date, _fix_locale, pretty_date, config
 
 
 class TestDateHandling(unittest.TestCase):
@@ -29,3 +33,24 @@ class TestDateHandling(unittest.TestCase):
                           "17. Oktober 2015")
         self.assertEquals(pretty_date(date, show_year=True, month_name=True, with_weekday=True),
                           "Samstag, den 17. Oktober 2015")
+
+
+class TestConfigLoading(unittest.TestCase):
+    def setUp(self):
+        self.fname = os.path.join(os.path.dirname(__file__), "data", "config_example.yaml")
+        cfg.config.clear()
+
+    def test_load_file_arg(self):
+        self.assertRaises(AssertionError, lambda: config.DB_CONNECTION)
+        self.assertRaises(AssertionError, cfg.load_config)
+        cfg.load_config(self.fname)
+
+        self.assertIsNotNone(config.DB_CONNECTION)
+
+    def test_load_file_env(self):
+        self.assertRaises(AssertionError, lambda: config.DB_CONNECTION)
+
+        with mock.patch("os.getenv", return_value=self.fname):
+            cfg.load_config()
+
+        self.assertIsNotNone(config.DB_CONNECTION)

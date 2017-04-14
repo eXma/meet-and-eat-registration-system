@@ -5,16 +5,25 @@ import database as db
 from database.model import Team
 from geotools import simple_distance
 from geotools.routing import MapPoint
-from cfg.config import DB_CONNECTION
+from cfg import config
+
+import argparse
+import cfg
 
 
-if len(sys.argv) == 2:
-    MAX_TEAMS = sys.argv[1]
-else:
-    MAX_TEAMS = 9
+arguments = argparse.ArgumentParser()
+arguments.add_argument("-c", "--config", help="set the configfile",
+                       default="config.yaml")
+
+arguments.add_argument("max_teams", help="Max. number of teams to export")
+
+args = arguments.parse_args()
+cfg.load_config(args.config)
+
+MAX_TEAMS = args.max_teams
 
 print "init db..."
-db.init_session(connection_string=DB_CONNECTION)
+db.init_session(connection_string=config.DB_CONNECTION)
 
 print "fetch teams..."
 

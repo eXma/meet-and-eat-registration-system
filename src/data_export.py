@@ -8,7 +8,8 @@ from collections import defaultdict
 from sqlalchemy import not_
 
 import database as db
-from cfg.config import DB_CONNECTION
+import cfg
+from cfg import config
 from database.model import Team, RouteDistance
 from geotools import simple_distance
 from geotools.routing import MapPoint
@@ -70,6 +71,7 @@ def write_planning_data(teams, filename):
 
 def parse_args():
     args = ArgumentParser()
+    args.add_argument("-c", "--config", help="set the configfile", default="config.yaml")
     args.add_argument("--name", help="Part of the filenames", required=False, type=str)
 
     subs = args.add_subparsers()
@@ -87,7 +89,7 @@ def parse_args():
 
 def cmd_distance_data(args):
     print "init db..."
-    db.init_session(connection_string=DB_CONNECTION)
+    db.init_session(connection_string=config.DB_CONNECTION)
 
     print "fetch teams..."
     teams = db.session.query(Team).filter_by(deleted=False,
@@ -115,4 +117,5 @@ def cmd_distance_data(args):
 
 if __name__ == "__main__":
     args = parse_args()
+    cfg.load_config(args.config)
     args.func(args)

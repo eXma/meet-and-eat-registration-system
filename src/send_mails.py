@@ -1,5 +1,7 @@
 #!env python
 
+import cfg
+
 from argparse import ArgumentParser
 from plan_tool import read_plan_file
 from promo import send_spam
@@ -8,6 +10,8 @@ from teammails import informal_to_teams, plans_to_teams, emergency_plan_routes
 
 def parse_args():
     args = ArgumentParser()
+
+    args.add_argument("-c", "--config", help="set the configfile", default="config.yaml")
 
     args.add_argument("--nodebug", help="do really send the mails to the teams", action="store_true")
 
@@ -66,4 +70,5 @@ def cmd_send_spam(args):
 
 if __name__ == "__main__":
     args = parse_args()
+    cfg.load_config(args.config)
     args.func(args)

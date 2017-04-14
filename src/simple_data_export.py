@@ -1,35 +1,44 @@
 #!env python
 
 
-from collections import defaultdict
+import argparse
 import json
+from collections import defaultdict
 from math import floor
-import sys
 
+import cfg
 import database as db
+from cfg import config
 from database.model import Team
 from geotools import simple_distance
 from geotools.routing import MapPoint
-from cfg.config import DB_CONNECTION
 
+arguments = argparse.ArgumentParser()
+arguments.add_argument("-c", "--config", help="set the configfile",
+                       default="config.yaml")
 
-if len(sys.argv) == 2:
-    MAX_TEAMS = sys.argv[1]
-else:
-    MAX_TEAMS = 9
+arguments.add_argument("max_teams", help="Max. number of teams to export")
 
+args = arguments.parse_args()
+
+print "load config..."
+cfg.load_config(args.config)
+
+MAX_TEAMS = args.max_teams
 
 print "init db..."
-db.init_session(connection_string=DB_CONNECTION)
+db.init_session(connection_string=config.DB_CONNECTION)
 
 print "fetch teams..."
 
-teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).limit(MAX_TEAMS).all()
+teams = db.session.query(Team).filter_by(deleted=False).filter_by(confirmed=True, backup=False).order_by(Team.id).limit(
+    MAX_TEAMS).all()
 data = []
 round_teams = defaultdict(list)
 
 max_working = len(teams) - (len(teams) % 3)
 divider = max_working / 3.0
+
 
 def distance_sort(a, b):
     if a.location.center_distance > b.location.center_distance:
@@ -37,6 +46,7 @@ def distance_sort(a, b):
     if a.location.center_distance < b.location.center_distance:
         return 1
     return 0
+
 
 working = teams[:max_working]
 teams = sorted(working, distance_sort) + teams[max_working:]
