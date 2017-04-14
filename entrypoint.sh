@@ -1,9 +1,11 @@
 #!/bin/bash
 
-cd /app
+UID_VAL=$(stat -c '%u' /data)
 
-if [ ! -d spool ]; then
-   mkdir spool
+if [ ! -d /data/spool ]; then
+   mkdir /data/spool
 fi
 
-exec uwsgi --ini ./uwsgi.ini
+chown -R $UID_VAL /data/spool
+
+exec uwsgi --ini /uwsgi.ini --uid $UID_VAL
