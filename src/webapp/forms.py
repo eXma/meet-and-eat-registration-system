@@ -1,7 +1,9 @@
-from flask.ext.wtf import Form, TextField, Required, Email
-from flask.ext.wtf.html5 import EmailField, IntegerField, DecimalField
+from flask_wtf import Form
+from flask_wtf.html5 import EmailField, IntegerField
 from wtforms import BooleanField, PasswordField, FloatField
+from wtforms.fields import TextField
 from wtforms.validators import NumberRange
+from wtforms.validators import Required, Email
 
 
 class TeamRegisterForm(Form):

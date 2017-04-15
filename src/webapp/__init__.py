@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for
-from flask.ext.mail import Mail
+from flask_mail import Mail
 
 import cfg
 import database

@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Blueprint, render_template, request, abort, current_app, redirect, url_for
-from flask.ext.mail import Message
+from flask_mail import Message
 from sqlalchemy import func
 from forms import TeamRegisterForm
 from database.model import Team, Location, Members
