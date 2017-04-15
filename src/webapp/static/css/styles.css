@@ -1,0 +1,106 @@
+@import url('../fonts/akenaten/stylesheet.css');
+@import url('../fonts/ozhandicraft/stylesheet.css');
+
+#meetandeat-wrapper .container {
+	font-size: 16px;
+	margin: 50px auto;
+	width: 700px;
+}
+
+#meetandeat-wrapper a {
+	text-decoration: underline;
+}
+
+#sponsors {
+	list-style: none;
+}
+.sponsor img {
+	width: auto;
+	height: auto;
+	max-width: 200px;
+	margin-bottom: 20px;
+}
+
+/*#meetandeat-wrapper #mnelogo {
+	font-family: akenatennormal;
+	font-size: 100px;
+	letter-spacing: -10px;
+	word-spacing: -30px;
+	position: relative;
+}
+
+#meetandeat-wrapper #mnelogo #exma {
+	content: "eXmatrikulationsamt.de";
+	font-family: ozhandicraft_btroman;
+	letter-spacing: 0px;
+	word-spacing: 0px;
+	font-size: 20px;
+	position: absolute;
+	top: 190px;
+	left: 355px;
+}
+
+#meetandeat-wrapper #mnelogo #amp {
+	color: #f00;
+}
+#meetandeat-wrapper #mnelogo #meet {
+	vertical-align: super;
+	font-size: 70%;
+}
+#meetandeat-wrapper #mnelogo #eat {
+	font-size: 70%;
+}
+*/
+
+#meetandeat-wrapper #mnelogo svg {
+	padding: 0 5rem;
+}
+#meetandeat-wrapper #mnelogo svg #and {
+	fill: #02a502;
+}
+
+#prices li {
+	margin-bottom: 15px;
+}
+#past-events ul {
+	overflow: hidden;
+	list-style: none;
+}
+#past-events li {
+	display: inherit;
+	float: left;
+	padding: 0 5px;
+}
+
+#meetandeat-wrapper a#meetandeat-anmeldebutton {
+	padding: 8.5px 17px;
+	background-color: #7584AA;
+	border: 1px solid #636363;
+	color: #FFF;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	font-size: 16px;
+	font-family: Helvetica, Arial, Sans-Serif;
+	text-decoration: none;
+	vertical-align: middle;
+	text-align: center;
+	display: block;
+	width: 200px;
+	margin: 30px auto;
+}
+#meetandeat-wrapper a#meetandeat-anmeldebutton:hover {
+	background-color: #929DBB;
+	border-color: #747474;
+}
+#meetandeat-wrapper a#meetandeat-anmeldebutton:active {
+	background-color: #7584AA;
+	border: 1px solid #636363;
+}
+
+#want {
+	padding: 10px 30px;
+	background-color: rgb(255, 223, 223);
+	border: 1px solid red;
+	border-radius: 20px;
+}

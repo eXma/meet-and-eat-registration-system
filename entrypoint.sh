@@ -7,5 +7,7 @@ if [ ! -d /data/spool ]; then
 fi
 
 chown -R $UID_VAL /data/spool
+touch /data/restart
+chown $UID_VAL /data/restart
 
 exec uwsgi --ini /uwsgi.ini --uid $UID_VAL

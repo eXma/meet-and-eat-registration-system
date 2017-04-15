@@ -1,0 +1,23 @@
+ @media (max-width:995px) {
+ 	#meetandeat-wrapper .container,
+ 	#logoimg img {
+		width: 500px;
+	}
+	
+}
+@media (max-width:768px){
+ 	#meetandeat-wrapper .container {
+ 		padding: 0 20px;
+		width: auto;
+	}
+	#logoimg img {
+		width: 100%;
+	}
+	#past-events li {
+	}
+
+}
+@media (max-width:480px){
+}
+@media (min-width: 1200px) {
+}
