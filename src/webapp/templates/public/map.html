@@ -42,14 +42,14 @@
 <script type="text/javascript">
     var map = L.map('map').setView([51.050399, 13.737246], 13);
     var osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors — <a href="http://exma.de">exma.de</a>',
-            osm = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg', {maxZoom: 19, subdomains: "1234",
+            osm = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {maxZoom: 19, subdomains: "1234",
                 attribution: osmAttrib
             }).addTo(map);
 </script>
 
 <script type="text/javascript">
     $(function () {
-        var multi_icon = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-darkblue.png"});
+        var multi_icon = new L.Icon.Default({iconUrl: "{{ url_for('static', filename='img/marker-icon-darkblue.png') }}"});
 
         $.getJSON("{{ url_for(".map_teams") }}", function (data) {
             var i = 0;

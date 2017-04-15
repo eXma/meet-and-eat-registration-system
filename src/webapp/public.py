@@ -7,6 +7,8 @@ from database.model import Team
 bp = Blueprint('public', __name__)
 
 
+@bp.route("landing")
+
 @bp.route("/map")
 def map_page():
     return render_template("public/map.html")

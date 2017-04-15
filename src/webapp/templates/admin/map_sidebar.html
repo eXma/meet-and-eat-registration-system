@@ -49,17 +49,24 @@
 <script type="text/javascript">
     var map = L.map('map').setView([51.050399, 13.737246], 13);
     var osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            osm = L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.jpg', {maxZoom: 19, subdomains: "1234",
+            osm = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {maxZoom: 19, subdomains: "1234",
                 attribution: osmAttrib
             }).addTo(map);
 
-    var icon_red = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-red.png"}),
-            icon_green = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-green.png"}),
-            icon_blue = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-blue.png"}),
-            icon_gray = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-gray.png"}),
-            icon_yellow = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-yellow.png"}),
-            icon_transparent = new L.Icon.Default({iconUrl: "http://exmatrikulationsamt.de/~janlo/marker-icon-transparent.png"}),
-            markers = {red: icon_red, green: icon_green, blue: icon_blue, yellow: icon_yellow, gray: icon_gray, transparent: icon_transparent};
+    var icon_red = new L.Icon.Default({iconUrl: "{{ url_for('static', filename='img/marker-icon-red.png') }}"}),
+        icon_green = new L.Icon.Default({iconUrl: "{{ url_for('static', filename='img/marker-icon-green.png') }}"}),
+        icon_blue = new L.Icon.Default({iconUrl: "{{ url_for('static', filename='img/marker-icon-blue.png') }}"}),
+        icon_gray = new L.Icon.Default({iconUrl: "{{ url_for('static', filename='img/marker-icon-gray.png') }}"}),
+        icon_yellow = new L.Icon.Default({iconUrl: "{{ url_for('static', filename='img/marker-icon-yellow.png') }}"}),
+        icon_transparent = new L.Icon.Default({iconUrl: "{{ url_for('static', filename='img/marker-icon-transparent.png') }}"}),
+        markers = {
+            red: icon_red,
+            green: icon_green,
+            blue: icon_blue,
+            yellow: icon_yellow,
+            gray: icon_gray,
+            transparent: icon_transparent
+        };
 
     var group_markers = {};
 
