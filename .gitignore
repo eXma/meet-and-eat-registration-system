@@ -4,3 +4,4 @@
 src/cfg/config.py
 src/database/*.db
 .idea/workspace.xml
+config.yaml
