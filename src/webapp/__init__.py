@@ -94,7 +94,7 @@ def init_app(app):
 
     @app.route("/")
     def start():
-        return redirect(url_for("register.form"))
+        return redirect(url_for("public.landing_page"))
 
     return app
 

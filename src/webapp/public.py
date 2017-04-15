@@ -7,7 +7,10 @@ from database.model import Team
 bp = Blueprint('public', __name__)
 
 
-@bp.route("landing")
+@bp.route("/")
+def landing_page():
+    return "test"
+
 
 @bp.route("/map")
 def map_page():
