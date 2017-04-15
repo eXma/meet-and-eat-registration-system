@@ -1,9 +1,9 @@
+import hmac
 from datetime import timedelta, datetime
 from functools import wraps
-import hmac
 from hashlib import sha1
-from flask import Blueprint, session, redirect, url_for, request, current_app
 
+from flask import session, redirect, url_for, request, current_app
 
 ADMIN = "valid_admin"
 TIME_FORMAT = '%Y%m%d%H%M%S'
