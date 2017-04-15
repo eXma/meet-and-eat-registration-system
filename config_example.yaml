@@ -2,7 +2,7 @@
 SECRET_KEY: "gocu5eYoosh8oocoozeeG9queeghae7ushahp9ufaighoo5gex1vulaexohtepha"
 
 # this is the dbapi connection string for sqlalchemy
-DB_CONNECTION: ":memory:"
+DB_CONNECTION: "file:////data/mue.db"
 
 # Turn this off in production!
 DEBUG: true
@@ -61,6 +61,8 @@ EVENT_DATE_PRETTY: "7. November"
 
 CONTACT_PHONE: "000 00000"
 CONTACT_EMAIL: "redaktion@exmatrikulationsamt.de"
+
+EVENT_URL: 'http://exma.de/6074568'
 
 TEAM_GROUPS: 2
 

@@ -1,5 +1,6 @@
 import json
-from flask import Blueprint, render_template
+
+from flask import Blueprint, render_template, current_app
 
 import database as db
 from database.model import Team
@@ -9,7 +10,14 @@ bp = Blueprint('public', __name__)
 
 @bp.route("/")
 def landing_page():
-    return "test"
+    fmt = "%d. %B %Y"
+    event_date = current_app.config["EVENT_DATE"].strftime(fmt)
+    register_end_date = current_app.config["REGISTER_END"].strftime(fmt)
+
+    return render_template("public/landing.html",
+                           event_date=event_date,
+                           event_register_end=register_end_date,
+                           event_url=current_app.config["EVENT_URL"])
 
 
 @bp.route("/map")
