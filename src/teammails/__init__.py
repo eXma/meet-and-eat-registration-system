@@ -111,7 +111,7 @@ zu Gast sind bei Euch:
   (Vegetarier dabei: %(vegetarians)s)
   Telefon: %(guestphone)s
 """
-    subject = "Meet&Eat - Abendplanung Team %s"
+    subject = "meet&eat - Abendplanung Team %s"
     round_datas = ({"time": "18:00", "name": "Vorspeise"},
                    {"time": "20:00", "name": "Hauptgericht"},
                    {"time": "21:30", "name": "Dessert"})
