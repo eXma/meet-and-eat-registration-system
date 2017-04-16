@@ -78,3 +78,11 @@ sure that your database is within that path.
     $ cd meet-and-eat-registration-system
     $ docker build . -t <image-name>
     $ docker run -v <my-cfg>:/config.yaml -v <data-dir>:/data -p 8080:8080 <image-name>
+
+Now try to access the Websites:
+
+    localhost:8080/
+    127.0.0.1:8080/
+    ...           /public
+    ...           /admin
+    ...           /admin/login
