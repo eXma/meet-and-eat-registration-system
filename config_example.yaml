@@ -2,15 +2,15 @@
 SECRET_KEY: "gocu5eYoosh8oocoozeeG9queeghae7ushahp9ufaighoo5gex1vulaexohtepha"
 
 # this is the dbapi connection string for sqlalchemy
-DB_CONNECTION: "file:////data/mue.db"
+DB_CONNECTION: "sqlite:////data/mue.db"
 
 # Turn this off in production!
 DEBUG: true
 
 # This is useful for deployment behind a reverse proxy
-SERVER_NAME: 'localhost:5000'
-APPLICATION_ROOT: "/"
 BEHIND_REVERSE_PROXY: false
+#SERVER_NAME: 'localhost:5000'
+#APPLICATION_ROOT: "/"
 
 # Register a mapquest app key at http://developer.mapquest.com/web/products/open
 MAPQUEST_KEY: ""
@@ -50,7 +50,8 @@ ADMIN_PASSWORD: "test"
 # Format: "yyyy-mm-dd HH:MM"
 REGISTER_END: "2020-05-01 22:30"
 MAX_TEAMS: 51
-VOLUME: 11
+# this event happens the VOLUMEth time
+VOLUME: 12
 
 CENTER_POINT: [51.05299472808838, 13.742453455924988]
 
