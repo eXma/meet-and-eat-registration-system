@@ -180,6 +180,7 @@ def _update_round_counts(teams, rounds):
 
     for rnd in rounds:
         rnd.count = round_count[rnd.idx]
+        print rnd.count
 
 
 @bp.route("/rounds/<int:selected_group>/balanced")
@@ -201,9 +202,9 @@ def balanced_group_rounds(selected_group):
 
     balanced = None
     if len(teams) != sum([rnd.count for rnd in rounds[:-1]]):
-        balanced = u"Noch nicht alles zugewiesen!"
-    elif not all([rnd.count % 3 == 0 for rnd in rounds[:-1]]):
-        balanced = u"Nicht alle Zuweisungen durch drei teilbar"
+        balanced = u"Nicht alle Teams haben einen Gang zugewiesen!"
+    elif not all([rnd.count > 3 for rnd in rounds[:-1]]):
+        balanced = u"Nicht alle G&auml;nge enthalten mindestens drei Teams"
     elif not all(rnd.count == rounds[0].count for rnd in rounds[:-1]):
         balanced = u"G&auml;nge haben unterschiedliche Teilnehmerzahlen"
 

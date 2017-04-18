@@ -146,8 +146,9 @@ $(function () {
 			if (map == undefined) {
 				displayMap();
 			}
-			var qry = $('#inputStreet').val() + " " + $('#inputStreetNumber').val() + ', Dresden';
-			searcher.geosearch(qry);
+			//var qry = $('#inputStreet').val() + " " + $('#inputStreetNumber').val() + ', Dresden';
+			//searcher.geosearch(qry);
+            searcher.geosearch($('#inputStreet').val(), $('#inputStreetNumber').val(), "Dresden");
 		}
 
 	});

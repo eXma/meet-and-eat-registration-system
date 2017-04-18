@@ -33,7 +33,7 @@ def assign_default_rounds(teams):
 
     db.session.query(RoundAssignment)\
         .filter(RoundAssignment.team_id.in_([t.id for t in teams]))\
-        .delete()
+        .delete(synchronize_session='fetch')
     db.session.add_all(assignments)
     db.session.commit()
 
