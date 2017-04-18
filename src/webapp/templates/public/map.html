@@ -12,9 +12,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <!-- Google WebFonts -->
 
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename="lib/leaflet/leaflet-0.4.5.css") }}"/>
     <!--[if lte IE 8]>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.ie.css" />
+    <link rel="stylesheet" {{ url_for('static', filename="lib/leaflet/leaflet-0.4.5.ie.css") }}" />
 <![endif]-->
     <style type="text/css">
         #map {
