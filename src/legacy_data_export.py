@@ -1,15 +1,14 @@
-import json
-import sys
+#!/usr/bin/env python
 
+import argparse
+import json
+
+import cfg
 import database as db
+from cfg import config
 from database.model import Team
 from geotools import simple_distance
 from geotools.routing import MapPoint
-from cfg import config
-
-import argparse
-import cfg
-
 
 arguments = argparse.ArgumentParser()
 arguments.add_argument("-c", "--config", help="set the configfile",
