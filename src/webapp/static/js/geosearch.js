@@ -70,18 +70,19 @@ L.Control.GeoSearch = L.Control.extend({
         return this._container;
     },
 
-    geosearch: function (qry) {
+    geosearch: function (street, number, city) {
         this._found = true;
         try {
             var provider = this._config.provider;
 
             if(typeof provider.GetLocations == 'function') {
+                var qry = street + " " + number + ", " + city;
                 var results = provider.GetLocations(qry, function(results) {
                     this._processResults(results);
                 }.bind(this));
             }
             else {
-                var url = provider.GetServiceUrl(qry);
+                var url = provider.GetServiceUrl(street, number, city);
 
                 $.getJSON(url, function (data) {
                     try {

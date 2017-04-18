@@ -22,9 +22,11 @@ L.GeoSearch.Provider.OpenStreetMap = L.Class.extend({
         options = L.Util.setOptions(this, options);
     },
 
-    GetServiceUrl: function (qry) {
+    GetServiceUrl: function (street, number, city) {
         var parameters = L.Util.extend({
-            q: encodeURIComponent(qry),
+            street: encodeURIComponent(number + " " + street),
+            city: encodeURIComponent(city),
+            country: encodeURIComponent("Germany"),
             format: 'json'
         }, this.options);
 
