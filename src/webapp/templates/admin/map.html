@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script src="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet-src.js"></script>
+    <script src="{{ url_for('static', filename='lib/leaflet/leaflet-0.4.5.js') }}"></script>
     <script type="text/javascript">
         var map = L.map('map').setView([51.050399, 13.737246], 13);
         var osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
