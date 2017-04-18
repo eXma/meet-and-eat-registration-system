@@ -3,6 +3,7 @@ import json
 from flask import Blueprint, render_template, current_app
 
 import database as db
+from cfg import pretty_date
 from database.model import Team
 
 bp = Blueprint('public', __name__)
@@ -10,9 +11,8 @@ bp = Blueprint('public', __name__)
 
 @bp.route("/")
 def landing_page():
-    fmt = "%d. %B %Y"
-    event_date = current_app.config["EVENT_DATE"].strftime(fmt)
-    register_end_date = current_app.config["REGISTER_END"].strftime(fmt)
+    event_date = pretty_date(current_app.config["EVENT_DATE"], month_name=True, show_year=True, with_weekday=True)
+    register_end_date = pretty_date(current_app.config["REGISTER_END"], month_name=True, show_year=True, with_weekday=True)
 
     return render_template("public/landing.html",
                            event_date=event_date,
