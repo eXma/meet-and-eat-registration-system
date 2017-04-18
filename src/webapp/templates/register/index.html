@@ -26,6 +26,7 @@
 	<!-- Begin page content -->
 	<div class="container">
 		<div class="page-header">
+            {% if is_debug %}<h1 style="background-color: red">Testbetrieb!<br/>Daten werden nicht dauerhaft gespeichert!</h1>{% endif %}
 			<h1><span class="logo"><span class="meet">meet</span> <span class="amp">&amp;</span> <span class="eat">eat</span></span> Anmeldung</h1>
 			{% if backup %}<div class="alert alert-error" style="margin-top: 20px; margin-bottom:-30px;"><strong>Achtung:</strong>
 			    Wir haben jetzt schon so viele Anmeldungen, dass wir theoretisch "voll" sind. Wer sich also jetzt noch anmeldet, 

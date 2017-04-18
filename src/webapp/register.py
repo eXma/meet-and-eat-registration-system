@@ -87,7 +87,8 @@ def form():
 
     return render_template('register/index.html', form=form,
                            backup=_is_backup() and not _is_soft_end(),
-                           soft_end=_is_soft_end())
+                           soft_end=_is_soft_end(),
+                           is_debug=current_app.config["DEBUG"])
 
 
 @bp.route('/doit', methods=("POST",))
