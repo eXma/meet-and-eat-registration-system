@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import BooleanField, PasswordField, FloatField
 from wtforms.fields import StringField
 from wtforms.fields.html5 import EmailField, IntegerField
@@ -6,7 +6,7 @@ from wtforms.validators import NumberRange
 from wtforms.validators import DataRequired, Email
 
 
-class TeamRegisterForm(Form):
+class TeamRegisterForm(FlaskForm):
     teamname = StringField("Teamname", validators=[DataRequired()])
     email = EmailField("Email", validators=[DataRequired(), Email()])
     phone = StringField("Telefonnummer", validators=[DataRequired()])
@@ -25,12 +25,12 @@ class TeamRegisterForm(Form):
     want_information = BooleanField("Informationen", default=False)
 
 
-class AdminLoginForm(Form):
+class AdminLoginForm(FlaskForm):
     login = StringField("Login")
     password = PasswordField("Passwort")
 
 
-class TeamEditForm(Form):
+class TeamEditForm(FlaskForm):
     name = StringField("Teamname", validators=[DataRequired()])
     email = EmailField("Email", validators=[DataRequired(), Email()])
     phone = StringField("Telefonnummer", validators=[DataRequired()])
@@ -47,5 +47,5 @@ class TeamEditForm(Form):
     backup = BooleanField("Warteliste")
 
 
-class ConfirmForm(Form):
+class ConfirmForm(FlaskForm):
     confirmed = BooleanField(u"Bestaetigen")
