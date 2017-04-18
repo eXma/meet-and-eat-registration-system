@@ -25,7 +25,7 @@ MAIL_USERNAME: xxx
 MAIL_PASSWORD: xxx
 MAIL_DEFAULT_SENDER: "meet-and-eat@exmatrikulationsamt.de"
 
-CONFIRM_SUBJECT: "Meet & Eat Aktivierung"
+CONFIRM_SUBJECT: "meet&eat Aktivierung"
 
 ERROR_ADDRESS:
   - 'meetandeat@exmatrikulationsamt.de'
@@ -41,7 +41,7 @@ ERROR_FORMAT: >
 
               %(message)s
 
-ERROR_SUBJECT: "Fehler in der Meet&Eat Registrierung"
+ERROR_SUBJECT: "Fehler in der meet&eat Registrierung"
 
 ADMIN_USER: "admin"
 ADMIN_PASSWORD: "test"
