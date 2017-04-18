@@ -86,7 +86,7 @@ def informal_to_teams(template_name, subject, debug=True):
             msg['Date'] = formatdate(localtime=True)
             msg['Message-ID'] = make_msgid()
 
-            session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
+            session.sendmail(envelope, [rcpt] + [config.CONTACT_EMAIL], msg.as_string())
             i += 1
         print "Mails sent: %d" % i
 
@@ -199,7 +199,7 @@ Zu Gast sind bei Euch:
             msg['Date'] = formatdate(localtime=True)
             msg['Message-ID'] = make_msgid()
 
-            session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
+            session.sendmail(envelope, [rcpt] + [config.CONTACT_EMAIL], msg.as_string())
             i += 1
         print "Mails sent: %d" % i
 
@@ -252,6 +252,6 @@ def emergency_plan_routes(plan_results, debug=True):
             msg['Date'] = formatdate(localtime=True)
             msg['Message-ID'] = make_msgid()
 
-            session.sendmail(envelope, [rcpt] + ["redaktion@exmatrikulationsamt.de"], msg.as_string())
+            session.sendmail(envelope, [rcpt] + [config.CONTACT_EMAIL], msg.as_string())
             i += 1
     print "Mails sent: %d" % i
