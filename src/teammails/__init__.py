@@ -100,9 +100,11 @@ Bei Problemen erreicht ihr dieses Team unter: %(phone)s
 Routenlink: %(link)s"""
 
     hostentry = """
-%(time)s Uhr - %(roundname)s wird von Euch zubereitet. (%(teamname)s)
+%(time)s Uhr - %(roundname)s wird von Euch - "%(teamname)s" - zubereitet.
 
-zu Gast sind bei Euch:
+Tipp: Es lohnt sich, für jeden Namen in der Runde etwas Kreppband bereit zu halten!
+
+Zu Gast sind bei Euch:
 %(guests)s"""
 
     hostguests = """
