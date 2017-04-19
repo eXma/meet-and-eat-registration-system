@@ -4,7 +4,7 @@ var searcher = undefined;
 function displayMap() {
 	map = L.map('map').setView([51.050399, 13.737246], 11);
 
-	var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+	var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 			osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 			osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib}).addTo(map);
 
