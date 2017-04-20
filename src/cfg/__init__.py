@@ -70,7 +70,8 @@ class GlobalConfig(object):
 
     def __getattr__(self, item):
         assert self.data is not None, "No configuration loaded!"
-        assert item in self.data, "No configuration for %s" % item
+        if item not in self.data:
+            raise AttributeError, item
 
         return self.data[item]
 
