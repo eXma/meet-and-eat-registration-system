@@ -75,6 +75,13 @@ class GlobalConfig(object):
 
         return self.data[item]
 
+    def __getitem__(self, key):
+        assert self.data is not None, "No configuration loaded!"
+        if key not in self.data:
+            raise KeyError, key
+
+        return self.data[key]
+
 
 config = GlobalConfig()
 
