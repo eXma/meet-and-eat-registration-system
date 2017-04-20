@@ -18,7 +18,7 @@ from geotools.routing import MapPoint
 @contextmanager
 def smtp_session():
     session = smtplib.SMTP(config.MAIL_SERVER, config.MAIL_PORT)
-    if config.MAIL_USERNAME is not None:
+    if hasattr(config, "MAIL_USERNAME") and config.MAIL_USERNAME is not None:
         session.starttls()
         session.login(config.MAIL_USERNAME, config.MAIL_PASSWORD)
 
@@ -102,7 +102,7 @@ Routenlink: %(link)s"""
     hostentry = """
 %(time)s Uhr - %(roundname)s wird von Euch - "%(teamname)s" - zubereitet.
 
-Tipp: Es lohnt sich, für jeden Namen in der Runde etwas Kreppband bereit zu halten!
+Tipp: Es lohnt sich, fuer jeden Namen in der Runde etwas Kreppband bereit zu halten!
 
 Zu Gast sind bei Euch:
 %(guests)s"""
