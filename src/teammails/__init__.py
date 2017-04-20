@@ -18,7 +18,7 @@ from geotools.routing import MapPoint
 @contextmanager
 def smtp_session():
     session = smtplib.SMTP(config.MAIL_SERVER, config.MAIL_PORT)
-    if config.MAIL_USERNAME is not None:
+    if hasattr(config, "MAIL_USERNAME") and config.MAIL_USERNAME is not None:
         session.starttls()
         session.login(config.MAIL_USERNAME, config.MAIL_PASSWORD)
 
