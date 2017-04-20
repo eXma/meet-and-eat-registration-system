@@ -102,7 +102,7 @@ Routenlink: %(link)s"""
     hostentry = """
 %(time)s Uhr - %(roundname)s wird von Euch - "%(teamname)s" - zubereitet.
 
-Tipp: Es lohnt sich, für jeden Namen in der Runde etwas Kreppband bereit zu halten!
+Tipp: Es lohnt sich, fuer jeden Namen in der Runde etwas Kreppband bereit zu halten!
 
 Zu Gast sind bei Euch:
 %(guests)s"""
