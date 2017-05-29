@@ -8,6 +8,7 @@ import database as db
 from database.model import Team, MeetingEntry
 from planning.rounds import round_data
 
+from cfg import config
 
 def read_legacy_plan(in_file):
     with open(in_file, "r") as in_fn:
@@ -45,6 +46,7 @@ def fetch_teams(group=None, separate=None, exclude=None):
     :return: The selected teams as list
     :rtype: list[Team]
     """
+    db.init_session(connection_string=config.DB_CONNECTION)
     teams = db.session.query(Team).filter_by(deleted=False,
                                              confirmed=True,
                                              backup=False).order_by(Team.id)
