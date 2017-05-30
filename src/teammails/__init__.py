@@ -53,6 +53,7 @@ def informal_to_teams(template_name, subject, debug=True):
     sender = "meet&eat Orga <%s>" % config.MAIL_DEFAULT_SENDER
     envelope = config.MAIL_DEFAULT_SENDER
 
+    db.init_session(connection_string=config.DB_CONNECTION)
     data = dict(
         num_teams=db.session.query(Team).filter_by(deleted=False,
                                                    confirmed=True,
@@ -131,6 +132,7 @@ Zu Gast sind bei Euch:
 
     print "Fetch data..."
     teams = {}
+    db.init_session(connection_string=config.DB_CONNECTION)
     qry = db.session.query(Team).filter_by(deleted=False,
                                            confirmed=True,
                                            backup=False)
