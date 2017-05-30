@@ -121,5 +121,5 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     cfg.load_config(args.config)
-    db.init_session(connection_string=config.B_CONNECTION)
+    db.init_session(connection_string=config.DB_CONNECTION)
     args.func(args)
