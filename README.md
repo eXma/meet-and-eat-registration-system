@@ -70,8 +70,19 @@ And a apache config:
 ## Docker
 
 There is a dockerfile provided that can be used for easy running.
-It needs a working configuratiin and a data directory.
+It needs a working configuration and a data directory.
 The data directory is mounted to /data within the container. So make
 sure that your database is within that path.
 
-    $ docker run -v <my-cfg>:/config.yaml -v <data-dir>:/data <image-name>
+    $ git clone https://github.com/janLo/meet-and-eat-registration-system.git
+    $ cd meet-and-eat-registration-system
+    $ docker build . -t <image-name>
+    $ docker run -v <my-cfg>:/config.yaml -v <data-dir>:/data -p 8080:8080 <image-name>
+
+Now try to access the Websites:
+
+    localhost:8080/
+    127.0.0.1:8080/
+    ...           /public
+    ...           /admin
+    ...           /admin/login
